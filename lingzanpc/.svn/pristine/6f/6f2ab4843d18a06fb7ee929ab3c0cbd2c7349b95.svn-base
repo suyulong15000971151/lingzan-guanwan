@@ -1,0 +1,356 @@
+{{{include file="general/general.header.html"}}}
+<link rel="stylesheet" href="{{{$static_url}}}/css/selfnote.css" />
+<style>
+#edit .edit-box .edit-content .edit-container .form-one .img-load i{display: inline-block; width: 12px; height: 12px; position: absolute; right: 5px; top: 5px; background: url({{{$static_url}}}/image/delete_03.png) no-repeat; background-size: 100% 100%;}
+.man-sub{width:100%;height:60px;overflow: hidden;text-align: center;line-height: 60px;font-size: 16px;}
+.man-sub a{display: inline-block;padding:0 10px;color:#afafaf}
+.man-sub a.actv{color:#000}
+</style>
+
+	<body>
+		<!--这里是个人简介-->
+		<div class="manpeople">
+			<div class="man-box">
+				<div class="potato">
+					<img src="{{{$userInfo.avatar}}}" alt="{{{$userInfo.nickname}}}"/>
+				</div>
+				<div class="explain">
+					<h2>{{{$userInfo.nickname}}}</h2>
+					<p>{{{if $userInfo.groupid == 10 || $userInfo.groupid == 20}}}<i></i>{{{/if}}}<span>{{{if $userInfo.sex == 1}}} 男 {{{else if $userInfo.sex == 2}}} 女 {{{else if $userInfo.sex == 0}}} 保密 {{{/if}}} {{{$address}}} {{{if $userInfo.groupid == 0}}} 普通用户 {{{else if $userInfo.groupid == 10}}} 设计师 {{{else if $userInfo.groupid == 20}}} 品牌 {{{/if}}}</span></p>
+					<strong>{{{$userInfo.signature}}}</strong>
+				</div>
+			</div>
+		</div>
+
+		<!--成功弹窗-->
+		<div id="win" class="">
+			<div class="win-box">
+				<div class="com">
+					<img src="{{{$static_url}}}/image/laught_03.png" alt="" style="position:relative;"/>
+					<span></span>
+					<i></i>
+				</div>
+			</div>
+		</div>
+
+		<!--这里是个人内容导航-->
+		<div class="man-nav">
+			<div class="navigation">
+
+				{{{if $userInfo.userid == $userid}}}
+				<a href="/member/library">
+				{{{else}}}
+				<a href="/member/library/{{{$userInfo.userid}}}">
+				{{{/if}}}
+					<span>{{{$count.sLibCount+$count.pLibCount+$count.fLibCount}}}</span>
+					<p>项目</p>
+				</a>
+				{{{if $userInfo.userid == $userid}}}
+				<a href="/member/collection">
+				{{{else}}}
+				<a href="/member/collection/{{{$userInfo.userid}}}">
+				{{{/if}}}
+					<span>{{{$userInfo.productcount}}}</span>
+					<p>产品</p>
+				</a>
+				{{{if $userInfo.userid == $userid}}}
+				<a href="/member/note" class="man-act">
+				{{{else}}}
+				<a href="/member/note/{{{$userInfo.userid}}}" class="man-act">
+				{{{/if}}}
+					<span>{{{$userInfo.notecount + $count.fNotCount}}}</span>
+					<p>笔记</p>
+				</a>
+				<a href="/member/friend/{{{$userInfo.userid}}}" >
+					<span>{{{$userInfo.followcount+$userInfo.fanscount+$userInfo.friendcount}}}</span>
+					<p>人脉</p>
+				</a>
+			</div>
+		</div>
+		<div class="man-sub">
+			{{{if $userInfo.userid == $userid}}}
+			<a href="/member/note">我的笔记</a>
+			{{{else}}}
+			<a href="/member/note/{{{$userInfo.userid}}}">他的笔记</a>
+			{{{/if}}}
+			{{{if $userInfo.userid == $userid}}}
+			<a href="/member/follownote/{{{$userInfo.userid}}}" class="actv">我的收藏</a>
+			{{{else}}}
+			<a href="/member/follownote/{{{$userInfo.userid}}}" class="actv">他的收藏</a>
+			{{{/if}}}
+			<div class="sub-sear">
+				<button></button>
+				<input type="text" placeholder="输入搜索" />
+				
+			</div>
+	    </div>
+		<!--这是瀑布流-->
+		<div class="container" id="container">
+			<input type="hidden" id="p" value="{{{$p}}}" />
+			{{{foreach from=$note item=item}}}
+			<div class="box">
+				<a href="/note/info/{{{$item.noteid}}}">
+					<div class="boximg">
+						<div class="img-out" style="max-height: 400px;">
+							<img src="{{{$item.cover}}}" alt="{{{$item.notename}}}">
+						</div>
+						
+						<!--<i>采集</i>-->
+						<h3>{{{$item.notename}}}</h3>
+						<p>{{{htmlspecialchars_decode(substr($item.shortdesc,0,126))}}}</p>
+					</div>
+					<div class="behavior">
+						<div class="peson">
+							<img src="{{{$static_url}}}/image/note_03.png" alt="" />
+							<span>{{{$item.commentcount}}}</span>
+						</div>
+						<div class="praise praise-tan">
+							<span {{{if $userid != $userInfo.userid}}} onclick="fabulous({{{$item.noteid}}})" {{{/if}}}></span>
+							<em>{{{$item.zancount}}}</em>
+						</div>
+					</div>
+				</a>
+				{{{if $userInfo.userid == $userid}}}
+				<div class="delete" onClick="cancelFollow({{{$item.noteid}}})">删除</div>
+				{{{/if}}}
+			</div>
+			{{{/foreach}}}
+			<div class="add-btn">
+				加载更多
+			</div>
+		</div>
+		<script src="{{{$static_url}}}/js/selfcoll.js"></script>
+		<script src="{{{$static_url}}}/js/selfnote.js"></script>
+		<script type="text/javascript" src='{{{$static_url}}}/js/jquery-form.js'></script>
+		<script>
+
+		//点赞文章
+		function fabulous(noteid) {
+
+			$.ajax({
+		      url:'/member/fabulous',
+		      type:"post",
+		      data:{noteid:noteid},
+		      success:function(ret){
+
+		          if(ret != ''){
+
+		              var jsonarray = eval('('+ret+')');
+		              var msg = jsonarray.msg;
+		              var code = jsonarray.code;
+		              $('#win .win-box .com span').html(msg).attr('style',"position:absolute; top:73px; left:50%;transform:translateX(-50%)");
+						$('#win').css('display',"block").addClass('anima');
+						window.location.reload()
+
+		          }
+
+		      },   
+		      error:function(){  
+		          $('#win .win-box .com span').html('网络异常，请稍后再试').attr('style',"position:absolute; top:73px; left:50%;transform:translateX(-50%)");
+					$('#win').css('display',"block").addClass('anima');
+					window.location.reload()
+		      }
+		  })
+
+		}
+
+//		console.log($("input[type='file']").get(0).files)
+			/*
+			 * 瀑布流的原理：
+			 *   寻找到一排中高度最小的图片，然后排放在高度最小的图片的下面
+			 *
+			 * */
+			function imgsize(){
+
+			$('img').css('opacity','1')
+			var imgleng = $('.container .box .boximg img').get().length;
+			var imgobj = $('.container .box .boximg img').get();
+			var imgout = $('.container .box .boximg .img-out').get()
+
+			var imgWid = []
+			var imgHid = []
+			for(var i = 0; i < imgleng; i++) {
+				imgobj[i].style.height = Number(imgobj[i].offsetHeight * 255 / imgobj[i].offsetWidth)
+				imgobj[i].style.width = '255px'
+				imgout[i].style.cssText = 'Max-height:400px;overflow:hidden'
+
+			}
+
+		}
+
+
+			var container = document.getElementById("container");
+			var btn = document.getElementsByClassName("add-btn").item(0);
+			var index = 0;
+			window.onload = function() {
+				imgsize()
+				waterfull();
+				
+			};
+
+			function waterfull() {
+				
+				var box = document.getElementsByClassName("box");
+
+				//计算一排中的能排放的数量
+				var containerWidth = document.documentElement.clientWidth;
+				if(containerWidth >= 1600) {
+					containerWidth = 1600;
+				}
+				var boxWidth = box[0].offsetWidth;
+				var num = Math.floor(containerWidth / boxWidth);
+				//居中操作
+				container.style.width = num * (boxWidth + 20) + "px";
+				//摆放位置
+				var boxheight = [];
+				for(var i = 0; i < box.length; i++) {
+					if(i < num) { // 第一排中的元素
+						boxheight.push(box[i].offsetHeight);
+					} else {
+						//非第一排中的内容
+						box[i].style.position = "absolute";
+						//设置位置之前。必须知道当前要放在哪个盒子下面
+						var minBoxHeight = Math.min.apply(null, boxheight);
+						//根据最小值得到位置
+						//               var index = boxheight.indexOf(minBoxHeight);
+						var index = getIndex(boxheight, minBoxHeight);
+						box[i].style.top = (minBoxHeight + 20) + "px";
+						box[i].style.left = (box[index].offsetLeft - 10) + "px";
+						//把盒子的高度加回去
+						boxheight[index] = boxheight[index] + box[i].offsetHeight + 20;
+					}
+				}
+
+				btn.style.top = (box[box.length - 1].offsetTop + box[box.length - 1].offsetHeight + 20) + "px";
+
+			}
+
+			//过滤的形式
+			function getIndex(boxArr, minIndex) {
+				for(var i = 0; i < boxArr.length; i++) {
+					if(boxArr[i] == minIndex) {
+						return i;
+					}
+				}
+			}
+
+			function loadFlag() {
+				//获取页面高度
+				var pageHeight = document.documentElement.clientHeight;
+				//滚动的高度
+				var scrollHeight = document.documentElement.scrollTop || document.body.scrollTop;
+				//最后一张图片距离顶部的高度
+				var boxs = document.getElementsByClassName("box");
+				//        var boxHeight = boxs[boxs.length - 1].offsetTop;
+				var btn = document.getElementsByClassName("add-btn").item(0);
+				var boxHeight = btn.offsetTop + 49;
+				/* console.log("页面高度:"+pageHeight);
+				 console.log("滚动高度:"+scrollHeight);
+				 console.log("元素高度:"+boxHeight);*/
+				return pageHeight + scrollHeight > boxHeight ? true : false;
+			}
+
+			$(function(){  
+				$(document).scroll(function(){
+					//滚动条滑动的时候获取滚动条距离顶部的距离
+					var scroll=$(document).scrollTop();
+					//屏幕的高度
+					var client=$(window).height();
+					var h=$(document).height();
+					var flag=true;
+					if (h<=scroll+client) { // 到达底部时,加载新内容
+						if(flag==false){
+							return;
+						}
+						var key = $('#key').val();
+						var p = $('#p').val();
+						var str = '';
+						$.ajax({
+							// url: '/member/getNoteContent1',
+							url: '/member/getDataList',
+							type: 'POST',
+							async: true,
+							data: {
+								sign: 8,//表示获取类型为用户上关注的笔记
+								userid: "{{{$userInfo.userid}}}",
+								p: p
+							},
+							timeout: 5000,
+							dataType: 'json',
+							success: function(data){
+								//console.log(data);
+								//location.reload();
+								if(!isEmptyObject(data.errmsg)) {
+									$.each(data.errmsg, function(i, n) {
+                                       
+										str += '<div class="box"><a href="/note/info/'+n.noteid+'"><div class="boximg">';
+										str += '<div class="img-out" style="max-height:400px"><img src="'+n.cover+'" alt="'+n.notename+'"></div><h3>'+n.notename+'</h3>';
+										str += '<p>{{{htmlspecialchars_decode(substr('+n.shortdesc+',0,126))}}}</p></div>';
+										str += '<div class="behavior"><div class="peson"><img src="{{{$static_url}}}/image/note_03.png" alt="" />';
+										str += '<span>'+n.commentcount+'</span></div><div class="praise praise-tan">';
+										str += '<span if({{{$userid}}} != {{{$userInfo.userid}}}){ onclick="fabulous('+n.noteid+')" }></span>';
+										str += '<em>'+n.zancount+'</em></div></div></a>';
+										
+										if({{{$userInfo.userid}}} == {{{$userid}}}){
+
+											str += '<div class="delete" onClick="cancelFollow('+n.noteid+')">删除</div>';
+
+										}
+
+										str += '</div>';
+
+									});
+									$('#container').append(str);
+									
+
+									waterfull();
+                                    imgsize()
+                                    $('#p').val(Number(p)+1);
+								}
+							}
+						});
+					}
+				});
+			});
+		</script>
+
+		<script>
+
+			//删除收藏（也就是取消关注）
+			function cancelFollow(noteid) {
+
+				var r = confirm("确定删除该收藏吗");
+			    if(r == false){
+			       return false;
+			    }
+				$.ajax({
+		          url:'/member/cancelFollowNote',
+		          type:"post",
+		          data:{noteid:noteid},
+		          success:function(ret){
+
+		              if(ret != ''){
+
+		                  var jsonarray = eval('('+ret+')');
+		                  var msg = jsonarray.msg;
+		                  var code = jsonarray.code;
+		                 $('#win .win-box .com span').html(msg).attr('style',"position:absolute; top:73px; left:50%;transform:translateX(-50%)");
+						$('#win').css('display',"block").addClass('anima');
+						window.location.reload()
+		               }
+
+		          },   
+		          error:function(){  
+		               $('#win .win-box .com span').html('网络异常，请稍后再试').attr('style',"position:absolute; top:73px; left:50%;transform:translateX(-50%)");
+					$('#win').css('display',"block").addClass('anima');
+					window.location.reload()
+		          }
+
+		      	})
+
+			}
+
+		</script>
+	</body>
+
+</html>

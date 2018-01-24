@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>邀请</title>
+		<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+		<link rel="stylesheet" href="{{{$static_url}}}/css/common.css" />
+		<link rel="stylesheet" type="text/css" href="{{{$static_url}}}/css/invitation.css"/>
+	</head>
+	<body>
+		<div class="request">
+			<div class="request-box">
+				<div class="title">
+					<span>项目邀请</span><i>拒绝</i>
+				</div>
+				<div class="request-con">
+					<div class="prompt">
+						<em>" 某某 "室内设计师</em><span>邀请你参与</span><em>“西溪酒店-IF01VIP套房”</em><span>项目的调整</span>
+					</div>
+					<p>点击下方按钮，赶紧加入吧！</p>
+						<div class="subs">
+							<button onclick="window.location.href='/login/index?proid={{{$proid}}}'">已有账户登录</button>
+							<button onclick="window.location.href='/login/register?proid={{{$proid}}}'">新账号注册</button>
+						</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

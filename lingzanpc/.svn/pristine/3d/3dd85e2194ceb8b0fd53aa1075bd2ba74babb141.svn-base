@@ -1,0 +1,61 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Search extends MY_controller {
+
+	public function __construct() {
+
+		$this->_class = 'search';
+		parent::__construct();
+
+		$this->load->model('search_model');
+
+	}
+
+	public function index() {
+
+		$seachWord = $this->input->get('seachWord');
+		$type = $this->input->get('type') ? $this->input->get('type') : '项目';
+		$data = array('row'=>'0','list'=>'');
+		$user1 = array('row'=>'0','list'=>'');
+		//type = 1是项目，2是采集，3是个人，4是品牌
+		if($type == '项目') { //搜索lz_library的单品与项目
+
+			$data = $this->search_model->getProjectData($seachWord);
+
+		}
+
+		if($type == '产品') { //搜索lz_product
+
+			$data = $this->search_model->getCollectionData($seachWord);
+
+
+		}
+
+		if($type == '个人' || $type == '品牌'){//搜索lz_user
+
+			$whereOr = array();
+			if($type == '个人'){ //搜索普通用户、设计师
+				$whereOr = array(0,10);
+			}
+			if($type == '品牌'){ //搜索品牌商
+				$whereOr = array(20);
+			}
+			$user1 = $this->search_model->getUserData($seachWord, $whereOr);
+
+		}
+
+
+		$myInfo = $this->search_model->getData('lz_user', 'groupid', array('userid'=>$this->user->userid));
+
+		$this->assign('myInfo', $myInfo);
+		$this->assign('data', $data);
+		$this->assign('user1', $user1);
+		$this->assign('seachWord', $seachWord);
+		$this->assign('type', $type);
+		$this->display('search/search.index.html');
+
+	}
+
+
+}

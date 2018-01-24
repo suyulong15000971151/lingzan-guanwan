@@ -1,0 +1,211 @@
+body{background:#f6f6f6}
+/*这是banner区域*/
+.manpeople{width:100%;height:200px;border-bottom: 1px solid #eee;background:#fff}
+.manpeople .man-box{width:300px;height:150px;margin:0 auto 0;overflow: hidden;display: flex;box-sizing: border-box;padding-top:30px}
+.manpeople .man-box .potato{display: inline-block;width:100px;height:100%;float:left;margin-right:10px}
+.manpeople .man-box .potato img{width:100px;height:100px;border-radius: 50%;}
+.manpeople .man-box .explain{display: inline-block;float:left;flex: 1;}
+.manpeople .man-box .explain h2{font-size: 23px;margin:10px 0 5px}
+.manpeople .man-box .explain p{font-size: 14px;color:#a2a2a2;margin-bottom:5px}
+.manpeople .man-box .explain strong{}
+.manpeople .man-box .explain i{display: inline-block;width:20px;height:20px;background:url(../image/vip.png) no-repeat;background-size:100% 100%;vertical-align: middle;margin-right:5px}
+/*这里是个人导航也*/
+.man-nav{width:100%;height:100px;background:#fff;overflow: hidden;}
+.man-nav .navigation{overflow: hidden;width:100%;height:100%;text-align: center;}
+.man-nav .navigation a{display: inline-block;height:100%;font-size: 20px;line-height: 25px;color:#919191;padding:0 30px}
+.man-nav .navigation a span{margin-top:20px;display: inline-block;}
+/*这里是下面展示的内容*/
+.man-show{width:100%;overflow: hidden;background:#f6f6f6;padding:30px 0 0;width:95%;margin:0 auto 0;padding-bottom:40px}
+.man-show .man-item{width:250px;height:320px;background:#fff;display: inline-block;float:left;border:1px solid #eae9e9;margin-right:20px;overflow: hidden;position: relative;}
+.man-show .man-item p{font-size:20px;line-height: 40px;text-indent:100px;margin-top:130px;height:40px;background:url(../image/creat.png) no-repeat 50px center}
+.man-show .man-item .edit{margin-top:10px;width:100%;height:30px;font-size:14px;line-height: 30px;text-align: center;border:1px solid #dcdcdc;box-sizing: border-box;}
+
+.man-show .man-item .item-box{width:230px;overflow: hidden;display: block;margin:10px auto 0}
+.man-show .man-item .item-box h4{font-size:14px;line-height: 25px;margin-bottom: 5px;}
+.man-show .man-item .item-box .big-img{width:100%;height:150px;overflow: hidden;margin-bottom:5px}
+.man-show .man-item .item-box .big-img img{width:100%;height:100%;}
+.man-show .man-item .item-box .small{width:260px;overflow: hidden;}
+.man-show .man-item .item-box .small img{display: inline-block;float:left;width:70px;height:70px;margin-right:10px}
+.man-show .man-item .state{position: absolute;right:-100px;top:10px;width:100%;height:30px;background: #055cfc;text-align: center;color:#fff;line-height: 30px;transform: rotate(45deg);transform-origin:center ;}
+.man-show .man-item .production{background:#000;}
+.man-show .man-item .win{background:#ababab;}
+.add-btn{
+            width: 100%;
+            background-color: #ff7d3c;
+            height: 50px;
+            text-align: center;
+            font-size: 30px;
+            font-weight: 700;
+            position: absolute;
+            color: #fff;
+            display: none;
+        }
+.man-nav .navigation a.man-act{color:#000;font-weight: 600;}        
+        
+
+/*瀑布流*/
+ .container { position: relative;margin: 20px auto 0;}
+.container .box{float: left;-webkit-transition: left .3s ease-in-out, top .3s ease-in-out;background-color: #fff;margin: 10px 10px;border-radius: 5px;overflow: hidden;position: relative;width:255px}
+.container .box .delete{border-radius: 5px;display: inline-block;width:40px;height:25px;text-align: center;font-size: 14px;line-height: 25px;background:#f6f6f6;color:#000;position: absolute;top:10px;left:10px;z-index: 10000;opacity: 0;}
+.container .box .edit{border-radius: 5px;display: inline-block;width:40px;height:25px;text-align: center;font-size: 14px;line-height: 25px;background:#055cfc;color:#fff;position: absolute;top:10px;right:10px;z-index: 10000;opacity: 0;}
+.container .box:hover .edit{opacity: 1;}
+.container .box:hover .delete{opacity: 1;}
+
+.container .box:hover{box-shadow:0 5px 5px #999;}
+.container .box .boximg{position: relative;}
+
+.container .box .boximg .img-out{position: relative;}
+
+.container .box .boximg .img-out .load{width:20px;height:20px;background:url(../image/aload.png) no-repeat center center;background-size: 20px 20px;animation: rota 2s infinite;position: absolute;top:50%;left:50%;transform: translate(-50%,-50%);}
+
+.container .box .boximg i{display: inline-block;width:50px;height:30px;background:#055cfc;text-align: center;line-height: 30px;color:#fff;font-size: 15px;position: absolute;top:13px;right:13px;border-radius: 5px;opacity: 0;}
+.container .box .boximg span{display: inline-block;font-size: 16px;color:#055cfc;line-height: 20px;text-indent: 10px;margin:10px 0 0}
+.container .box .boximg p{font-size:15px;color:#000;text-indent:10px;}
+.container .box .boximg em{width:60px;height:20px;display: inline-block;line-height: 20px;text-align: center;background: #b9b9b9;font-size: 15px;color:#fff;border-radius: 5px;margin:20px 10px 0}
+.container .box img {width: auto;padding-bottom: 10px;z-index: 9999;position: relative;}
+.container .box a:hover .boximg>img:hover{opacity: 0.8;}
+.container .box .behavior{width:90%;margin:30px auto 0;border-top:1px solid #eee}
+.container .box .behavior .peson{display: inline-block;overflow: hidden;}
+.container .box .behavior .peson img{width:40px;height:40px;border-radius: 50%;display: inline-block;float:left;margin-top:10px}
+.container .box .peson span{display: inline-block;line-height: 40px;float:left;margin-top:10px;margin-left:10px}
+
+.container .box .behavior .praise{display: inline-block;overflow: hidden;float:right}
+.container .box .behavior .praise span{display: inline-block;width:20px;height:20px;background:url(../image/zan.png) no-repeat;float:left;margin-top:15px;margin-right:10px;background-size: 100% 100%;}
+.container .box .behavior .praise strong{display: inline-block;width:20px;height:20px;text-align: center;line-height: 20px;float:left;margin-top:15px;margin-right:0px;color:#989898}
+.container .box .behavior .praise em{display: inline-block;height:20px;font-size:15px;line-height: 20px;color:#000;float:left;margin-top: 15px;}
+.container .box a{display: block;}
+
+
+.container .box a{display: block;position: relative;}
+.container .box .uploads-pro{float:left;width:100%;height:40px;line-height: 40px;text-indent: 100px;font-size: 18px;background:url(../image/selfcai_03.png) no-repeat 60px center;background-size: 30px 30px;margin-top:160px}
+.container .box .upload-box{width:255px;height:320px}
+
+/*这是上传产品弹窗*/
+#pick .pick-box .pick-content .pick-show .pick-left .back-one{display: inline-block;width:180px;margin-left:20px;float:left}
+#pick .pick-box .pick-content .pick-show .pick-left .back-one .img-load{width:180px;height:180px;margin:5px auto 5px;overflow: hidden;background:#e8e8e8;position:relative}
+#pick .pick-box .pick-content .pick-show .pick-left .back-one .img-load .chooseImage{float:left;height:180px}
+#pick .pick-box .pick-content .pick-show .pick-left .back-one .img-load .chooseImage img{margin:0}
+
+#pick .pick-box .pick-content .pick-show .pick-left .img-load input{width:100%;height:40px;outline: none;border:none;position: absolute;display: block;top:50px;opacity: 0;}
+#pick .pick-box .pick-content .pick-show .pick-left .back-one .img-load p{width:100px;color:#fff;text-indent: 0;height:40px;background:#055cfc;line-height: 40px;text-align: center;margin:50px auto 0;font-size: 14px;font-weight: 400;position: absolute;left:40px}
+#pick .pick-box .pick-content .pick-show .pick-left .back-one .title-item{width:180px;height:40px;line-height: 40px;border:1px solid #919191;box-sizing: border-box;position: relative;margin:0 auto 8px} 
+#pick .pick-box .pick-content .pick-show .pick-left .back-one .title-item input{width:150px;vertical-align: top;height:38px;outline: none;border:none;text-indent: 13px;box-sizing: border-box;}
+#pick .pick-box .pick-content .pick-show .pick-left .back-one .title-item span{position: absolute;display: inline-block;height:40px;line-height: 40px;left:5px;color:#055cfc}
+#pick .pick-box .pick-content .pick-show .pick-left .back-one .title-item .classif{width:100%;height:40px}
+#pick .pick-box .pick-content .pick-show .pick-left .back-one .title-item i{display: inline-block;position: absolute;border-left:4px solid transparent;border-top:4px solid transparent;border-bottom:4px solid #055cfc;border-right:4px solid #055cfc;right:5px;bottom:5px}
+#pick .pick-box .pick-content .pick-show .pick-left .back-one .title-item p{width:100%;font-weight: 400;height:40px;line-height: 40px;text-indent:13px;font-size: 14px;margin-top:0px;color:#6e6e6e}
+#pick .pick-box .pick-content .pick-show .pick-left .back-one .title-item .class-item{display: none;width:300px;z-index: 555;background:#fff;position: absolute;box-shadow: 0 0 5px rgba(0,0,0,.7);top:45px;left:0px;overflow: hidden;}
+#pick .pick-box .pick-content .pick-show .pick-left .back-one .title-item .color-box{box-sizing: border-box;padding:5px;width:280px;box-sizing: border-box;padding-left:9px;padding-top:15px;border-radius: 5px;}
+
+#pick .pick-box .pick-content .pick-show .pick-left .back-one .title-item .class-item a{display: inline-block;padding:0px 4px}
+#pick .pick-box .pick-content .pick-show .pick-left .back-one .title-item .class-item a.color{width:40px;height:25px;padding:0;border-radius: 5px;border:1px solid #eee;box-sizing: border-box;}
+#pick .pick-box .pick-content .pick-show .pick-left .back-one textarea{width:180px;height:80px;display: block;margin:10px auto 0;line-height:25px;color:#6e6e6e}
+/*这是上传产品右边*/
+#pick .pick-box .pick-content .pick-show .pick-right{width:400px}
+
+#pick .pick-box .pick-content .pick-show .pick-left .back-two{width:180px;overflow: hidden;display: inline-block;float:left;margin-top:6px;margin-left:15px}
+#pick .pick-box .pick-content .pick-show .pick-left .back-two input{width:170px;height:40px;outline: none;margin-bottom:15px;text-indent: 10px;font-size: 14px;}
+#pick .pick-box .pick-content .pick-show .pick-left .back-two textarea{width:170px;height:178px;text-indent: 10px;color:#6e6e6e;line-height: 25px;}
+#pick .pick-box .pick-content .pick-show .pick-left .change{display: inline-block;box-sizing: border-box;padding:10px;height:20px;line-height: 20px;float:right}
+#pick .pick-box .pick-content .pick-show .pick-left .change i{display: inline-block;width:10px;height:13px;background:url(../image/bacech_03.png) no-repeat;background-size: 100% 100%;margin-top:3px;margin-left:3px}
+/*弹窗盒子变化大小*/
+#pick .pick-box .pick-content{width:800px}
+#pick .pick-box .pick-content .pick-show .pick-left{width:400px;}
+
+#pick .pick-box .pick-content .pick-show .pick-left .back-one .title-item .classif input{display: inline-block;position: absolute;opacity: 0;}
+#pick .pick-box .pick-content .pick-show .pick-left .back-one .title-item .classif .input-color{border-radius:5px;height: 20px;width:150px;position: absolute;top:10px;left:15px}
+.imgBox{width:100%;height:100%;z-index: 9999;}
+.imgBox .bg{width:100%;height:100%;}
+#pick .pick-left .img-load i{display: inline-block;width:12px;height:12px;position: absolute;right:5px;top:5px;background:url(../image/delete_03.png) no-repeat;background-size: 100% 100%;}
+
+
+
+#pick .pick-box .pick-content .pick-show .pick-left img{width:auto;height:auto}
+#pick .pick-box .pick-content .pick-show .pick-left .back-one .img-load .chooseImage{height:auto;}
+
+
+
+
+
+#pick .pick-box .pick-content .pick-show .pick-right .anima-lo{position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);width:70%;display: none;}
+
+#pick .pick-box .pick-content .pick-show .pick-right .anima-lo p{color:blue;position: absolute;top:70px;width:90%;text-align: center;}
+#pick .pick-box .pick-content .pick-show .pick-right .k-ball-holder3 {
+	display: block;width:100px;height:100px;
+}
+
+#pick .pick-box .pick-content .pick-show .pick-right .k-ball7a {
+	border:0;
+	margin:0;
+	width:16px;
+	height:16px;
+	position:absolute;
+	left:100px;
+	border-radius:50%;
+	animation:k-loadingO 2s ease infinite;
+	background:#19A68C;
+	animation-delay:-1.5s
+}
+#pick .pick-box .pick-content .pick-show .pick-right .k-ball7b {
+	border:0;
+	margin:0;
+	width:16px;
+	left:100px;
+	height:16px;
+	position:absolute;
+	border-radius:50%;
+	animation:k-loadingO 2s ease infinite;
+	background:#F63D3A;
+	animation-delay:-1s
+}
+#pick .pick-box .pick-content .pick-show .pick-right .k-ball7c {
+	border:0;
+	margin:0;
+	left:100px;
+	width:16px;
+	height:16px;
+	position:absolute;
+	border-radius:50%;
+	animation:k-loadingO 2s ease infinite;
+	background:#FDA543;
+	animation-delay:-0.5s
+}
+#pick .pick-box .pick-content .pick-show .pick-right .k-ball7d {
+	border:0;
+	margin:0;
+	width:16px;
+	height:16px;
+	left:100px;
+	position:absolute;
+	border-radius:50%;
+	animation:k-loadingO 2s ease infinite;
+	background:#193B48
+}
+
+
+
+
+
+
+@keyframes rota{
+	from{transform: rotate(360deg);transform-origin: center;}
+	to{transform: rotate(0deg);transform-origin: center;}
+}
+
+
+
+
+
+@keyframes k-loadingO {
+	0%,100% {
+	transform:translate(0)
+}
+25% {
+	transform:translate(40px)
+}
+50% {
+	transform:translate(40px,40px)
+}
+75% {
+	transform:translate(0,40px)
+}

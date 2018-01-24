@@ -1,0 +1,74 @@
+body{background:#f6f6f6}
+/*这是banner区域*/
+.banner{width:100%;height:420px;overflow: hidden;background:url(../image/findbanner_02.jpg) no-repeat;background-size: 100% 100%;}
+/*这是中间标题*/
+.middle{display: block;float:left;width:100%;position: relative;}
+    .middle .title{overflow: hidden;padding-left:20px;box-sizing: border-box;}    
+   .middle .title h1{height:100px;font-size:28px;color:#000;line-height: 100px;background:url(../image/line.png) no-repeat center left;text-indent: 25px;}
+
+/*瀑布流*/
+.outside{width:98%;margin:0 auto 0;clear: both;}
+.container-right{width:250px;overflow: hidden;float:left;background:#f6f6f6;display: inline-block;}
+/*这里是右侧达人推荐*/
+.container-right .master{width:100%;overflow: hidden;}
+.container-right .master .master-top{width:100%;height:40px;line-height: 40px;margin-top:60px}
+.container-right .master .master-top span{display: inline-block;font-size: 20px;font-weight: 600;}
+.container-right .master .master-top i{display: inline-block;font-size: 14px;float:right;width:70px;text-align: left;text-indent: 10px;background:url(../image/danhuan_03.png) no-repeat center right;background-size:14px 14px;}
+.container-right .master ul{overflow: hidden;width:100%}
+.container-right .master ul li{width:98%;height:100px;background:#fff;box-shadow: 0 0 3px #999;margin:0 auto 10px}
+.container-right .master ul li .master-peo{width:90px;height:100%;float:left;}
+.container-right .master ul li .master-peo img{width:60px;height:60px;margin:0 auto 0;display: block;margin-top:15px;border-radius:50%;}
+.container-right .master ul li .text{width:100%;height:100%;margin-left:90px}
+.container-right .master ul li .text h4{padding-top:20px;box-sizing: border-box;margin-bottom:10px;}
+.container-right .master ul li .text h4.vp{padding-top:20px;box-sizing: border-box;margin-bottom:10px;background:url(../image/vip.png) no-repeat 60px 17px;}
+.container-right .master ul li .text p{color:#9a9a9a}
+/*这里是右侧 项目推荐*/
+.container-right .progect{width:98%;overflow: hidden;margin:0 auto 20px;box-shadow:0 0 5px #999;}
+.container-right .progect h2{font-size: 20px;margin:10px 0 10px;text-indent: 10px;}
+.container-right .progect .progect-con{width:100%;overflow: hidden;background:#fff}
+.container-right .progect .progect-con .Nordic{padding:10px 0 10px}
+.container-right .progect .progect-con .Nordic h3{height:40px;line-height: 40px;text-indent: 10px;}
+.container-right .progect .progect-con .Nordic ul{overflow: hidden;width:280px}
+.container-right .progect .progect-con .Nordic ul li{width:110px;height:110px;float:left;margin-right:6px;margin-bottom:6px}
+.container-right .progect .progect-con .Nordic ul li img{width:100%;height:100%;}
+.container-right .progect .progect-con .Nordic .Ul-con{width:91%;margin:0 auto 0}
+
+
+ .container{ position: relative;float:left;margin-right:15px;display: inline-block;}
+ /*.container .container:after{content: '';display: block;clear: both;}*/
+.container .box{float: left;-webkit-transition: left .3s ease-in-out, top .3s ease-in-out;background-color: #fff;margin: 10px 10px;border-radius: 5px;overflow: hidden;width:255px}
+.container .box:hover{box-shadow:0 5px 5px #999;}
+.container .box .boximg{position: relative;}
+.container .box .boximg .col-tow{display: inline-block;width:50px;height:30px;background:#055cfc;text-align: center;line-height: 30px;color:#fff;font-size: 15px;position: absolute;top:13px;right:13px;border-radius: 5px;opacity: 0;}
+.container .box .boximg i{display: none;width:50px;height:30px;background:#055cfc;text-align: center;line-height: 30px;color:#fff;font-size: 15px;position: absolute;top:13px;right:13px;border-radius: 5px;opacity: 0;}
+.container .box a{display: block;}
+.container .box a:hover .boximg>img:hover{opacity: 0.8;}
+.container .box .boximg p{font-size:15px;color:#000;}
+.container .box .boximg em{width:60px;height:20px;display: inline-block;line-height: 20px;text-align: center;background: #b9b9b9;font-size: 15px;color:#fff;border-radius: 5px;margin:20px 10px 0}
+.container .box img{width: 255px;padding-bottom: 10px;}
+.container .box .behavior{width:90%;margin:30px auto 0;border-top:1px solid #eee}
+.container .box .behavior .peson{display: inline-block;overflow: hidden;}
+.container .box .behavior .peson img{width:40px;height:40px;border-radius: 50%;display: inline-block;float:left;margin-top:10px}
+.container .box .peson span{display: inline-block;line-height: 40px;float:left;margin-top:10px;margin-left:10px}
+
+.container .box .behavior .praise{display: inline-block;overflow: hidden;float:right}
+.container .box .behavior .praise span{display: inline-block;width:20px;height:20px;background:url(../image/zan.png) no-repeat;float:left;margin-top:15px;margin-right:10px}
+.container .box .behavior .praise strong{display: inline-block;width:20px;height:20px;text-align: center;line-height: 20px;float:left;margin-top:15px;margin-right:0px;color:#989898}
+.container .box .behavior .praise em{display: inline-block;height:20px;font-size:15px;line-height: 20px;color:#000;float:left;margin-top: 15px;opacity: 1;}
+.container .box .behavior .praise i{display: inline-block;height:20px;font-size:15px;line-height: 20px;color:#000;float:left;margin-top: 15px;opacity: 1;}
+
+.add-btn{width: 100%;background-color: #ff7d3c;height: 50px;
+            line-height: 50px;text-align: center;font-size: 30px;font-weight: 700;
+            position: absolute;color: #fff; display: none;
+            }
+            
+
+.container .box .behavior-note{width:250px;margin:30px auto 0;border-top:1px solid #eee;box-sizing: border-box;padding:0 10px 0}
+.container .box .boximg p{width:90%;margin:0 auto 0}
+.container .box .behavior-note .peson{display: inline-block;overflow: hidden;}
+.container .box .behavior-note .peson img{width:20px;height:20px;display: inline-block;float:left;margin-top:23px}
+.container .box .behavior-note .peson span{display: inline-block;line-height: 40px;float:left;margin-top:10px;margin-left:10px}
+.container .box .behavior-note .praise{display: inline-block;overflow: hidden;float:right}
+.container .box .behavior-note .praise span{display: inline-block;width:20px;height:20px;background:url(../image/zan.png) no-repeat;float:left;margin-top:15px;margin-right:10px}
+.container .box .behavior-note .praise strong{display: inline-block;width:20px;height:20px;text-align: center;line-height: 20px;float:left;margin-top:15px;margin-right:0px;color:#989898}
+.container .box .behavior-note .praise em{display: inline-block;height:20px;font-size:15px;line-height: 20px;color:#000;float:left;margin-top: 15px;}

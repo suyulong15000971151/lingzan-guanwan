@@ -1,0 +1,779 @@
+{{{include file="general/general.header.html"}}}
+<link rel="stylesheet" href="{{{$static_url}}}/css/selffriends.css" />
+<style>
+	#edit .edit-box .edit-content .edit-container .form-one .img-load i {
+		display: inline-block;
+		width: 12px;
+		height: 12px;
+		position: absolute;
+		right: 5px;
+		top: 5px;
+		background: url({{{$static_url}}}/image/delete_03.png) no-repeat;
+		background-size: 100% 100%;
+	}
+	
+	.man-sub {
+		width: 100%;
+		height: 60px;
+		overflow: hidden;
+		text-align: center;
+		line-height: 60px;
+		font-size: 16px;
+	}
+	
+	.man-sub a {
+		display: inline-block;
+		padding: 0 10px;
+		color: #afafaf
+	}
+	
+	.man-sub a.actv {
+		color: #000
+	}
+	
+	#man-box {
+		margin: 0 auto 0
+	}
+</style>
+
+<body>
+	<!--这里是添加成员-->
+	<div id="custom">
+		<div class="custom-box">
+			<div class="content">
+				<div class="title">
+					<span>添加成员</span>
+					<div class="go-back" style="display: none;">返回</div>
+					<i></i>
+				</div>
+				<div class="container">
+					<div class="caption">
+						<a href="javascript:void(0)" class="mid cutv">快速站内好友</a>
+						<a href="javascript:void(0)" class="mid">添加站外成员</a>
+						<a href="javascript:void(0)" class="mid">通过邮件邀请</a>
+						<a href="javascript:void(0)">通过连接注册</a>
+					</div>
+
+					<div class="package">
+						<!--这是第一个-->
+						<div class="first-befor mode">
+							<div class="friend-con">
+								<div class="box-one">
+									<div class="look">
+										<!-- <form action="/member/userData" method="post"> -->
+										<i>*</i><span>好友用户名或手机号</span><input type="text" name="userinfo" class="userinfo" /><button onClick="selectUser()">查找</button>
+										<!-- </form> -->
+									</div>
+									<!-- <div class="look-end" style="overflow-y:scroll; overflow-x:hidden; height:240px; "> -->
+									<div class="look-end">
+										<div class="looktext">搜索结果0个</div>
+									</div>
+								</div>
+
+								<div class="box-tow">
+									<div class="sub-peson">
+										<img src="img/person.png" alt="" />
+										<div class="text">
+											<h3>李某某</h3>
+											<p>上海市 男 设计师</p>
+										</div>
+
+									</div>
+
+									<div class="send">
+										<i>*</i><span>输入留言信息</span><input type="text" placeholder="我是...." name="content" id="msg_apply" /><button>发送</button>
+									</div>
+								</div>
+
+							</div>
+
+						</div>
+						<!--这里是第二个内容-->
+						<div class="first mode">
+							<form action="/library/project_member_add" method="post">
+								<input name="frames" type="hidden" value="yes" />
+								<input type="hidden" name="proid" value="" />
+								<div class="first-box">
+									<div class="firstput">
+										<p>* 快速添加成员账户，设置默认密码，首次登陆时需要修改默认密码</p>
+										<div class="item">
+											<label for="">姓名</label> <input type="text" name="nickname" />
+										</div>
+										<div class="item">
+											<label for="">登录用户名</label> <input type="text" />
+										</div>
+										<div class="item">
+											<label for="">手机号</label> <input type="text" name="mobile" />
+										</div>
+										<div class="item">
+											<label for="">默认密码</label> <input type="text" name="password" />
+										</div>
+										<div class="item">
+											<label for="">项目角色</label> <input type="text" />
+										</div>
+										<div class="item">
+											<label for="">所属公司</label> <input type="text" />
+										</div>
+									</div>
+									<div class="sub">
+										<button>添加成员</button>
+									</div>
+								</div>
+							</form>
+						</div>
+						<!--这是第三个内容-->
+						<div class="second mode">
+							<div class="second-box">
+								<p>* 通过邮箱给项目成员发送注册当前项目的邀请链接。</p>
+								<div class="item">
+									<label for="">邮箱</label><input type="text" />
+								</div>
+								<button>增加一行</button>
+							</div>
+							<div class="sub">
+								<button>添加成员</button>
+							</div>
+						</div>
+						<!--这里是第四个内容-->
+						<div class="third mode">
+							<div class="third-box">
+								<p>* 发送网站注册链接地址给你需要邀请的项目组成员，他们可通过该地址直接注册账号。</p>
+								<div class="item">
+									<label for="">邮箱</label><input type="text" value="" />
+								</div>
+								<button>点击复制该链接</button>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<!--成功弹窗-->
+	<div id="win" class="">
+		<div class="win-box">
+			<div class="com">
+				<img src="{{{$static_url}}}/image/laught_03.png" alt="" style="position:relative;" />
+				<span></span>
+				<i></i>
+			</div>
+		</div>
+	</div>
+
+	<!--这里是个人简介-->
+	<div class="manpeople">
+		<div class="man-box">
+			<div class="potato">
+				<img src="{{{$userInfo.avatar}}}" alt="{{{$userInfo.nickname}}}" />
+			</div>
+			<div class="explain">
+				<h2>{{{$userInfo.nickname}}}</h2>
+				<p>{{{if $userInfo.groupid == 10 || $userInfo.groupid == 20}}}<i></i>{{{/if}}}<span>{{{if $userInfo.sex == 1}}} 男 {{{else if $userInfo.sex == 2}}} 女 {{{else if $userInfo.sex == 0}}} 保密 {{{/if}}} {{{$address}}} {{{if $userInfo.groupid == 0}}} 普通用户 {{{else if $userInfo.groupid == 10}}} 设计师 {{{else if $userInfo.groupid == 20}}} 品牌 {{{/if}}}</span></p>
+				<strong>{{{$userInfo.signature}}}</strong>
+			</div>
+		</div>
+	</div>
+	<!--这里是个人内容导航-->
+	<div class="man-nav">
+		<div class="navigation">
+
+			{{{if $userInfo.userid == $userid}}}
+			<a href="/member/library">
+				{{{else}}}
+				<a href="/member/library/{{{$userInfo.userid}}}">
+					{{{/if}}}
+					<span>{{{$count.sLibCount+$count.pLibCount+$count.fLibCount}}}</span>
+					<p>项目</p>
+				</a>
+				{{{if $userInfo.userid == $userid}}}
+				<a href="/member/collection">
+					{{{else}}}
+					<a href="/member/collection/{{{$userInfo.userid}}}">
+						{{{/if}}}
+						<span>{{{$userInfo.productcount}}}</span>
+						<p>产品</p>
+					</a>
+					{{{if $userInfo.userid == $userid}}}
+					<a href="/member/note">
+						{{{else}}}
+						<a href="/member/note/{{{$userInfo.userid}}}">
+							{{{/if}}}
+							<span>{{{$userInfo.notecount + $count.fNotCount}}}</span>
+							<p>笔记</p>
+						</a>
+						<a href="/member/friend/{{{$userInfo.userid}}}" class="man-act">
+							<span>{{{$userInfo.followcount+$userInfo.fanscount+$userInfo.friendcount}}}</span>
+							<p>人脉</p>
+						</a>
+		</div>
+
+	</div>
+	<div class="man-sub">
+		{{{if $userInfo.userid == $userid}}}
+		<a href="/member/friend/{{{$userInfo.userid}}}" class="actv">我的好友</a>
+		<a href="/member/follow/{{{$userInfo.userid}}}">我的关注</a>
+		<a href="/member/fans/{{{$userInfo.userid}}}">我的粉丝</a>
+		{{{else}}}
+		<a href="/member/friend/{{{$userInfo.userid}}}" class="actv">他的好友</a>
+		<a href="/member/follow/{{{$userInfo.userid}}}">他的关注</a>
+		<a href="/member/fans/{{{$userInfo.userid}}}">他的粉丝</a>
+		{{{/if}}}
+		<div class="sub-sear">
+			<button></button>
+			<input type="text" placeholder="输入搜索" />
+
+		</div>
+	</div>
+	<div id="man-box">
+
+		<!--<div class="man-sub">
+			{{{if $userInfo.userid == $userid}}}
+			<a href="/member/friend/{{{$userInfo.userid}}}" class="actv">我的好友</a>
+			<a href="/member/follow/{{{$userInfo.userid}}}">我的关注</a>
+			<a href="/member/fans/{{{$userInfo.userid}}}">我的粉丝</a>
+			{{{else}}}
+			<a href="/member/friend/{{{$userInfo.userid}}}" class="actv">他的好友</a>
+			<a href="/member/follow/{{{$userInfo.userid}}}">他的关注</a>
+			<a href="/member/fans/{{{$userInfo.userid}}}">他的粉丝</a>
+			{{{/if}}}
+
+			<form action="/member/friend/{{{$userInfo.userid}}}" method="get">
+			<div class="sub-sear">
+				<button></button>
+				<input type="text" placeholder="输入搜索" name="seachWord" value="{{{$seachWord}}}"/>
+				
+			</div>
+			</form>
+	    </div>-->
+	    <div id="man-box" style="position: relative;">
+
+		<div class="man-show" id="man-show">
+			<input type="hidden" id="p" value="{{{$p}}}" />
+			<input type="hidden" id="seachWord" value="{{{$seachWord}}}"/>
+
+			{{{if $userInfo.userid == $userid}}}
+			<div class="man-item plus">
+				<p>添加好友</p>
+			</div>
+			{{{/if}}} {{{foreach from=$friend item=item}}}
+			<div class="man-item friend_{{{$item.user.userid}}}">
+				<div class="item-box">
+					{{{if $item.user.userid == $userid}}}
+					<a href="/member/library">
+						{{{else}}}
+						<a href="/member/library/{{{$item.user.userid}}}">
+							{{{/if}}}
+							<div class="big-img">
+								<img src="{{{$item.user.avatar}}}" alt="{{{$item.user.nickname}}}" />
+								<h4>{{{$item.user.nickname}}}</h4>
+							</div>
+							<p>{{{$item.user.librarycount}}} 项目 &nbsp;{{{$item.user.productcount}}} 产品</p>
+							<div class="small">
+								{{{foreach from=$item.pro item=item2}}}
+								<img src="{{{$item2.smallpic}}}" alt="" /> {{{/foreach}}}
+							</div>
+						</a>
+						{{{if $userInfo.userid == $userid}}}
+						<div class="edit" onClick="pLCirform({{{$item.user.userid}}})">私信</div>
+						<div class="remove" onClick="delFriend({{{$item.user.userid}}})">删除好友</div>
+						{{{/if}}}
+				</div>
+			</div>
+			{{{/foreach}}}
+
+		</div>
+	</div>
+	<script src="{{{$static_url}}}/js/index.js"></script>
+	<script src="{{{$static_url}}}/js/selffriend.js"></script>
+
+
+	<script>
+		//这里是个人中心项目盒子居中
+		//盒子居中
+		function boxCenter() {
+			var clientWid = document.body.clientWidth;
+			var boxnum = Math.floor(clientWid / 270)
+			console.log(boxnum)
+			var boxwid = document.getElementById('man-show')
+			boxwid.style.width = (boxnum * 270) + 'px'
+			document.getElementById('man-box').style.width = (boxnum * 270 - 20) + 'px'
+		}
+
+		window.onresize = function() {
+			boxCenter()
+		}
+		boxCenter()
+
+
+		<script>
+			//这里是个人中心项目盒子居中
+		 //盒子居中
+   function boxCenter(){
+   	  var clientWid=document.body.clientWidth;
+    var boxnum=Math.floor(clientWid/270)
+    console.log(boxnum)
+    var boxwid=document.getElementById('man-show')
+    boxwid.style.width=(boxnum*270)+'px'
+    document.getElementById('man-box').style.width=(boxnum*270-20)+'px'
+   }
+ 
+   window.onresize=function(){
+   	boxCenter()
+   }
+  boxCenter()
+		
+		
+		
+		
+
+		<script>
+			//这里是个人中心项目盒子居中
+		 //盒子居中
+   function boxCenter(){
+   	var clientWid=document.body.clientWidth;
+    var boxnum=Math.floor(clientWid/270)
+    console.log(boxnum)
+    var boxwid=document.getElementById('man-show')
+    boxwid.style.width=(boxnum*270)+'px'
+    document.getElementById('man-box').style.width=(boxnum*270-20)+'px'
+   }
+ 
+   window.onresize=function(){
+   	boxCenter()
+   }
+  boxCenter()
+		
+
+
+		function selectUser() {
+
+			var userinfo = $('.userinfo').val();
+			if(userinfo == '') {
+				return false;
+			}
+
+			$('.look-pson').remove();
+			$.ajax({
+				url: '/member/userData',
+				type: "post",
+				data: {
+					userinfo: userinfo
+				},
+				success: function(ret) {
+
+					if(ret != '') {
+
+						var jsonarray = eval('(' + ret + ')');
+						var count = jsonarray.count;
+						var data = jsonarray.data;
+
+						var html = '';
+						for(var i = 0; i < count; i++) {
+							// alert(i);
+							html += '<div class="look-pson user_' + data[i].userid + '">';
+							html += '<img src="' + data[i].avatar + '" alt="' + data[i].nickname + '" />';
+							html += '<div class="text">';
+							html += '<h3>' + data[i].nickname + '</h3>';
+							html += '<p>' + data[i].sex + ' ' + data[i].city + ' ' + data[i].groupid + '</p>';
+							html += '<span onClick="changeConfirm(' + data[i].userid + ')"> + 好友</span>';
+							html += '</div>';
+							html += '</div>';
+
+						}
+
+						$('.looktext').after(html);
+						$('.looktext').text('搜索结果' + count + '个');
+						return false;
+
+					}
+
+					$('.looktext').text('搜索结果0个');
+
+				},
+				error: function() {
+					alert('网络异常，请稍后再试');
+					return false;
+				}
+
+			})
+		}
+
+		//切换添加好友窗口
+		function changeConfirm(userid) {
+			$('#custom .friend-con .box-one').css('display', 'none');
+			$('#custom .container .caption').css('display', 'none');
+			$('#custom .title span').css('display', 'none');
+			$('#custom .title .go-back').css('display', 'block');
+			$('#custom .friend-con .box-tow').css('display', 'block');
+			var img = $('.user_' + userid).find('img').attr('src');
+			var nickname = $('.user_' + userid).find('img').attr('alt');
+			var info = $('#custom  .look-end .user_'+userid+' .text p').text();
+			$('.box-tow .sub-peson img').attr({
+				'src': img,
+				'alt': nickname
+			});
+			console.log(info)
+			$('.box-tow .sub-peson .text h3').text(nickname);
+			$('.box-tow .sub-peson .text p').text(info);
+			$('.box-tow .send button').attr('onClick', "addApplyMsg(" + userid + ")");
+		}
+
+		//发送认证消息
+		function addApplyMsg(userid) {
+
+			var content = $.trim($('#msg_apply').val());
+			$.ajax({
+				url: '/member/addApplyMsg',
+				type: "post",
+				data: {
+					userid: userid,
+					content: content
+				},
+				success: function(ret) {
+
+					if(ret != '') {
+
+						var jsonarray = eval('(' + ret + ')');
+						var msg = jsonarray.msg;
+						var code = jsonarray.code;
+						// alert(msg);
+
+						$('#win .win-box .com span').html(msg).attr('style', "position:absolute; top:73px; left:50%;transform:translateX(-50%)");
+						$('#win').css('display', "block").addClass('anima');
+						window.location.reload()
+
+					}
+
+				},
+				error: function() {
+					// alert('网络异常，请稍后再试');
+					$('#win .win-box .com span').html('网络异常，请稍后再试').attr('style', "position:absolute; top:73px; left:50%;transform:translateX(-50%)");
+					$('#win').css('display', "block").addClass('anima');
+					window.location.reload()
+				}
+
+			})
+
+		}
+
+		//删除好友
+		function delFriend(userid) {
+
+			var r = confirm("确定删除该好友吗");
+			if(r == false) {
+				return false;
+			}
+			$.ajax({
+				url: '/member/delFriend',
+				type: "post",
+				data: {
+					userid: userid
+				},
+				success: function(ret) {
+
+					if(ret != '') {
+
+						var jsonarray = eval('(' + ret + ')');
+						var msg = jsonarray.msg;
+						var code = jsonarray.code;
+						$('#win .win-box .com span').html(msg).attr('style', "position:absolute; top:73px; left:50%;transform:translateX(-50%)");
+						$('#win').css('display', "block").addClass('anima');
+						window.location.reload()
+
+					}
+
+				},
+				error: function() {
+					$('#win .win-box .com span').html('网络异常，请稍后再试').attr('style', "position:absolute; top:73px; left:50%;transform:translateX(-50%)");
+					$('#win').css('display', "block").addClass('anima');
+					window.location.reload()
+				}
+
+			})
+
+		}
+
+		//私信弹窗
+		function pLCirform(userid) {
+
+			$(window).scrollTop(0);
+
+			var uname = $('.friend_' + userid).find('.item-box').find('.big-img').find('h4').text();
+
+			$('#chat_userid2').val(userid);
+			$('#chat_uname').html(uname);
+
+			var str = '';
+			$.ajax({
+				url: '/ajax/user_chat',
+				type: 'POST',
+				async: false,
+				data: {
+					userid2: userid
+				},
+				timeout: 5000,
+				dataType: 'json',
+				success: function(data) {
+					$.each(data.errmsg, function(i, n) {
+						if(n.sendtype == 2) {
+							str += '<div class="item"><div class="people"><img src="' + n.avatar2 + '" alt="" /></div><div class="text"><p>' + n.content + '</p><span>' + n.sendtime + '</span><em></em></div></div>';
+						} else {
+							str += '<div class="item host"><div class="text"><p>' + n.content + '</p><span>' + n.sendtime + '</span><em></em></div><div class="people"><img src="' + n.avatar1 + '" alt="" /></div></div>';
+						}
+					});
+					$('#chat_container').html(str);
+					lct = document.getElementById('chat_container');
+					lct.scrollTop = Math.max(0, lct.scrollHeight - lct.offsetHeight);
+				}
+			});
+
+			$('body').css("overflow", 'hidden')
+			$("#letter").css("display", "block")
+
+		}
+	</script>
+
+
+	<script>
+		$(".man-show .plus").click(function() {
+			$(window).scrollTop(0);
+			$('body').css("overflow", 'hidden')
+			$("#custom").css("display", "block")
+		})
+		$("#custom .custom-box").click(function(event) {
+			event.stopPropagation()
+			$('body').css("overflow", 'scroll')
+			$("#custom").css("display", "none")
+		})
+		$("#custom .custom-box .content").click(function(event) {
+			event.stopPropagation()
+		})
+		$("#custom .custom-box .content .title i").click(function(event) {
+				event.stopPropagation();
+				$('body').css("overflow", 'scroll')
+				$("#custom").css("display", "none")
+			})
+			//项目添加好友
+		$('#custom li .choics').click(function() {
+			$(this).toggleClass("checkeds")
+		})
+
+		</script>
+	</body>
+
+		</script>
+
+		<script type="text/javascript">
+		/*
+		 * 瀑布流的原理：
+		 *   寻找到一排中高度最小的图片，然后排放在高度最小的图片的下面
+		 *
+		 * */
+	  
+		function imgsize(){
+
+			$('img').css('opacity','1')
+			// var imgleng = $('.container .box .boximg img').get().length;
+			// var imgobj = $('.container .box .boximg img').get();
+			// var imgout = $('.container .box .boximg .img-out').get()
+
+			var imgleng = $('#man-box .man-show .man-item .item-box .big-img img').get().length;
+			var imgobj = $('#man-box .man-show .man-item .item-box .big-img img').get();
+
+			var imgWid = []
+			var imgHid = []
+			for(var i = 0; i < imgleng; i++) {
+				imgobj[i].style.height = Number(imgobj[i].offsetWidth * 255 / imgobj[i].offsetHeight)
+				// imgobj[i].style.width = '255px'
+				// imgout[i].style.cssText = 'Max-height:400px;overflow:hidden'
+
+			}
+
+		}
+
+		var container = document.getElementById("man-box");
+		// var btn = document.getElementsByClassName("add-btn").item(0);
+		var index = 0;
+		window.onload = function() {
+			imgsize()
+			waterfull();
+		};
+
+		function waterfull() {
+			// var box = document.getElementsByClassName("box");
+			var box = document.getElementsByClassName("man-item");
+
+			//计算一排中的能排放的数量
+			var containerWidth = document.documentElement.clientWidth;
+			if(containerWidth >= 1600) {
+				containerWidth = 1600;
+			}
+			var boxWidth = box[0].offsetWidth;
+			var num = Math.floor(containerWidth / boxWidth);
+			//居中操作
+			// container.style.width = num * (boxWidth + 20) + "px";
+			//摆放位置
+			var boxheight = [];
+			for(var i = 0; i < box.length; i++) {
+				if(i < num) { // 第一排中的元素
+					boxheight.push(box[i].offsetHeight);
+				} else {
+					//非第一排中的内容
+					box[i].style.position = "absolute";
+					//设置位置之前。必须知道当前要放在哪个盒子下面
+					var minBoxHeight = Math.min.apply(null, boxheight);
+					//根据最小值得到位置
+					//               var index = boxheight.indexOf(minBoxHeight);
+					var index = getIndex(boxheight, minBoxHeight);
+					// box[i].style.top = (minBoxHeight + 20) + "px";
+					// box[i].style.left = (box[index].offsetLeft - 10) + "px";
+
+					box[i].style.top = (minBoxHeight + 50) + "px";
+					box[i].style.left = (box[index].offsetLeft) + "px";
+					//把盒子的高度加回去
+					boxheight[index] = boxheight[index] + box[i].offsetHeight + 20;
+				}
+			}
+
+			// btn.style.top = (box[box.length - 1].offsetTop + box[box.length - 1].offsetHeight + 20) + "px";
+
+		}
+
+		//过滤的形式
+		function getIndex(boxArr, minIndex) {
+			for(var i = 0; i < boxArr.length; i++) {
+				if(boxArr[i] == minIndex) {
+					return i;
+				}
+			}
+		}
+
+		function loadFlag() {
+			//获取页面高度
+			var pageHeight = document.documentElement.clientHeight;
+			//滚动的高度
+			var scrollHeight = document.documentElement.scrollTop || document.body.scrollTop;
+			//最后一张图片距离顶部的高度
+			// var boxs = document.getElementsByClassName("box");
+			var boxs = document.getElementsByClassName("man-item");
+			//        var boxHeight = boxs[boxs.length - 1].offsetTop;
+			// var btn = document.getElementsByClassName("add-btn").item(0);
+			// var boxHeight = btn.offsetTop + 49;
+			/* console.log("页面高度:"+pageHeight);
+			 console.log("滚动高度:"+scrollHeight);
+			 console.log("元素高度:"+boxHeight);*/
+			return pageHeight + scrollHeight > boxHeight ? true : false;
+		}
+
+		function isEmptyObject(e) {
+			var t;
+			for (t in e)
+				return !1;
+			return !0;
+		}
+
+		$(function(){
+			$(document).scroll(function(){
+				// heightsize()
+
+				waterfull();
+				//滚动条滑动的时候获取滚动条距离顶部的距离
+				var scroll=$(document).scrollTop();
+				//屏幕的高度
+				var client=$(window).height();
+				var h=$(document).height();
+				var flag=true;
+				if (h<=scroll+client) { // 到达底部时,加载新内容
+					if(flag==false){
+						return;
+					}
+					var p = $('#p').val();
+					var seachWord = $('#seachWord').val();
+					var str = '';
+					$.ajax({
+						// url: '/member/getProductContent1',
+						url: '/member/getDataList',
+						type: 'POST',
+						async: true,
+						data: {
+							sign: 9,//表示获取类型为用户采集的产品
+							p: p,
+							seachWord: seachWord,
+							userid:"{{{$userInfo.userid}}}"
+						},
+						timeout: 3000,
+						dataType: 'json',
+						success: function(data){
+							//console.log(data);
+							//location.reload();
+							if(!isEmptyObject(data.errmsg)) {
+								$.each(data.errmsg, function(i, n) {
+
+									// var u = data[i];
+									// alert(u);
+									var user = n.user;
+									str += '<div class="man-item friend_'+user.userid+'"><div class="item-box">';
+									if(user.userid == {{{$userid}}}) {
+										str += '<a href="/member/library">';
+									}else{
+										str += '<a href="/member/library/'+user.userid+'">';
+									}
+									str += '<div class="big-img"><img src="'+user.avatar+'" alt="'+user.nickname+'" /><h4>'+user.nickname+'</h4></div><p>'+user.librarycount+' 项目 &nbsp;'+user.productcount+' 产品</p><div class="small">';
+
+									if(n.pro != []){
+										var list = n.pro;
+										var count = list.length;
+
+										for (var i = 0; i < count; i++) {
+											str += '<img src="'+list[i].smallpic+'" />';
+										};
+
+									}
+									str += '</div></a>';
+
+									if(user.userid != {{{$userid}}}) {
+										// str += '<a href="/member/library">';
+										str += '<div class="edit" onClick="pLCirform('+user.userid+')">私信</div>';
+										str += '<div class="remove" onClick="delFriend('+user.userid+')">删除好友</div>';
+									}
+
+									str += '</div></div>';
+
+								});
+								$('#man-box .man-show').append(str);
+								// heightsize()
+								imgsize()
+								waterfull();
+								
+									$('#p').val(Number(p)+1);
+								
+								
+//									window.onload = function() {
+			                        	                        
+			                        
+//			                               };
+							}
+						}
+					});
+				}
+			});
+		});
+	</script>
+	</body>
+     <script>
+
+		//这里是添加人物时候的弹窗 导航切换效果
+		$("#custom .caption a").click(function() {
+			index = $("#custom .caption a").index(this);
+			$(this).addClass("cutv").siblings().removeClass("cutv");
+			console.log(index)
+			$("#custom .custom-box .content .container .mode").eq(index).css("display", "block").siblings().css("display", "none")
+		});
+	</script>
+</body>
+
+</html>

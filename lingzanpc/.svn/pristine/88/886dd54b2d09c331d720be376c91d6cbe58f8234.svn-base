@@ -1,0 +1,275 @@
+$(function(){
+	$(".container .box .boximg i").click(function(event){
+		event.preventDefault();
+		event.cancelBubble
+		event.stopPropagation();
+		$(window).scrollTop(0);
+		$('body').css("overflow",'hidden')
+	    $("#pick").css('display','block');
+	    
+		})
+	$(".container .box .boximg .col-tow").click(function(event){
+		event.preventDefault();
+		event.cancelBubble
+		event.stopPropagation();
+		$(window).scrollTop(0);
+		$('body').css("overflow",'hidden')
+	    $("#caiji").css('display','block');
+//	    var src=$(this).prev().attr("src");
+//	    $("#pick .pick-box .pick-content .pick-show .pick-left img").attr("src",src)
+	
+	})
+	//这里面是搜索框里面的 字段效果
+	 $('.panel-body').css({border:"none"});
+	  $('span.textbox').css({height:"50px",lineHeight:"50px"})
+	  $('.tagbox-label').css({height:"40px",lineHeight:"40px"})
+	  //这里是搜索框左侧选项卡
+	  $('.search .search-box .search-nav .search-select p').click(function(){
+	  	$('.search .search-box .search-nav .search-select .search-option').slideToggle();
+	  })
+	  
+	  $('.search .search-box .search-nav .search-select .search-option .search-item').click(function(){
+	  	var itemText=$(this).text();
+	  	$(this).offsetParent().offsetParent().find("p").text(itemText)
+	  })
+	  
+	  
+	  //这里是导航切换样式展示
+	  $('.search .search-box .search-nav .search-select .search-option .search-item').eq(0).click(function(){
+	  		$('.pagination-one').css("display","block");
+	    	$('.page-tow').hide()
+	    	
+	        waterfull();
+	       
+	    	
+	    })
+	  $('.search .search-box .search-nav .search-select .search-option .search-item').eq(1).click(function(){
+	    		$('.pagination-one').css("display","block");
+	    		$('.page-tow').hide()
+	    
+	    		waterfull();
+	    	
+	 
+	    })
+	  
+	    $('.search .search-box .search-nav .search-select .search-option .search-item').eq(2).click(function(){
+
+	    		$('.page-tow').css("display","block");
+	        	$('.pagination-one').hide()
+	           waterfull_2()
+	    
+	    })
+	    $('.search .search-box .search-nav .search-select .search-option .search-item').eq(3).click(function(){
+
+	    	$('.page-tow').css("display","block");
+	    	$('.pagination-one').hide()
+			waterfull_2()
+	    	
+	    })
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+//	    	 * 瀑布流的原理：
+//			 *   寻找到一排中高度最小的图片，然后排放在高度最小的图片的下面
+//			 *
+//			 * */
+			var container = document.getElementById("container");
+			var containers = document.getElementById("containers");
+			var btn = document.getElementsByClassName("add-btn").item(0);
+			var index = 0;
+			window.onload = function() {
+				waterfull();
+			};
+
+			function waterfull() {
+				var box = $(".pagination-one .container .box").get()
+//				var box=boxx.get()
+//				console.log(box[0].offsetWidth)
+
+				//计算一排中的能排放的数量
+				var containerWidth = document.documentElement.clientWidth;
+				if(containerWidth >= 1600) {
+					containerWidth = 1600;
+				}
+				var boxWidth = box[0].offsetWidth;
+				var num = Math.floor(containerWidth / boxWidth);
+				//居中操作
+				container.style.width = num * (boxWidth + 20) + "px";
+//				containers.style.width = num * (boxWidth + 20) + "px";
+				//摆放位置
+				var boxheight = [];
+				for(var i = 0; i < box.length; i++) {
+					if(i < num) { // 第一排中的元素
+						boxheight.push(box[i].offsetHeight);
+					} else {
+						//非第一排中的内容
+						box[i].style.position = "absolute";
+						//设置位置之前。必须知道当前要放在哪个盒子下面
+						var minBoxHeight = Math.min.apply(null, boxheight);
+						//根据最小值得到位置
+						//               var index = boxheight.indexOf(minBoxHeight);
+						var index = getIndex(boxheight, minBoxHeight);
+						box[i].style.top = (minBoxHeight + 20) + "px";
+						box[i].style.left = (box[index].offsetLeft - 10) + "px";
+						//把盒子的高度加回去
+						boxheight[index] = boxheight[index] + box[i].offsetHeight + 20;
+					}
+				}
+
+				btn.style.top = (box[box.length - 1].offsetTop + box[box.length - 1].offsetHeight + 20) + "px";
+
+			}
+			
+			function waterfull_2() {
+//				var box = $(".page-tow .container .box").get(0);
+                  
+                  var box = $(".page-tow .container .box").get()
+//				var box=boxx.get()
+//				console.log(box[0])
+				//计算一排中的能排放的数量
+				var containerWidth = document.documentElement.clientWidth;
+				if(containerWidth >= 1600) {
+					containerWidth = 1600;
+				}
+				var boxWidth = box[0].offsetWidth;
+				var num = Math.floor(containerWidth / boxWidth);
+				//居中操作
+//				container.style.width = num * (boxWidth + 20) + "px";
+				containers.style.width = num * (boxWidth + 20) + "px";
+				//摆放位置
+				var boxheight = [];
+				for(var i = 0; i < box.length; i++) {
+					if(i < num) { // 第一排中的元素
+						boxheight.push(box[i].offsetHeight);
+					} else {
+						//非第一排中的内容
+						box[i].style.position = "absolute";
+						//设置位置之前。必须知道当前要放在哪个盒子下面
+						var minBoxHeight = Math.min.apply(null, boxheight);
+						//根据最小值得到位置
+						//               var index = boxheight.indexOf(minBoxHeight);
+						var index = getIndex(boxheight, minBoxHeight);
+						box[i].style.top = (minBoxHeight + 20) + "px";
+						box[i].style.left = (box[index].offsetLeft - 10) + "px";
+						//把盒子的高度加回去
+						boxheight[index] = boxheight[index] + box[i].offsetHeight + 20;
+					}
+				}
+
+				btn.style.top = (box[box.length - 1].offsetTop + box[box.length - 1].offsetHeight + 20) + "px";
+
+			}
+				
+			
+
+			//过滤的形式
+			function getIndex(boxArr, minIndex) {
+				for(var i = 0; i < boxArr.length; i++) {
+					if(boxArr[i] == minIndex) {
+						return i;
+					}
+				}
+			}
+
+			/*
+			 *
+			 * 什么加载！
+			 *    滚动到底部的时候加载
+			 *        滚动
+			 *        底部的判断
+			 *
+			 *    页面的高度+滚动的高度 > 最后一张图片距离页面顶部的高度： 加载
+			 * */
+
+			var data = [{
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i1.jpg",
+				"text": "小猫"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i2.jpg",
+				"text": "小猫"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i3.jpg",
+				"text": "气死我了"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i4.jpg",
+				"text": "感觉要炸了"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i5.jpg",
+				"text": "都是欠收拾"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i6.jpg",
+				"text": "真的"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i7.jpg"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i8.jpg",
+				"text": "小猫"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i9.jpg",
+				"text": "小猫"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i10.jpg",
+				"text": "收拾一下都老实了"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i11.jpg",
+				"text": "小猫"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i12.jpg",
+				"text": "就是惯的"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i13.jpg",
+				"text": "小猫"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i14.jpg",
+				"text": "小猫"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i15.jpg",
+				"text": "日了够了"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i16.jpg",
+				"text": "小猫"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i17.jpg",
+				"text": "小猫"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i18.jpg",
+				"text": "小猫"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i19.jpg",
+				"text": "小猫"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i20.jpg",
+				"text": "小猫"
+			}];
+
+			function loadFlag() {
+				//获取页面高度
+				var pageHeight = document.documentElement.clientHeight;
+				//滚动的高度
+				var scrollHeight = document.documentElement.scrollTop || document.body.scrollTop;
+				//最后一张图片距离顶部的高度
+				var boxs = document.getElementsByClassName("box");
+				//        var boxHeight = boxs[boxs.length - 1].offsetTop;
+				var btn = document.getElementsByClassName("add-btn").item(0);
+				var boxHeight = btn.offsetTop + 49;
+				/* console.log("页面高度:"+pageHeight);
+				 console.log("滚动高度:"+scrollHeight);
+				 console.log("元素高度:"+boxHeight);*/
+				return pageHeight + scrollHeight > boxHeight ? true : false;
+			}
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+})

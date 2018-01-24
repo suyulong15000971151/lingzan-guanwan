@@ -1,0 +1,347 @@
+{{{include file="general/general.header.html"}}}
+<link rel="stylesheet" href="{{{$static_url}}}/css/index.css" />
+	<body>
+		<!--这里是商家采集弹窗-->
+		<div id="caiji">
+			<div class="caiji-box">
+				<div class="caiji-content">
+					<div class="caiji-title">
+						<span>采集</span>
+						<i></i>
+					</div>
+					<div class="caiji-show">
+						<div class="caiji-left">
+							<img src="{{{$static_url}}}/image/cai1.jpg" alt="" />
+							<h2>星期天沙发</h2>
+							<p>2014年到2016年，造作用两年时间了解中国城市中产阶级用户，通过获取新知，2017年起，我们开始挑选已有产品进行设计改造，让其保持高品质和高性价比，融入日常生活。与Z-Inhouse设计不同，Zelect更强调材质、功能性与日用需求，如材料舒适度、空间尺寸、清洁保养等。</p>
+						</div>
+						<div class="caiji-right">
+							<form id="colPro1" class="form-one" method="post" action="member/add_product">
+							<div class="output">
+								<input type="text" placeholder="搜索或创建新的项目" class="libname" name="libname"/>
+							</div>
+							<div class="select">
+								<div class="select-show">
+									<p>选择已创建的项目</p>
+									<div class="select-box">
+									</div>
+								</div>
+							</div>
+							<div class="creat">
+								<div class="creat-box" onClick="addProjectProduct()">
+									<span>创建项目</span>
+									<i></i>
+								</div>
+							</div>
+							<div class="label">
+								<input type="hidden" name="productId" id="productId"/>
+								<input type="hidden" name="libid" id="libid"/>
+								<input type="hidden" name="proid" id="proid"/>
+								<input type="text" placeholder="输入文字按空格或回撤以生成标签" name="tag"/>
+							</div>
+							</form>
+							<div class="submit">
+								<button onClick="collectProduct1()"> 确认添加</button>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--这里是关注弹窗-->
+		<div id="interset">
+			<div class="interset-box">
+				<div class="interset-content">
+					<div class="interset-title">
+						<span>关注</span>
+						<i></i>
+					</div>
+					<div class="interset-mid">
+						<div class="interset-item">
+							<div class="middle">
+								<img src="{{{$static_url}}}/image/cai1.jpg" alt="" />
+								<h2>亚里士多德</h2>
+							</div>
+							<p>21 项目 324 产品</p>
+							<div class="bottom">
+								<img src="{{{$static_url}}}/image/i16.jpg" alt="" />
+								<img src="{{{$static_url}}}/image/progect2.jpg" alt="" />
+								<img src="{{{$static_url}}}/image/progect3.jpg" alt="" / style="margin-right: 0;">
+							</div>
+						</div>
+					</div>
+
+					<div class="confirm">
+						<button class="guanzhu">确认关注</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<!--这是海报-->
+		<div id="wrapper">
+			<div class="fullwidthbanner-container">
+				<div class="fullwidthbanner">
+					<ul>
+						<li data-transition="3dcurtain-vertical" data-slotamount="15" data-masterspeed="300">
+							<img src="{{{$static_url}}}/image/1.jpg" alt="" />
+						</li>
+						<li data-transition="3dcurtain-vertical" data-slotamount="15" data-masterspeed="300" data-link="#">
+							<img src="{{{$static_url}}}/image/2.jpg" alt="" />
+						</li>
+						<li data-transition="3dcurtain-vertical" data-slotamount="15" data-masterspeed="300" data-link="#">
+							<img src="{{{$static_url}}}/image/3.jpg" alt="" />
+						</li>
+						<li data-transition="3dcurtain-vertical" data-slotamount="15" data-masterspeed="300">
+							<img src="{{{$static_url}}}/image/5.jpg" alt="" />
+						</li>
+						<li data-transition="3dcurtain-vertical" data-slotamount="15" data-masterspeed="300">
+							<img src="{{{$static_url}}}/image/6.jpg" alt="" />
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<!--这是标题-->
+		<div class="middle">
+			<div class="title">
+				<h1>精选推荐</h1>
+			</div>
+		</div>
+
+		<!--这是瀑布流-->
+
+		<div class="container" id="container">
+			<input type="hidden" id="p" value="{{{$p}}}" />
+			{{{foreach from=$list item=item}}}
+			{{{if $item.flag == 1}}}
+			<div class="box product_{{{$item.id}}}">
+				<a href="/collection/product/{{{$item.id}}}">
+					<div class="boximg">
+						<div class="img-out">
+						 <div class="load"></div>
+						<img src="{{{$item.pic}}}" alt="{{{$item.name}}}">
+						</div>
+						<i onclick="getLibraryList({{{$item.id}}})" style="display:block">采集</i>
+						<div class="col-tow" style="display:none">采集</div>
+						<p>{{{$item.name}}}</p>
+						<textarea style="display:none;">{{{$item.desc}}}</textarea>
+					</div>
+					<div class="behavior">
+						<div class="peson">
+							<img src="{{{$item.avatar}}}" alt="{{{$item.nickname}}}" />
+							<span>{{{$item.nickname}}}</span>
+						</div>
+						<div class="praise">
+							<span onclick="fabulous({{{$item.id}}})"></span>
+							<input type="hidden" id="puserid" value="{{{$item.userid}}}" />
+							<i class="zan_{{{$item.id}}}">{{{$item.zancount}}}</i>
+						</div>
+					</div>
+				</a>
+			</div>
+			{{{else}}}
+			<div class="box">
+				<a href="/library/project/{{{$item.id}}}" class="project_{{{$item.id}}}">
+					<div class="boximg">
+						<div class="img-out">
+						  <div class="load"></div>
+						  <img src="{{{$item.pic}}}" alt="{{{$item.name}}}">
+						</div>
+						<p>{{{$item.name}}}</p>
+						<em>项目</em>
+						<div class="rate" onClick="followProject({{{$item.id}}},{{{$item.userid}}})">关注</div>
+					</div>
+					<div class="behavior">
+						<div class="peson">
+							<img src="{{{$item.avatar}}}" alt="{{{$item.nickname}}}" />
+							<span>{{{$item.nickname}}}</span>
+						</div>
+						<div class="praise praise-tan" onclick="followWindow({{{$item.userid}}})">
+							<strong>+</strong>
+							<em>关注</em>
+						</div>
+					</div>
+				</a>
+			</div>
+			{{{/if}}}
+			{{{/foreach}}}
+		</div>
+		<!-- <script src="{{{$static_url}}}/js/common.js"></script> -->
+		<script src="{{{$static_url}}}/js/index.js"></script>
+		<script src="{{{$static_url}}}/js/procoll.js"></script>
+		<script type="text/javascript" src='{{{$static_url}}}/js/jquery-form.js'></script>
+		<!--<script type="text/javascript" src='{{{$static_url}}}/js/common.js'></script>-->
+
+		<script>
+			/*
+			 * 瀑布流的原理：
+			 *   寻找到一排中高度最小的图片，然后排放在高度最小的图片的下面
+			 *
+			 * */
+		
+				
+			
+			function heightsize(){
+//				var arr=$('.container .box .img-out img')
+				var length=$('.container .box').size()
+				for (var i=0;i<length;i++) {
+				var h=$('.container .box .img-out img').eq(i).get(0).offsetHeight;
+				
+				if(h<=40){
+					$('.container .box .img-out .load').eq(i).css('display','none')
+				}else{
+					$('.container .box .img-out .load').eq(i).css('display','block')
+					
+				}
+				}
+			}
+			heightsize()
+			
+			
+			var container = document.getElementById("container");
+//			var btn = document.getElementsByClassName("add-btn").item(0);
+			var index = 0;
+			window.onload = function() {
+				waterfull();
+			};
+
+			function waterfull() {
+				
+				$('.container .box img').css('opacity','1')
+				var box = document.getElementsByClassName("box");
+
+				//计算一排中的能排放的数量
+				var containerWidth = document.documentElement.clientWidth;
+				if(containerWidth >= 1600) {
+					containerWidth = 1600;
+				}
+				var boxWidth = box[0].offsetWidth;
+				var num = Math.floor(containerWidth / boxWidth);
+				//居中操作
+				container.style.width = num * (boxWidth + 20) + "px";
+				//摆放位置
+				var boxheight = [];
+				for(var i = 0; i < box.length; i++) {
+					if(i < num) { // 第一排中的元素
+						boxheight.push(box[i].offsetHeight);
+					} else {
+						//非第一排中的内容
+						box[i].style.position = "absolute";
+						//设置位置之前。必须知道当前要放在哪个盒子下面
+						var minBoxHeight = Math.min.apply(null, boxheight);
+						//根据最小值得到位置
+						//			   var index = boxheight.indexOf(minBoxHeight);
+						var index = getIndex(boxheight, minBoxHeight);
+						box[i].style.top = (minBoxHeight + 20) + "px";
+						box[i].style.left = (box[index].offsetLeft - 10) + "px";
+						//把盒子的高度加回去
+						boxheight[index] = boxheight[index] + box[i].offsetHeight + 20;
+					}
+				}
+
+//				btn.style.top = (box[box.length - 1].offsetTop + box[box.length - 1].offsetHeight + 20) + "px";
+
+			}
+
+			//过滤的形式
+			function getIndex(boxArr, minIndex) {
+				for(var i = 0; i < boxArr.length; i++) {
+					if(boxArr[i] == minIndex) {
+						return i;
+					}
+				}
+			}
+
+			function loadFlag() {
+				//获取页面高度
+				var pageHeight = document.documentElement.clientHeight;
+				//滚动的高度
+				var scrollHeight = document.documentElement.scrollTop || document.body.scrollTop;
+				//最后一张图片距离顶部的高度
+				var boxs = document.getElementsByClassName("box");
+				//var boxHeight = boxs[boxs.length - 1].offsetTop;
+//				var btn = document.getElementsByClassName("add-btn").item(0);
+//				var boxHeight = btn.offsetTop + 49;
+				/* console.log("页面高度:"+pageHeight);
+				 console.log("滚动高度:"+scrollHeight);
+				 console.log("元素高度:"+boxHeight);*/
+				return pageHeight + scrollHeight > boxHeight ? true : false;
+			}
+
+			function isEmptyObject(e) {
+				var t;
+				for (t in e)
+					return !1;
+				return !0;
+			}
+
+			$(function(){  
+				$(document).scroll(function(){
+					heightsize()
+					waterfull();
+					//滚动条滑动的时候获取滚动条距离顶部的距离
+					var scroll=$(document).scrollTop();
+					//屏幕的高度
+					var client=$(window).height()+100;
+					var h=$(document).height();
+					var flag=true;
+					if (h<=scroll+client) { // 到达底部时,加载新内容
+						if(flag==false){
+							return;
+						}
+						var p = $('#p').val();
+						var str = '';
+						$.ajax({
+							url: '/ajax/get_home_content',
+							type: 'POST',
+							async: true,
+							data: {
+								p: p
+							},
+							timeout: 3000,
+							dataType: 'json',
+							success: function(data){
+								//console.log(data);
+								//location.reload();
+								if(!isEmptyObject(data.errmsg)) {
+									$.each(data.errmsg, function(i, n) {
+										if(n.flag == 1) {
+											str += '<div class="box product_'+n.id+'" onmouseover="showCollection('+n.id+')" onmouseout="hideCollection('+n.id+')"><a href="/collection/product/'+n.id+'"><div class="boximg"><div class="img-out"><div class="load"></div><img src="'+n.pic+'" alt="'+n.name+'"></div><i onclick="collectionWindowOpen('+n.id+')" style="display:block">采集</i><div class="col-tow" style="display:none">采集</div><p>'+n.name+'</p><textarea style="display:none;">'+n.desc+'</textarea></div><div class="behavior"><div class="peson"><img src="'+n.avatar+'" alt="'+n.nickname+'" /><span>'+n.nickname+'</span></div><div class="praise"><span  onclick="fabulous('+n.id+')"></span><input type="hidden" id="puserid" value="'+n.userid+'" /><i class="zan_'+n.id+'">'+n.zancount+'</i></div></div></a></div>';
+										} else {
+											str += '<div class="box"><a href="/library/project/'+n.id+'" class="project_'+n.id+'"><div class="boximg"><div class="img-out"><div class="load"></div><img src="'+n.pic+'" alt="'+n.name+'"></div><p>'+n.name+'</p><em>项目</em><div class="rate" onClick="followProject('+n.id+','+n.userid+')">关注</div></div><div class="behavior"><div class="peson"><img src="'+n.avatar+'" alt="'+n.nickname+'" /><span>'+n.nickname+'</span></div><div class="praise praise-tan" onclick="followWindowOpen('+n.userid+')"><strong>+</strong><em>关注</em></div></div></a></div>';
+										}
+									});
+									$('#container').append(str);
+									heightsize()
+									waterfull();
+									
+										$('#p').val(Number(p)+1);
+									
+									
+//									window.onload = function() {
+				                        	                        
+				                        
+//			                               };
+								}
+							}
+						});
+					}
+				});
+			});
+		</script>
+		<script>
+			$("#EntTime").click(function() {
+				$(".calendar").css({
+					zIndex: "999999999",
+					left: "60%",
+					top: "17%"
+				})
+			})
+		</script>
+
+	</body>
+
+</html>

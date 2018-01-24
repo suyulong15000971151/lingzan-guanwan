@@ -1,0 +1,330 @@
+$(document).ready(function(){
+	//添加新的材思库入库
+	 $('.creat-box').click(function(){
+
+	 	var libname = $('.libname').val();
+	 	$.ajax({
+          url:'/product/addLibrary',
+          type:"post",
+          data:{libname:libname,libflg:1},//添加的是单片类型的才思库，所以libflg为1
+          success:function(ret){
+
+              if(ret != ''){
+
+                  var jsonarray = eval('('+ret+')');
+                  var msg = jsonarray.msg;
+                  var code = jsonarray.code;
+                  if(code != 200) {
+                  	alert(msg);
+                  	return false;
+                  }
+
+                  //给添加成功的材思库添加点击事件
+                 $('.select-box :first-child').attr('onclick','selectLibrary('+msg+')').addClass('addselect').siblings().removeClass("addselect");
+                 $('.selectLib').val(msg);
+
+              }
+
+          },   
+          error:function(){  
+              alert('网络异常，请稍后再试');
+              return false;
+          }
+      })
+
+	 })
+
+
+})
+
+
+//关注人
+function follow(userid) {
+
+ 	$.ajax({
+          url:'/product/follow',
+          type:"post",
+          data:{userid:userid},
+          success:function(ret){
+
+              if(ret != ''){
+
+                  var jsonarray = eval('('+ret+')');
+                  var msg = jsonarray.msg;
+                  var code = jsonarray.code;
+                  alert(msg);
+                  if(code == 200) {
+                    window.location.reload();
+                  }
+
+              }
+
+          },   
+          error:function(){  
+              alert('网络异常，请稍后再试');
+              return false;
+          }
+      })
+
+}
+
+
+//关注弹窗赋值
+function followWindow(userid) {
+
+ 	$.ajax({
+          url:'/product/getUserData',
+          type:"post",
+          data:{userid:userid},
+          success:function(ret){
+
+              if(ret != ''){
+
+                  var jsonarray = eval('('+ret+')');
+                  var msg = jsonarray.msg;
+                  var code = jsonarray.code;
+
+                  var avatar = msg[0].avatar;
+                  var nickname = msg[0].nickname;
+                  var product = msg.product;
+                  var text = msg[0].librarycount+' 项目 '+msg[0].productcount+' 产品 ';
+                  $('.interset-content .interset-mid .interset-item .middle img').attr('src',avatar);
+                  $('.interset-content .interset-mid .interset-item .middle h2').text(nickname);
+                  $('.interset-content .interset-mid .interset-item p').html(text);
+
+                  var count = product.length;
+
+                  var html = '';
+                  for (var i = 0; i < count; i++) {
+                  	var style = '';
+                  	if(i == 2){
+                  		style = 'style="margin-right: 0;"';
+                  	}
+                  	 html += '<img src="'+product[i].smallpic+'" alt="'+product[i].proname+'" '+style+'>';
+                  };
+
+                  $('.interset-content .interset-mid .interset-item .bottom').html(html);
+
+                  var userid = msg[0].userid;
+                  // alert(userid);
+                  $('.interset-content .confirm .guanzhu').attr('onclick','follow('+userid+')');
+
+              }
+
+          },   
+          error:function(){  
+              alert('网络异常，请稍后再试');
+              return false;
+          }
+      })
+
+}
+
+//选择材思库
+function selectLibrary(libid) {
+
+	$('.selectLib').val(libid);
+	$('.libId_'+libid).addClass('addselect').siblings().removeClass("addselect");
+
+}
+
+//点赞单品
+function fabulous(proid) {
+
+	var puserid = $('#puserid').val();
+
+	$.ajax({
+      url:'/product/fabulous',
+      type:"post",
+      data:{proid:proid, puserid:puserid},
+      success:function(ret){
+
+          if(ret != ''){
+
+              var jsonarray = eval('('+ret+')');
+              var msg = jsonarray.msg;
+              var code = jsonarray.code;
+              alert(msg);
+              window.location.reload()
+
+          }
+
+      },   
+      error:function(){  
+          alert('网络异常，请稍后再试');
+          return false;
+      }
+  })
+
+}
+
+//点击采集窗口，并赋值
+function getLibraryList(productId) {
+
+  var src = $(".product_"+productId).find('.boximg').children('img').attr('src');
+  var alt = $(".product_"+productId).find('.boximg').children('img').attr('alt');
+  var desc = $(".product_"+productId+" .boximg textarea").text();
+
+  $('#caiji .caiji-box .caiji-content .caiji-show .caiji-left img').attr('src',src);
+  $('#caiji .caiji-box .caiji-content .caiji-show .caiji-left h2').text(alt);
+  $('#caiji .caiji-box .caiji-content .caiji-show .caiji-left p').text(desc);
+  $('#productId').val(productId);
+
+  //搜索所有的材思库，并赋值
+  $.ajax({
+          url:'/library/getLibraryList',
+          type:"post",
+          success:function(ret){
+
+            $('.select-box').empty();
+
+              if(ret != ''){
+
+                  var jsonarray = eval('('+ret+')');
+                  var library = jsonarray.library;
+                  var html = '';
+                  var count = library.length;
+                  for(var i=0; i<count; i++){
+
+                    var libid = library[i].libid;
+                    var libname = library[i].libname;
+                    var project = library[i].project;
+                    var sum = project.length;
+
+                    html += '<div class="item library_'+libid+'"><p>'+libname+'</p><i onClick="showHide('+libid+')"></i>';
+                    html += '<div class="sub-item">';
+                        for(var n=0; n<sum; n++){
+                     html += '<div class="sub-icon project project_'+project[n].proid+'" proid="'+project[n].proid+'" libid="'+libid+'" onClick="changeProject('+project[n].proid+')">'+project[n].proname+'</div>';
+                     }
+                    html += '<div class="sub-add addProject_'+libid+'" onClick="addInput('+libid+')">添加子项目</div>';
+                    html += '</div>';
+                    html += '</div>';
+                }
+
+               $('.select-box').html(html);
+
+            }
+
+          },   
+          error:function(){  
+              alert('网络异常，请稍后再试');
+              return false;
+          }
+      })
+
+}
+
+//添加子项目
+function addInput(libid) {
+
+    var input = '<input type="text" class="proname" name="proname" libid="'+libid+'"/>';
+    $('.addProject_'+libid).before(input);
+
+    $('#caiji .sub-item .sub-icon').click(function() {
+        $(this).parent().parent().siblings().find(".sub-icon").removeClass('addselect')
+        $(this).addClass('addselect').siblings().removeClass("addselect");
+      })
+
+
+    //按下回车，添加子项目
+    $('#caiji .sub-item .sub-add').parent().find("input").on("keyup", function(event) {
+      if(event.keyCode == 13) {
+
+        var value = $(this).val();
+        var libid = $(this).attr('libid');
+
+        //ajax添加子项目
+        //搜索所有的材思库，并赋值
+      $.ajax({
+              url:'/member/add_project',
+              type:"post",
+              data:{proname:value,libid:libid},
+              success:function(ret){
+
+                  if(ret != ''){
+
+                      var jsonarray = eval('('+ret+')');
+                      var msg = jsonarray.msg;
+                      var code = jsonarray.code;
+                      if(code != 200) {
+                         alert(msg);
+                         return false;
+                      }
+
+                      $('.addProject_'+libid).before('<div class="sub-icon project project_'+msg+'" proid="'+msg+'" libid="'+libid+'" onClick="changeProject('+msg+')">' + value + '</div>');
+                      
+
+                    }
+
+              },   
+              error:function(){  
+                  alert('网络异常，请稍后再试');
+                  return false;
+              }
+          })
+
+        $(this).remove();
+
+
+      }
+
+    })
+
+}
+
+
+//采集单品到子项目
+function collectProduct1() {
+  var proid = $('.addselect').attr('proid');
+  $('#proid').val(proid);
+   var libid = $('.addselect').attr('libid');
+  $('#libid').val(libid);
+
+  $('.submit button').attr("disabled","true"); //设置变灰按钮
+  $('#colPro1').ajaxSubmit({
+
+  success:function(ret){
+
+      setTimeout("$('.submit button').removeAttr('disabled')",3000);
+      $('.submit').prev('p').remove();
+      var jsonarray = eval('('+ret+')');
+      var msg = jsonarray.msg;
+      var code = jsonarray.code;
+      if(code != 200){
+
+        $('.submit').before(msg);
+          return false;
+
+      }
+       $('#pick').css('display',"none")
+       window.location.href = "/home"; 
+
+  },   
+  error:function(){  
+    alert('网络异常，请稍后再试');
+    return false;
+  }
+
+})
+
+}
+
+
+//选择相对应的子项目
+function changeProject(proid) {
+
+    $('.project').removeClass('addselect');
+    $('.project_'+proid).addClass('addselect');
+}
+
+
+function showHide(libid) {
+
+  var showHide = $('.library_'+libid+' .sub-item').css('display');
+  if(showHide == 'block') {
+    $('.library_'+libid).children('.sub-item').attr('style','display:none');
+  }else{
+     $('.library_'+libid).children('.sub-item').attr('style','display:block');
+  }
+
+}

@@ -1,0 +1,36 @@
+{{{include file="general/general.header.html"}}}
+<link rel="stylesheet" href="{{{$static_url}}}/css/selflibrary.css" />
+
+	<body>
+
+		<!--这里是个人简介-->
+		<div class="manpeople">
+			<div class="man-box">
+				<div class="explain">
+					<h2>我的采集库</h2>
+					<h4>{{{$count}}}个项目</h4>
+				</div>
+			</div>
+		</div>
+		<!--这里是个人内容导航-->
+		<div class="man-show">
+			{{{foreach from=$library item=item}}}
+			<div class="man-item">
+				<div class="item-box">
+					<a href="/library/project_product_add/{{{$proid}}}/2/{{{$item.libid}}}">
+						<h4>{{{$item.libname}}}</h4>
+						<div class="big-img">{{{if $item.cover != ''}}} <img src="{{{$item.cover}}}" alt="" /> {{{else if isset($item.pic.0)}}}<img src="{{{$item.pic.0}}}" alt="" />{{{/if}}}</div>
+						<div class="small">
+							{{{if isset($item.pic.0)}}}<img src="{{{$item.pic.0}}}" alt="" />{{{/if}}}
+							{{{if isset($item.pic.1)}}}<img src="{{{$item.pic.1}}}" alt="" />{{{/if}}}
+							{{{if isset($item.pic.2)}}}<img src="{{{$item.pic.2}}}" alt="" />{{{/if}}}
+						</div>
+					</a>
+				</div>
+			</div>
+			{{{/foreach}}}
+		</div>
+	</body>
+
+</html>
+

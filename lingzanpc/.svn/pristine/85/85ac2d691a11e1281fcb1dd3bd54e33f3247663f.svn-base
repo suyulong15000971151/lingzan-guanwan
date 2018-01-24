@@ -1,0 +1,536 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Member_model extends MY_Model {
+
+	public function __construct() {
+
+		parent::__construct();
+
+	}
+
+	public function get_library_name($userid) {
+
+		$table = 'lz_library';
+		$select = 'libid, libname';
+		$where = array('userid' => $userid, 'isdel'=>0);
+		$order = 'libid desc';
+
+		$library = $this->select_data($table, $select, $where, $order, 0, 100);
+
+		return $library;
+
+	}
+
+	public function get_note($userid, $p) {
+
+		$p = $p * 17;
+		$table = 'lz_note';
+		$select = 'noteid, userid, notename, cover, content, shortdesc, commentcount, zancount';
+		$where = array('userid' => $userid,'isdel'=>0);
+		$order = 'noteid desc';
+
+		$note = $this->select_data($table, $select, $where, $order, $p, 17);
+		return $note;
+
+	}
+
+	public function get_follow($userid) {
+
+		$table = 'lz_user_follow';
+		$select = 'followid';
+		$where = array('userid' => $userid, 'followtype' => 4);
+		$order = 'id desc';
+
+		$followids = $this->select_data($table, $select, $where, $order, 0, 10);
+
+		$follow = array();
+		foreach ($followids as $key => $value) {
+
+			$redis_key = 'userid_'.$value['followid'];
+			$field = array('userid', 'avatar', 'nickname', 'productcount', 'librarycount');
+			$follow[$key]['user'] = $this->getRedis(5, $redis_key, 'set_user', $userid, $field);
+
+			$table = 'lz_product';
+			$select = 'proid, smallpic';
+			$where = array('userid' => $value['followid'],'isdel'=>0);
+			$order = 'proid desc';
+
+			$follow[$key]['pro'] = $this->select_data($table, $select, $where, $order, 0, 3);
+
+		}
+
+		return $follow;
+
+	}
+
+	public function get_fans($userid) {
+
+		$table = 'lz_user_follow';
+		$select = 'userid';
+		$where = array('followid' => $userid, 'followtype' => 4);
+		$order = 'id desc';
+
+		$fanids = $this->select_data($table, $select, $where, $order, 0, 10);
+
+		$fans = array();
+		foreach ($fanids as $key => $value) {
+
+			$redis_key = 'userid_'.$value['userid'];
+			$field = array('userid', 'avatar', 'nickname', 'productcount', 'librarycount');
+			$fans[$key]['user'] = $this->getRedis(5, $redis_key, 'set_user', $userid, $field);
+
+			$table = 'lz_product';
+			$select = 'proid, smallpic';
+			$where = array('userid' => $value['userid'],'isdel'=>0);
+			$order = 'proid desc';
+
+			$fans[$key]['pro'] = $this->select_data($table, $select, $where, $order, 0, 3);
+
+		}
+
+		return $fans;
+
+	}
+
+	public function get_friend($userid) {
+
+		$table = 'lz_friend';
+		$select = 'userid2';
+		$where = array('userid1' => $userid);
+		$order = 'id desc';
+
+		$fanids = $this->select_data($table, $select, $where, $order, 0, 10);
+
+		$friend = array();
+		foreach ($fanids as $key => $value) {
+
+			$redis_key = 'userid_'.$value['userid2'];
+			$field = array('userid', 'avatar', 'nickname', 'productcount', 'librarycount');
+			$friend[$key]['user'] = $this->getRedis(5, $redis_key, 'set_user', $userid, $field);
+
+			$table = 'lz_product';
+			$select = 'proid, smallpic';
+			$where = array('userid' => $value['userid2'],'isdel'=>0);
+			$order = 'proid desc';
+
+			$friend[$key]['pro'] = $this->select_data($table, $select, $where, $order, 0, 3);
+
+		}
+
+		return $friend;
+
+	}
+
+	public function add_product($data = array()) {
+
+		$table = 'lz_product';
+		return $this->insert_data($table, $data);
+
+	}
+
+	public function add_project($data = array()) {
+
+		$table = 'lz_project';
+		return $this->insert_data($table, $data);
+
+	}
+
+	public function add_library($data = array()) {
+
+		$table = 'lz_library';
+		return $this->insert_data($table, $data);
+
+	}
+
+	public function add_note($data = array()) {
+
+		$table = 'lz_note';
+		return $this->insert_data($table, $data);
+
+	}
+
+	//获取数据详情
+	public function getData($table, $select = '*', $where) {
+
+		return $this->select_data_row($table, $select, $where);
+	}
+
+	//修改数据
+	public function edit_table($table, $where, $data = array()) {
+
+		return $this->update_data($table, $where, $data);
+
+	}
+
+	//查询数量
+	public function getTableCount($table, $where = array()) {
+
+		return $this->get_one_table_count($table, $where);
+	}
+
+	//减少数量
+	public function field_reduce($table, $fieldArr, $where = array()) {
+
+		return $this->field_decr($table, $fieldArr, $where);
+
+	}
+
+	//增加数量
+	public function field_increase($table, $where, $field) {
+
+		return $this->incr_data($table, $where, $field);
+
+	}
+
+	//获取一个表的数据
+	public function getTableData($table, $select = '*', $where, $order = ''){
+
+		return $this->select_data3($table, $select, $where, $order);
+
+	}
+
+	//删除数据
+	public function deleteData($table, $where) {
+
+		$this->db->delete($table, $where);
+		return $this->db->affected_rows();
+
+	}
+
+	//添加数据
+	public function addData($table, $data) {
+
+		return $this->insert_data($table, $data);
+
+	}
+
+
+	//查询某个值是否存在
+	public function select_fieldVal_exit($table,$noWhere=array(),$where=array(),$offset=0,$pageSize=1,$order='') {
+
+		$condition = '';
+		if(!empty($noWhere)){
+
+			foreach ($noWhere as $k1 => $v1) {
+				$condition .= ' and '.$k1.' != "'.$v1.'"' ;
+			}
+
+		}
+		if(!empty($where)){
+
+			foreach ($where as $k2 => $v2) {
+				$condition .= ' and '.$k2.' = "'.$v2.'"' ;
+			}
+
+		}
+		
+		$limit = '';
+		if(!empty($pageSize)) {
+			$limit = ' limit '.$offset.','.$pageSize;
+		}
+
+		$orders = '';
+		if(!empty($order)) {
+			$orders = ' order by '.$order;
+		}
+		$sql = " select * from ".$table." where 1 = 1 ".$condition." ".$orders." ".$limit;
+		$query = $this->db->query($sql);
+		if($pageSize == 1) {
+			$result = $query->row_array();
+		}else{
+			$result = $query->result_array();
+		}
+		// echo $this->db->last_query();
+		return $result;
+
+	}
+
+	//获取材思库下的产品与子项目列表
+	public function selflibrarytow($libid, $userid, $p) {
+
+		//除了自己创建的材思库，还要查询自己参与的材思库
+		$p = $p * 20;
+		$table = 'lz_project_member';
+		$select = 'proid, groupid';
+		$order = 'id desc';
+		$where = array('userid'=>$userid);
+		$project = $this->select_data($table, $select, $where, $order, $p, 20);
+		$list2 = array();
+		foreach ($project as $key => $value) {
+			$proid = $value['proid'];
+			$product = $this->select_data_row('lz_project','proname, cover', array('proid'=>$proid,'libid'=>$libid,'isdel'=>0));
+			if(empty($product)) {
+				continue;
+			}
+			$list2[$key]['id'] = $proid;
+			$list2[$key]['name'] = $product['proname'];
+			$list2[$key]['pic'] = $product['cover'];
+			$list2[$key]['groupid'] = $value['groupid'];
+
+			//查找这个子项目的三个清单
+			$where = array('proid'=>$proid,'fid'=>0,'isdel'=>0);
+			$projectProduct = $this->select_data('lz_project_product', 'proid2', $where, 'sid desc', 0, 3);
+			$list2[$key]['list'] = array();
+			foreach ($projectProduct as $k => $v) {
+
+				$where = array('proid'=>$v['proid2'],'isdel'=>0);
+				$productList = $this->select_data_row('lz_product','proid, proname, smallpic', $where);
+				if($productList['smallpic'] != ''){
+					$list2[$key]['list'][] = $productList; 
+				}
+
+			}
+
+		}
+
+		return $list2;
+
+	}
+
+	//改变字段
+	public function changeField($table, $fieldArr, $where = array()) {
+
+		return $this->field_edit($table, $fieldArr, $where);
+	}
+
+	//获取今天添加数据的数量
+	public function getAddCountByToDay($table, $field, $where=array()) {
+		$startTime = strtotime(date('Y-m-d'));
+		$endTime = strtotime(date('Y-m-d',strtotime('+1 day')));
+		$condiction = 'and unix_timestamp(`'.$field.'`) >= '.$startTime.' and unix_timestamp(`'.$field.'`) < '.$endTime ;
+
+		if(!empty($where)) {
+			foreach ($where as $k => $v) {
+				$condiction .= ' and '.$k.' = '.$v;
+			}
+
+		}
+		$sql = 'select count(*) as count from '.$table.' where 1 = 1 '.$condiction;
+		$query = $this->db->query($sql);
+		$result = $query->row_array();
+		// echo $this->db->last_query();
+		return $result;
+
+	}
+
+	//获取参与的项目列表
+	public function get_partin_project($userid,$p) {
+
+		$p = $p * 20;
+		$noWhere = array('groupid'=>10);
+		$where = array('userid'=>$userid);
+		$project = $this->select_fieldVal_exit('lz_project_member',$noWhere,$where,$p,20,'id desc');
+		$list = array();
+		foreach ($project as $key => $value) {
+			$proid = $value['proid'];
+			$product = $this->select_data_row('lz_project','proname, cover', array('proid'=>$proid,'isdel'=>0));
+			if(empty($product)) {
+				continue;
+			}
+			$list[$key]['id'] = $proid;
+			$list[$key]['name'] = $product['proname'];
+			$list[$key]['pic'] = $product['cover'];
+			$list[$key]['groupid'] = $value['groupid'];
+
+			//查找这个子项目的三个清单
+			$where = array('proid'=>$proid,'fid'=>0,'isdel'=>0);
+			$projectProduct = $this->select_data('lz_project_product', 'proid2', $where, 'sid desc', 0, 3);
+			$list[$key]['list'] = array();
+			foreach ($projectProduct as $k => $v) {
+				$where = array('proid'=>$v['proid2'],'isdel'=>0);
+				$productList = $this->select_data_row('lz_product','proid, proname, smallpic', $where);
+				if($productList['smallpic'] != ''){
+					$list[$key]['list'][] = $productList; 
+				}
+
+			}
+
+		}
+
+		return $list;
+
+	}
+
+	//获取参与的项目个数
+	public function getPartInProjectCount($userid) {
+
+		$sql = 'select count(*) as count from lz_project_member where userid = '.$userid.' and groupid != 10 and proid in (select proid from lz_project where isdel = 0)';
+		$query = $this->db->query($sql);
+		$result = $query->row_array();
+		return $result;
+
+	}
+
+	//获取关注的项目个数
+	public function getFollowProjectCount($userid) {
+
+		$sql = 'select count(*) as count from lz_user_follow where userid = '.$userid.' and followtype = 2 and followid in (select proid from lz_project where isdel = 0)';
+		$query = $this->db->query($sql);
+		$result = $query->row_array();
+		return $result;
+
+	}
+
+	//获取关注的笔记个数
+	public function getFollowNoteCount($userid) {
+
+		$sql = 'select count(*) as count from lz_user_follow where userid = '.$userid.' and followtype = 3 and followid in (select noteid from lz_note where isdel = 0)';
+		$query = $this->db->query($sql);
+		$result = $query->row_array();
+		return $result;
+
+	}
+
+
+	//查找相关手机号或用户名的用户
+	public function getUserData($userinfo,$userid) {
+
+		$sql = 'select userid,groupid,nickname,avatar,sex,city from lz_user where userid != '.$userid.' and nickname = "'.$userinfo.'" or mobile = "'.$userinfo.'"' ;
+		$query = $this->db->query($sql);
+		$result = $query->result_array();
+		return $result;
+
+	}
+
+
+	//获取产品
+	public function get_product($userid, $p) {
+
+		$p = $p * 20;
+
+		$sql = "SELECT * FROM lz_product WHERE userid = ".$userid." and isdel = 0 and oproid = 0 ORDER BY addtime DESC LIMIT {$p},20";
+		$query = $this->db->query($sql);
+		// echo $this->db->last_query();
+		$product = $query->result_array();
+
+		foreach ($product as $key => $value) {
+
+			if($userid != $this->user->userid) {
+
+				$where = array('action' => 3, 'action_detail' => 31, 'action_userid' => $this->user->userid, 'action_stype' => 2, 'action_sid' => $value['proid']);
+				$msg = $this->select_data_row('lz_msg', 'id', $where);
+				$product[$key]['alreadyZan'] = 0;
+				if(!empty($msg)) {
+
+					$product[$key]['alreadyZan'] = 1;
+				}
+
+			}
+
+			$product[$key] = array_merge($product[$key], $this->get_simple_user($value['userid']));
+
+		}
+
+		return $product;
+
+	}
+
+	public function get_library($userid, $p) {
+
+		$p = $p * 18;
+
+		$sql = "SELECT * FROM lz_library WHERE userid = ".$userid." and isdel = 0 ORDER BY libid DESC LIMIT {$p},18";
+		$query = $this->db->query($sql);
+		// echo $this->db->last_query();
+		$library = $query->result_array();
+
+		return $library;
+
+	}
+
+	//获取我关注的子项目
+	public function get_follow_project($userid, $p) {
+
+		$p = $p * 20;
+		$where = array('userid'=>$userid,'followtype'=>2);
+		$follow = $this->select_data('lz_user_follow', 'followid', $where, 'id desc', $p, 20);
+
+		$list = array();
+		foreach ($follow as $key => $value) {
+			$proid = $value['followid'];
+			$project = $this->select_data_row('lz_project','proname, cover', array('proid'=>$proid,'isdel'=>0));
+			if(empty($project)) {
+				continue;
+			}
+			$list[$key]['id'] = $proid;
+			$list[$key]['name'] = $project['proname'];
+			$list[$key]['pic'] = $project['cover'];
+			// $list[$key]['groupid'] = $value['groupid'];
+
+			//查找这个子项目的三个清单
+			$where = array('proid'=>$proid,'fid'=>0,'isdel'=>0);
+			$projectProduct = $this->select_data('lz_project_product', 'proid2', $where, 'sid desc', 0, 3);
+			$list[$key]['list'] = array();
+			foreach ($projectProduct as $k => $v) {
+				$where = array('proid'=>$v['proid2'],'isdel'=>0);
+				$productList = $this->select_data_row('lz_product','proid, proname, smallpic', $where);
+				if($productList['smallpic'] != ''){
+					$list[$key]['list'][] = $productList; 
+				}
+
+			}
+
+		}
+
+		return $list;
+	}
+
+	//获取产品
+	public function get_storeup($userid, $p) {
+
+		$p = $p * 20;
+
+		$sql = "SELECT * FROM lz_product WHERE userid = ".$userid." and isdel = 0 and oproid != 0 ORDER BY addtime DESC LIMIT {$p},20";
+		$query = $this->db->query($sql);
+		// echo $this->db->last_query();
+		$product = $query->result_array();
+
+		foreach ($product as $key => $value) {
+
+			if($userid != $this->user->userid) {
+
+				$where = array('action' => 3, 'action_detail' => 31, 'action_userid' => $this->user->userid, 'action_stype' => 2, 'action_sid' => $value['proid']);
+				$msg = $this->select_data_row('lz_msg', 'id', $where);
+				$product[$key]['alreadyZan'] = 0;
+				if(!empty($msg)) {
+
+					$product[$key]['alreadyZan'] = 1;
+				}
+
+			}
+
+			$product[$key] = array_merge($product[$key], $this->get_simple_user($value['userid']));
+
+		}
+
+		return $product;
+
+	}
+
+
+	public function get_follow_note($userid, $p) {
+
+		$p = $p * 18;
+
+		$select = 'noteid, userid, notename, cover, content, shortdesc, commentcount, zancount';
+		$where = array('userid'=>$userid,'followtype'=>3);
+		$follow = $this->select_data('lz_user_follow', 'followid', $where, 'id desc', $p, 18);
+
+		$list = array();
+		foreach ($follow as $key => $value) {
+			$noteid = $value['followid'];
+			$where = array('noteid' => $noteid,'isdel'=>0);
+			$note = $this->select_data_row('lz_note',$select, $where);
+			if(empty($note)) {
+				continue;
+			}
+			$list[] = $note;
+
+		}
+		return $list;
+
+	}
+
+
+}

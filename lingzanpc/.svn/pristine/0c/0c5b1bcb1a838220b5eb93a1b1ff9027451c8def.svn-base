@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="{{{$static_url}}}/css/common.css" />
+		<link rel="stylesheet" href="{{{$static_url}}}/css/register.css" />
+		<title>注册</title>
+	</head>
+
+	<body>
+		<div class="log">
+			<div class="log-box">
+				<div class="content">
+					<div class="log-img">
+						<img src="{{{$static_url}}}/image/denglulog.png" alt="" />
+					</div>
+					<p>创建新账号</p>
+					<div class="user">
+						<div class="error">{{{$error_msg}}}</div>
+						<form method="post" action="">
+							<input name="frames" type="hidden" value="yes" />
+							<input type="hidden" name="proid" value="{{{$proid}}}" />
+							<div class="user-name">
+								<input type="text" name="nickname" placeholder="输入一个闪亮的昵称" class="nick"/>
+								<i></i>
+							</div>
+							<div class="user-name user-psd">
+								<input type="password" name="password" placeholder="输入6-20位密码" class="password"/>
+								<i></i>
+								<span></span>
+							</div>
+							<div class="user-name user-phone">
+								<input type="text" name="mobile" placeholder="支持大陆手机号" class="mobile"/>
+								<i></i>
+							</div>
+							<div class="verifical">
+								<input type="text" name="verifical" /><button id="send_verifical_mobile" class="yanzheng">发送验证码</button>
+							</div>
+							<button type="submit" class="regit">立即体验</button>
+						</form>
+						<div class="tip">
+							<span>已有账号？</span>
+							<a href="/login">直接登录</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script src="{{{$static_url}}}/js/common.js"></script>
+		<script src="{{{$static_url}}}/js/register.js"></script>
+		<script src="{{{$static_url}}}/js/myajax.js"></script>
+	</body>
+
+</html>

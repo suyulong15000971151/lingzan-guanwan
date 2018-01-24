@@ -1,0 +1,12 @@
+.request{width:100%;height:100%;background:url(../image/logbanner.jpg) no-repeat center center;position: absolute;top:0}
+.request .request-box{width:600px;height:300px;background:#fff;position: absolute;top:50%;left:50%;transform: translate(-50%,-50%);}
+.request .request-box .title{width:100%;box-sizing: border-box;border-bottom: 1px solid #eee;line-height: 50px;height:50px}
+.request .request-box .title span{display: inline-block;text-indent: 20px;font-size: 15px;}
+.request .request-box .title i{text-align: center;display: inline-block;width:40px;height:20px;float:right;margin:15px;line-height: 20px;background:#f6f6f6;border:1px solid #666}
+.request .request-box .request-con{width:100%;overflow: hidden;}
+.request .request-box .request-con .prompt{text-align: center;font-size: 14px;color:#8d8d8d;margin:40px auto 20px}
+.request .request-box .request-con .prompt em{color:#000}
+.request .request-box .request-con p{font-weight: 600;color:#000;text-align: center;margin:10px auto 10px}
+.request .request-box .request-con .subs{width:100%;overflow: hidden;display: flex;justify-content: center;}
+.request .request-box .request-con .subs button{display: inline-block;width:100px;height:30px;line-height: 30px;text-align: center;margin:20px}
+.request .request-box .request-con .subs button:hover{background:#055cfc;color:#fff}

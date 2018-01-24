@@ -1,0 +1,67 @@
+/*这是项目标题*/
+.imgBox{display: inline-block;width:100px;height:100px;}
+.bg{width:100%;height:100%}
+body{background:#f2f2f2}
+.service{width:1100px;overflow: hidden;margin:20px auto 30px;padding-bottom:20px}
+.service .service-left{width:760px;overflow: hidden;float:left;background:#fff}
+
+.service .service-left .title{width:100%;height: 60px;box-sizing: border-box;border-bottom: 1px solid #f2f2f2;}
+.service .service-left .title h3{font-size: 18px;line-height: 60px;width:90%;margin:0 auto 0}
+.service .service-left .search{width:90%;overflow: hidden;margin:0 auto 0}
+.service .service-left .search .search-title{width:100%;overflow: hidden;}
+.service .service-left .search .search-title h4{font-size: 16px;line-height: 30px;margin-top:10px}
+.service .service-left .search .search-title p{font-size: 12px;color:#666;line-height: 20px;}
+.service .service-left .search .man{width:100%;overflow: hidden;margin:10px 0 20px;font-size: 13px;}
+.service .service-left .search .man img{display: inline-block;width:40px;height:40px;border-radius: 50%;vertical-align: middle;margin-right:5px}
+.service .service-left .search .item{width:100%;overflow: hidden;}
+.service .service-left .search .item h5{font-size: 14px;line-height: 25px;}
+.service .service-left .search .item p{font-size: 12px;line-height: 20px;}
+.service .service-left .search .item img{display: block;margin:10px auto 10px}
+
+.service .service-right{width:320px;height:100%;float:right;}
+.service .service-right .fade-back{width:100%;height:130px;background:#fff;margin-bottom:20px;box-sizing: border-box;padding-top:45px;line-height: 40px;}
+.service .service-right .fade-back .fade-box{width:190px;height:40px;background:#7f7f7f;border-radius: 5px;text-indent: 80px;position: relative;margin:0 auto;font-size: 14px;color:#fff;cursor: pointer;}
+.service .service-right .fade-back .fade-box i{display: inline-block;width:21px;height:13px;background:url(../image/evelope.png) no-repeat;position: absolute;top:14px;left:50px}
+.service .service-right .recomed{width:100%;height:700px;background:#fff}
+.service .service-right .recomed .recomed-box{width:90%;margin:0 auto;}
+.service .service-right .recomed .recomed-box h4{height:50px;line-height: 50px;border-bottom: 1px solid #eee;margin-bottom:10px;font-size:14px}
+.service .service-right .recomed .recomed-box a{display: block;line-height: 30px;color:#666}
+
+
+/*反馈意见弹窗*/
+#opinion{width:100%;height:100%;position: fixed;background:rgba(0,0,0,.4);z-index: 9999999;top:0;left:0;display: none;}
+#opinion .opinion-box{width:100%;height:100%;position: relative;}
+#opinion .opinion-box .content{width:670px;height:630px;background:#fff;position: absolute;left:50%;top:50%;transform: translate(-50%,-50%);}
+#opinion .opinion-box .content h5{line-height: 40px;margin:20px auto 20px;font-size: 16px;width:90%;margin:20px auto 20px}
+
+#opinion .opinion-box .content .email{height:40px;line-height: 40px;position: relative;box-sizing: border-box;border-bottom: 1px solid #e5e5e4;width:90%;margin:0 auto 0}
+#opinion .opinion-box .content .email span{display: inline-block;height:40px;line-height: 40px;left:5px;position: absolute;top:0;color:#000}
+#opinion .opinion-box .content .email input{width:100%;height:35px;outline: none;border: none;text-indent: 70px;}
+
+#opinion .opinion-box .content .titles{height:40px;line-height: 40px;position: relative;box-sizing: border-box;border-bottom: 1px solid #e5e5e4;width:90%;margin:0 auto 0}
+#opinion .opinion-box .content .titles span{display: inline-block;height:40px;line-height: 40px;left:5px;position: absolute;top:0;color:#000}
+#opinion .opinion-box .content .titles input{width:100%;height:35px;outline: none;border: none;text-indent: 70px;}
+
+#opinion .opinion-box .content .context{line-height: 40px;position: relative;box-sizing: border-box;border-bottom: 1px solid #e5e5e4;width:90%;margin:0 auto 0}
+#opinion .opinion-box .content .context span{display: inline-block;height:40px;line-height: 40px;left:5px;position: absolute;top:0;color:#000}
+#opinion .opinion-box .content .context textarea{width:100%;height:35px;outline: none;border: none;text-indent: 70px;line-height: 35px;width:100%;height:350px;resize: none;background:url(../image/textareabg.gif) repeat}
+
+#opinion .opinion-box .content .set{width:90%;overflow: hidden;margin:20px auto 0}
+#opinion .opinion-box .content .set button{width:100px;height:30px;background:#779e00;line-height: 30px;text-align: center;color:#fff;outline: none;border:none}
+#opinion .opinion-box .content .set span{margin-left:30px;display: inline-block;width:100px;height:30px;background:#dcdcdc;line-height: 30px;text-align: center;color:#000;outline: none;border:none}
+
+
+/*成功的弹窗*/
+#win{width:100%;height:100%;position: absolute;top:0;left;0;background:rgba(0,0,0,.6);z-index: 999999;display: none;}
+.anima{animation: alls 0.5s ease-in-out;}
+#win .win-box{width:100%;height:100%;position: relative;}
+#win .win-box .com{width:250px;height:100px;background:#fff;position: absolute;top:50%;left:50%;transform: translate(-50%,-50%);}
+#win .win-box .com img{width:40px;height:40px;float:left;margin:30px 100px;}
+#win .win-box .com i{display: inline-block;width:12px;height:12px;position: absolute;top:10px;right:10px;background:url(../image/delete_03.png) no-repeat;background-size: 100% 100%;float:right}
+#win .win-box .com span{text-align: center;}
+
+@keyframes alls{
+  0%{transform: scale(0);}
+  100%{transform: scale(1);}
+  /*100%{transform: scale(0);}*/
+}

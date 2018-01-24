@@ -1,0 +1,135 @@
+body{background:#f6f6f6}
+/*这是banner区域*/
+.manpeople{width:100%;height:200px;border-bottom: 1px solid #eee;background:#fff}
+.manpeople .man-box{width:300px;height:150px;margin:0 auto 0;overflow: hidden;display: flex;box-sizing: border-box;padding-top:50px}
+.manpeople .man-box .potato{display: inline-block;width:100px;height:100%;float:left;margin-right:10px}
+.manpeople .man-box .potato img{width:100px;height:100px;border-radius: 50%;}
+.manpeople .man-box .explain{display: inline-block;float:left;flex: 1;}
+.manpeople .man-box .explain h2{font-size: 23px;margin:10px 0 5px}
+.manpeople .man-box .explain p{font-size: 14px;color:#a2a2a2;margin-bottom:5px; white-space: nowrap;}
+.manpeople .man-box .explain strong{}
+.manpeople .man-box .explain i{display: inline-block;width:20px;height:20px;background:url(../image/vip.png) no-repeat;background-size:100% 100%;vertical-align: middle;margin-right:5px}
+/*这里是个人导航也*/
+.man-nav{width:100%;height:100px;background:#fff;overflow: hidden;}
+.man-nav .navigation{overflow: hidden;width:100%;height:100%;text-align: center;}
+.man-nav .navigation a{display: inline-block;height:100%;font-size: 18px;line-height: 25px;color:#919191;padding:0 40px}
+.man-nav .navigation a span{margin-top:20px;display: inline-block;}
+/*这里是下面展示的内容*/
+.man-show{width:100%;overflow: hidden;background:#f6f6f6;padding:30px 0 0;width:95%;margin:0 auto 0;padding-bottom:40px}
+.man-show .man-item{width:250px;height:320px;background:#fff;display: inline-block;float:left;border:1px solid #eae9e9;margin-right:20px;overflow: hidden;position: relative;}
+.man-show .man-item p{font-size:20px;line-height: 40px;text-indent:100px;margin-top:130px;height:40px;background:url(../image/creat.png) no-repeat 50px center}
+.man-show .man-item .edit{margin-top:10px;width:100%;height:30px;font-size:14px;line-height: 30px;text-align: center;border:1px solid #dcdcdc;box-sizing: border-box;}
+
+.man-show .man-item .item-box{width:230px;overflow: hidden;display: block;margin:10px auto 0}
+.man-show .man-item .item-box h4{font-size:14px;line-height: 25px;margin-bottom: 5px;}
+.man-show .man-item .item-box .big-img{width:100%;height:150px;overflow: hidden;margin-bottom:5px}
+.man-show .man-item .item-box .big-img img{width:100%;height:100%;}
+.man-show .man-item .item-box .small{width:260px;overflow: hidden;}
+.man-show .man-item .item-box .small img{display: inline-block;float:left;width:70px;height:70px;margin-right:10px}
+.man-show .man-item .state{position: absolute;right:-100px;top:10px;width:100%;height:30px;background: #055cfc;text-align: center;color:#fff;line-height: 30px;transform: rotate(45deg);transform-origin:center ;}
+.man-show .man-item .production{background:#000;}
+.man-show .man-item .win{background:#ababab;}
+.add-btn{
+            width: 100%;
+            background-color: #ff7d3c;
+            height: 50px;
+            text-align: center;
+            font-size: 30px;
+            font-weight: 700;
+            position: absolute;
+            color: #fff;
+            display: none;
+        }
+.man-nav .navigation a.man-act{color:#000;font-weight: 600;}        
+        
+
+/*瀑布流*/
+ .container { position: relative;margin: 20px auto 0;}
+.container .box{width:255px;float: left;-webkit-transition: left .3s ease-in-out, top .3s ease-in-out;background-color: #fff;margin: 10px 10px;border-radius: 5px;overflow: hidden;position: relative;}
+.container .box .delete{border-radius: 5px;display: inline-block;width:40px;height:25px;text-align: center;font-size: 14px;line-height: 25px;background:#f6f6f6;color:#000;position: absolute;top:10px;left:10px;z-index: 1000;opacity: 0;}
+.container .box .edit{border-radius: 5px;display: inline-block;width:40px;height:25px;text-align: center;font-size: 14px;line-height: 25px;background:#055cfc;color:#fff;position: absolute;top:10px;right:10px;z-index: 1000;opacity: 0;}
+.container .box:hover .edit{opacity: 1;}
+.container .box:hover .delete{opacity: 1;}
+
+.container .box:hover{box-shadow:0 5px 5px #999;}
+.container .box .boximg{position: relative;}
+.container .box .boximg h3{text-indent: 10px;white-space: nowrap;text-overflow: ellipsis;margin-bottom:10px}
+.container .box .boximg i{display: inline-block;width:50px;height:30px;background:#055cfc;text-align: center;line-height: 30px;color:#fff;font-size: 15px;position: absolute;top:13px;right:13px;border-radius: 5px;opacity: 0;}
+.container .box .boximg span{display: inline-block;font-size: 16px;color:#055cfc;line-height: 20px;text-indent: 10px;margin:10px 0 0}
+.container .box .boximg p{font-size:15px;color:#000;width:230px;display: block;margin:0 auto 0;word-break: break-all;text-overflow: ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3; overflow: hidden;height:60px}
+.container .box .boximg em{width:60px;height:20px;display: inline-block;line-height: 20px;text-align: center;background: #b9b9b9;font-size: 15px;color:#fff;border-radius: 5px;margin:20px 10px 0}
+.container .box img {width: 255px;padding-bottom: 10px;}
+.container .box a:hover .boximg>img:hover{opacity: 0.8;}
+.container .box .behavior{width:90%;margin:30px auto 0;border-top:1px solid #eee}
+.container .box .behavior .peson{display: inline-block;overflow: hidden;}
+.container .box .behavior .peson img{width:20px;height:20px;display: inline-block;float:left;margin-top:23px}
+.container .box .peson span{display: inline-block;line-height: 40px;float:left;margin-top:10px;margin-left:10px}
+.container .box .behavior .praise{display: inline-block;overflow: hidden;float:right}
+.container .box .behavior .praise span{display: inline-block;width:20px;height:20px;background:url(../image/zan.png) no-repeat;float:left;margin-top:15px;margin-right:10px}
+.container .box .behavior .praise strong{display: inline-block;width:20px;height:20px;text-align: center;line-height: 20px;float:left;margin-top:15px;margin-right:0px;color:#989898}
+.container .box .behavior .praise em{display: inline-block;height:20px;font-size:15px;line-height: 20px;color:#000;float:left;margin-top: 15px;}
+.container .box a{display: block;}
+
+
+.container .box a{display: block;position: relative;}
+.container .box .uploads-pro{float:left;width:100%;height:40px;line-height: 40px;text-indent: 100px;font-size: 18px;background:url(../image/notebiji_03.png) no-repeat 60px center;background-size: 30px 30px;margin-top:160px}
+.container .box .upload-box{width:255px;height:320px}
+
+/*这里是发布笔记弹窗*/
+#note{width:100%;height:100%;position:absolute;top:0;left:0;background:rgba(0,0,0,.7);z-index: 999999;display: none;}
+#note .note-box{width:100%;height:100%;position:relative}
+#note .note-box .note-content{width:500px;height:630px;overflow: hidden;background:#fff;transform: translate(-50%,-50%);position: absolute;top:50%;left:50%;}
+#note .note-box .note-content .title{width:100%;height:60px;line-height: 60px;box-sizing: border-box;font-size: 18px;font-weight: 600;text-indent:20px;border:1px solid #e8e8e8}
+#note .note-box .note-content .title i{display: inline-block;width:16px;height:16px;background:url(../image/delete_03.png) no-repeat;background-size: 100% 100%;float:right;margin:22px}
+#note .note-box .note-content .container{width:100%;height:540px;overflow-x: hidden;padding-bottom:10px}
+#note .note-box .note-content .container .uptitle{width:450px;margin:20px auto 10px;overflow: hidden;}
+#note .note-box .note-content .container .uptitle input{width:100%;height:40px;outline: none;box-sizing: border-box;text-indent: 15px;}
+#note .note-box .note-content .container .add{width:450px;overflow: hidden;margin:10px auto 10px;height:30px;line-height: 30px;position:relative}
+#note .note-box .note-content .container .add input{display: inline-block;width:80px;height:30px;position: absolute;top:0;left:80px;opacity: 0;}
+
+
+#note .note-box .note-content .container .add span{float:left;width:80px;height:30px;text-indent: 25px;font-size: 15px;background:url(../image/caiadd_03.png) no-repeat left center;background-size: 17px 17px;display: inline-block;}
+#note .note-box .note-content .container .add i{width:80px;height:30px;background:url(../image/notetu_03.png) no-repeat left center;background-size: 63px 26px;display: inline-block;}
+#note .note-box .note-content .container .backg{width:450px;height:300px;background:url(../image/notebacg_03.jpg) no-repeat;background-size: 100% 100%;margin:20px auto 10px;position:relative}
+#note .note-box .note-content .container .backg input{display: inline-block;width:100%;height:100%;position:absolute;opacity: 0;}
+#note .note-box .note-content .container .bg{width:450px;margin:0 auto 0;overflow: hidden;color:#9a9a9a}
+#note .note-box .note-content .container .bot{width:100%;height:100px;background:#f3f3f3;border-top:1px solid #666;position: relative;clear: both;margin-top:10px}
+#note .note-box .note-content .container .bot button{display: block;position:absolute;left:50%;top:50%;transform: translate(-50%,-50%);float:left;width:300px;height:40px;line-height: 40px;color:#fff;text-align: center;font-size:16px;background:#055cfc;outline: none;border:none;}
+
+/*这里是编辑笔记弹窗*/
+#edit{width:100%;height:100%;position:absolute;top:0;left:0;background:rgba(0,0,0,.7);z-index: 999999;display: none;}
+#edit .edit-box{width:100%;height:100%;position:relative}
+#edit .edit-box .edit-content{width:500px;height:630px;overflow: hidden;background:#fff;transform: translate(-50%,-50%);position: absolute;top:50%;left:50%;}
+#edit .edit-box .edit-content .title{width:100%;height:60px;line-height: 60px;box-sizing: border-box;font-size: 18px;font-weight: 600;text-indent:20px;border:1px solid #e8e8e8}
+#edit .edit-box .edit-content .title i{display: inline-block;width:16px;height:16px;background:url(../image/delete_03.png) no-repeat;background-size: 100% 100%;float:right;margin:22px}
+#edit .edit-box .edit-content .container{width:100%;height:540px;overflow-x: hidden;padding-bottom:10px}
+#edit .edit-box .edit-content .container .uptitle{width:450px;margin:20px auto 10px;overflow: hidden;}
+#edit .edit-box .edit-content .container .uptitle input{width:100%;height:40px;outline: none;box-sizing: border-box;text-indent: 15px;}
+#edit .edit-box .edit-content .container .add{width:450px;overflow: hidden;margin:10px auto 10px;height:30px;line-height: 30px;position: relative;}
+#edit .edit-box .edit-content .container .add input{display: inline-block;width:80px;height:30px;position: absolute;top:0;left:80px;opacity: 0;}
+#edit .edit-box .edit-content .container .add span{float:left;width:80px;height:30px;text-indent: 25px;font-size: 15px;background:url(../image/caiadd_03.png) no-repeat left center;background-size: 17px 17px;display: inline-block;}
+#edit .edit-box .edit-content .container .add i{width:80px;height:30px;background:url(../image/notetu_03.png) no-repeat left center;background-size: 63px 26px;display: inline-block;}
+#edit .edit-box .edit-content .container .backg{width:450px;height:300px;background:url(../image/notebacg_03.jpg) no-repeat;background-size: 100% 100%;margin:20px auto 10px;position: relative;}
+#edit .edit-box .edit-content .container .backg input{display: inline-block;width:100%;height:100%;position:absolute;opacity: 0;}
+#edit .edit-box .edit-content .container .bg{width:450px;margin:0 auto 0;overflow: hidden;color:#9a9a9a}
+#edit .edit-box .edit-content .container .bot{width:100%;height:100px;background:#f3f3f3;border-top:1px solid #666;position: relative;clear: both;margin-top:10px}
+#edit .edit-box .edit-content .container .bot button{display: block;position:absolute;left:50%;top:50%;transform: translate(-50%,-50%);float:left;width:300px;height:40px;line-height: 40px;color:#fff;text-align: center;font-size:16px;background:#055cfc;outline: none;border:none;}
+#edit .edit-box .edit-content .container .text{width:450px;margin:10px auto 10px;position: relative;}
+#edit .edit-box .edit-content .container .text textarea{width:100%;line-height: 20px;box-sizing: border-box;padding:10px;min-height: 100px;}
+#edit .edit-box .edit-content .container .text i{display: inline-block;position:absolute;right:5px;bottom:30px;width:30px;height:30px;background:url(../image/publicdelete.png) no-repeat;background-size: 100% 100%;}
+#edit .edit-box .edit-content .container .picture{width:450px;margin:10px auto 10px}
+#edit .edit-box .edit-content .container .picture .pic-item{width:100%;height:300px;position: relative;}
+#edit .edit-box .edit-content .container .picture .pic-item img{width:100%;height:100%}
+#edit .edit-box .edit-content .container .picture .pic-item i{width:30px;height:30px;display: inline-block;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);background:url(../image/publicdelete.png) no-repeat;background-size: 100% 100%;}
+
+.inputtext{width:450px;overflow: hidden;margin:10px auto 0;position:relative}
+.inputtext textarea{width:100%;overflow:hidden;box-sizing: border-box;padding:10px;}
+.inputtext i{display: inline-block;width:12px;height:12px;background:url(../image/delete_03.png) no-repeat;background-size: 100% 100%;position: absolute;top:9px;right:5px}
+
+.imgBox{width:450px;height:300px;margin:10px auto 0;position: relative;}
+.imgBox .bg{width:100%;height:100%}
+.imgBox .bg i{width:20px;height:20px;background:url(../image/publicdelete.png) no-repeat;background-size: 100% 100%;position: absolute;top:50%;left:50%;transform: translate(-50%,-50%);}
+/*背景样式修改*/
+.imgBoxbg{width:450px;height:300px;margin:10px auto 10px;position: relative;}
+.imgBoxbg .bgb{width:100%;height:100%}
+.imgBoxbg .bgb i{width:20px;height:20px;background:url(../image/publicdelete.png) no-repeat;background-size: 100% 100%;position: absolute;top:50%;left:50%;transform: translate(-50%,-50%);}

@@ -1,0 +1,52 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Note extends MY_controller {
+
+	public function __construct() {
+
+		$this->_class = 'note';
+		parent::__construct();
+
+		$this->load->model('note_model');
+
+	}
+
+	/**
+	 * 单品列表页
+	 */
+	public function info() {
+
+		$noteid = (int) $this->uri->segment(3) ? $this->uri->segment(3) : redirect('/home');
+		//查询这个文章的内容
+		$redis_key = "noteid_".$noteid;
+		$arr = array('noteid','userid','notename','content','cover','commentcount','zancount','isshowcover','addtime');
+		$data = $this->note_model->getRedisData(9, $redis_key, 'set_note', $noteid, $arr);
+
+		//查询这个文章的评论
+		$where = array('sourcetype'=>3,'sourceid'=>$noteid);
+		$comment = $this->note_model->getTableData('lz_comment', $select = 'userid,comment,addtime', $where, 'id desc');
+		$arr = array('nickname','avatar');
+		foreach ($comment as $k => $v) {
+			$userid = $v['userid'];
+			$redis_key = 'userid_'.$userid;
+			$user = $this->note_model->getRedisData(5, $redis_key, 'set_user', $userid, $arr);
+			$comment[$k]['nickname'] = $user['nickname'];
+			$comment[$k]['avatar'] = $user['avatar'];
+		}
+
+		//查询这个文章的作者的头像昵称
+		$userid = $data['userid'];
+		$redis_key = 'userid_'.$userid;
+		$userInfo = $this->note_model->getRedisData(5, $redis_key, 'set_user', $userid, $arr);
+		// var_dump($data);
+		$content = json_decode($data['content'],true);
+		$this->assign('data', $data);
+		$this->assign('content', $content);
+		$this->assign('comment', $comment);
+		$this->assign('userInfo', $userInfo);
+		$this->display('note/note.info.html');
+
+	}
+
+}

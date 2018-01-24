@@ -1,0 +1,347 @@
+{{{include file="general/general.header.html"}}}
+<link rel="stylesheet" href="{{{$static_url}}}/css/selffriends.css" />
+<style>
+#edit .edit-box .edit-content .edit-container .form-one .img-load i{display: inline-block; width: 12px; height: 12px; position: absolute; right: 5px; top: 5px; background: url({{{$static_url}}}/image/delete_03.png) no-repeat; background-size: 100% 100%;}
+.man-sub{width:100%;height:60px;overflow: hidden;text-align: center;line-height: 60px;font-size: 16px;}
+.man-sub a{display: inline-block;padding:0 10px;color:#afafaf}
+.man-sub a.actv{color:#000}
+#man-box{margin:0 auto 0}
+</style>
+		<!--这里是添加好友弹窗-->
+		<div id="friend">
+			<div class="friend-box">
+				<div class="content">
+					<div class="title">
+						<span>站内添加好友</span>
+						<div class="go-back">返回</div>
+						<i></i>
+					</div>
+
+					<div class="friend-con">
+						<div class="box-one">
+							<div class="look">
+								<!-- <form action="/member/userData" method="post"> -->
+									<i>*</i><span>好友用户名或手机号</span><input type="text" name="userinfo" class="userinfo"/><button onClick="selectUser()">查找</button>
+								<!-- </form> -->
+							</div>
+							<!-- <div class="look-end" style="overflow-y:scroll; overflow-x:hidden; height:240px; "> -->
+							<div class="look-end">
+								<div class="looktext">搜索结果0个</div>
+							</div>
+						</div>
+
+						<div class="box-tow">
+							<div class="sub-peson">
+								<img src="img/person.png" alt="" />
+								<div class="text">
+									<h3>李某某</h3>
+									<p>上海市 男 设计师</p>
+								</div>
+
+							</div>
+
+							<div class="send">
+								<i>*</i><span>输入留言信息</span><input type="text" placeholder="我是...." name="content" id="msg_apply"/><button>发送</button>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--成功弹窗-->
+		<div id="win" class="">
+			<div class="win-box">
+				<div class="com">
+					<img src="{{{$static_url}}}/image/laught_03.png" alt="" style="position:relative;"/>
+					<span></span>
+					<i></i>
+				</div>
+			</div>
+		</div>
+
+		<!--这里是个人简介-->
+		<div class="manpeople">
+			<div class="man-box">
+				<div class="potato">
+					<img src="{{{$userInfo.avatar}}}" alt="{{{$userInfo.nickname}}}" />
+				</div>
+				<div class="explain">
+					<h2>{{{$userInfo.nickname}}}</h2>
+					<p>{{{if $userInfo.groupid == 10 || $userInfo.groupid == 20}}}<i></i>{{{/if}}}<span>{{{if $userInfo.sex == 1}}} 男 {{{else if $userInfo.sex == 2}}} 女 {{{else if $userInfo.sex == 0}}} 保密 {{{/if}}} {{{$address}}} {{{if $userInfo.groupid == 0}}} 普通用户 {{{else if $userInfo.groupid == 10}}} 设计师 {{{else if $userInfo.groupid == 20}}} 品牌 {{{/if}}}</span></p>
+					<strong>{{{$userInfo.signature}}}</strong>
+				</div>
+			</div>
+		</div>
+		<!--这里是个人内容导航-->
+		<div class="man-nav">
+			<div class="navigation">
+
+				<a href="/member/library/{{{$userInfo.userid}}}">
+					<span>{{{$userInfo.librarycount+$partInCount+$followCount}}}</span>
+					<p>项目</p>
+				</a>
+				<a href="/member/collection/{{{$userInfo.userid}}}">
+					<span>{{{$userInfo.productcount}}}</span>
+					<p>产品</p>
+				</a>
+				<a href="/member/note/{{{$userInfo.userid}}}">
+					<span>{{{$userInfo.notecount + $collectionCount}}}</span>
+					<p>笔记</p>
+				</a>
+				<a href="/member/friend/{{{$userInfo.userid}}}" class="man-act">
+					<span>{{{$userInfo.followcount+$userInfo.fanscount+$userInfo.friendcount}}}</span>
+					<p>人脉</p>
+				</a>
+			</div>
+		</div>
+		<div class="man-sub">
+			{{{if $userInfo.userid == $userid}}}
+			<a href="/member/friend/{{{$userInfo.userid}}}" class="actv">我的好友</a>
+			<a href="/member/follow/{{{$userInfo.userid}}}">我的关注</a>
+			<a href="/member/fans/{{{$userInfo.userid}}}">我的粉丝</a>
+			{{{else}}}
+			<a href="/member/friend/{{{$userInfo.userid}}}" class="actv">他的好友</a>
+			<a href="/member/follow/{{{$userInfo.userid}}}">他的关注</a>
+			<a href="/member/fans/{{{$userInfo.userid}}}">他的粉丝</a>
+			{{{/if}}}
+	    </div>
+	    <div id="man-box">
+		<div class="man-show" id="man-show">
+			{{{if $userInfo.userid == $userid}}}
+			<div class="man-item plus">
+				<p>添加好友</p>
+			</div>
+			{{{/if}}}
+
+			{{{foreach from=$friend item=item}}}
+			<div class="man-item friend_{{{$item.user.userid}}}">
+				<div class="item-box">
+					<a href="/member/library/{{{$item.user.userid}}}">
+					<div class="big-img">
+						<img src="{{{$item.user.avatar}}}" alt="{{{$item.user.nickname}}}" />
+						<h4>{{{$item.user.nickname}}}</h4>
+					</div>
+					<p>{{{$item.user.librarycount}}} 项目 &nbsp;{{{$item.user.productcount}}} 产品</p>
+					<div class="small">
+						{{{foreach from=$item.pro item=item2}}}
+						<img src="{{{$item2.smallpic}}}" alt="" />
+						{{{/foreach}}}
+					</div>
+					</a>
+					{{{if $userInfo.userid == $userid}}}
+					<div class="edit" onClick="pLCirform({{{$item.user.userid}}})">私信</div>
+					<div class="remove" onClick="delFriend({{{$item.user.userid}}})">删除好友</div>
+					{{{/if}}}
+				</div>
+			</div>
+			{{{/foreach}}}
+
+		</div>
+        </div>
+		<!-- // <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script> -->
+		<!-- // <script src="js/common.js"></script> -->
+		<script src="{{{$static_url}}}/js/index.js"></script>
+		<script src="{{{$static_url}}}/js/selffriend.js"></script>
+
+		<script>
+			//这里是个人中心项目盒子居中
+		 //盒子居中
+   function boxCenter(){
+   	  var clientWid=document.body.clientWidth;
+    var boxnum=Math.floor(clientWid/270)
+    console.log(boxnum)
+    var boxwid=document.getElementById('man-show')
+    boxwid.style.width=(boxnum*270)+'px'
+    document.getElementById('man-box').style.width=(boxnum*270-20)+'px'
+   }
+ 
+   window.onresize=function(){
+   	boxCenter()
+   }
+  boxCenter()
+		
+		
+		
+		
+		function selectUser() {
+
+			var userinfo = $('.userinfo').val();
+			if(userinfo == '') {
+				return false;
+			}
+
+			$('.look-pson').remove();
+			$.ajax({
+	          url:'/member/userData',
+	          type:"post",
+	          data:{userinfo:userinfo},
+	          success:function(ret){
+
+	              if(ret != ''){
+
+	                  var jsonarray = eval('('+ret+')');
+	                  var count = jsonarray.count;
+	                  var data = jsonarray.data;
+
+		              	var html = '';
+		              	for (var i = 0; i < count; i++) {
+		              		// alert(i);
+			              	html += '<div class="look-pson user_'+data[i].userid+'">';
+			              	html += '<img src="'+data[i].avatar+'" alt="'+data[i].nickname+'" />';
+							html += '<div class="text">';
+							html += '<h3>'+data[i].nickname+'</h3>';
+							html += '<p>'+data[i].sex+' '+data[i].city+' '+data[i].groupid+'</p>';
+							html += '<span onClick="changeConfirm('+data[i].userid+')"> + 好友</span>';
+							html += '</div>';
+							html += '</div>';
+
+						}
+
+						$('.looktext').after(html);
+						$('.looktext').text('搜索结果'+count+'个');
+						return false;
+
+	               }
+
+	               $('.looktext').text('搜索结果0个');
+
+	          },
+	          error:function(){  
+	              alert('网络异常，请稍后再试');
+	              return false;
+	          }
+
+	      	})
+		}
+
+		//切换添加好友窗口
+		function changeConfirm(userid) {
+			$('#friend .friend-con .box-one').css('display','none');
+			$('#friend .title span').css('display','none');
+			$('#friend .title .go-back').css('display','block');
+			$('#friend .friend-con .box-tow').css('display','block');
+			var img = $('.user_'+userid).find('img').attr('src');
+			var nickname = $('.user_'+userid).find('img').attr('alt');
+			var info = $('.user_'+userid).find('p').text();
+			$('.box-tow .sub-peson img').attr({'src':img,'alt':nickname});
+			$('.box-tow .sub-peson .text h3').text(nickname);
+			$('.box-tow .sub-peson .text p').text(info);
+			$('.box-tow .send button').attr('onClick',"addApplyMsg("+userid+")");
+		}
+
+		//发送认证消息
+		function addApplyMsg(userid) {
+
+			var content = $.trim($('#msg_apply').val());
+			$.ajax({
+	          url:'/member/addApplyMsg',
+	          type:"post",
+	          data:{userid:userid,content:content},
+	          success:function(ret){
+
+	              if(ret != ''){
+
+	                  var jsonarray = eval('('+ret+')');
+	                  var msg = jsonarray.msg;
+	                  var code = jsonarray.code;
+	                  // alert(msg);
+
+	                   $('#win .win-box .com span').html(msg).attr('style',"position:absolute; top:73px; left:50%;transform:translateX(-50%)");
+						$('#win').css('display',"block").addClass('anima');
+						window.location.reload()
+
+
+	               }
+
+	          },   
+	          error:function(){  
+	              // alert('网络异常，请稍后再试');
+	              $('#win .win-box .com span').html('网络异常，请稍后再试').attr('style',"position:absolute; top:73px; left:50%;transform:translateX(-50%)");
+					$('#win').css('display',"block").addClass('anima');
+					window.location.reload()
+	          }
+
+	      	})
+
+		}
+
+		//删除好友
+		function delFriend(userid) {
+
+			var r = confirm("确定删除该好友吗");
+		    if(r == false){
+		       return false;
+		    }
+			$.ajax({
+	          url:'/member/delFriend',
+	          type:"post",
+	          data:{userid:userid},
+	          success:function(ret){
+
+	              if(ret != ''){
+
+	                  var jsonarray = eval('('+ret+')');
+	                  var msg = jsonarray.msg;
+	                  var code = jsonarray.code;
+	                  $('#win .win-box .com span').html(msg).attr('style',"position:absolute; top:73px; left:50%;transform:translateX(-50%)");
+						$('#win').css('display',"block").addClass('anima');
+						window.location.reload()
+
+	               }
+
+	          },   
+	          error:function(){  
+	              $('#win .win-box .com span').html('网络异常，请稍后再试').attr('style',"position:absolute; top:73px; left:50%;transform:translateX(-50%)");
+					$('#win').css('display',"block").addClass('anima');
+					window.location.reload()
+	          }
+
+	      	})
+
+		}
+
+		//私信弹窗
+		function pLCirform(userid) {
+
+			$(window).scrollTop(0);
+
+			var uname = $('.friend_'+userid).find('.item-box').find('.big-img').find('h4').text();
+
+			$('#chat_userid2').val(userid);
+			$('#chat_uname').html(uname);
+
+			var str = '';
+			$.ajax({
+				url: '/ajax/user_chat',
+				type: 'POST',
+				async: false,
+				data: {
+					userid2: userid
+				},
+				timeout: 5000,
+				dataType: 'json',
+				success: function(data){
+					$.each(data.errmsg, function (i, n) {
+						if(n.sendtype == 2) {
+							str += '<div class="item"><div class="people"><img src="'+n.avatar2+'" alt="" /></div><div class="text"><p>'+n.content+'</p><span>'+n.sendtime+'</span><em></em></div></div>';
+						} else {
+							str += '<div class="item host"><div class="text"><p>'+n.content+'</p><span>'+n.sendtime+'</span><em></em></div><div class="people"><img src="'+n.avatar1+'" alt="" /></div></div>';
+						}
+					});
+					$('#chat_container').html(str);
+					lct = document.getElementById('chat_container');
+					lct.scrollTop = Math.max(0, lct.scrollHeight - lct.offsetHeight);
+				}
+			});
+
+			$('body').css("overflow", 'hidden')
+			$("#letter").css("display","block")
+
+		}
+
+		</script>
+	</body>
+
+</html>

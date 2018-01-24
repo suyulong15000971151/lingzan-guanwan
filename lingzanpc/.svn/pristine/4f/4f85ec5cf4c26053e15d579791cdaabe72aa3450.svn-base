@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:wb="http://open.weibo.com/wb">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>登录</title>
+		<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+		<link rel="stylesheet" href="{{{$static_url}}}/css/common.css" />
+		<link rel="stylesheet" href="{{{$static_url}}}/css/log.css" />
+		<script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<div class="log">
+			<div class="log-box">
+				<div class="content">
+					<div class="log-img">
+						<img src="{{{$static_url}}}/image/denglulog.png" alt="" />
+					</div>
+					<p><wb:like appkey="3mDsIu" type="number"></wb:like>欢迎回来</p>
+					<div class="user">
+						<div class="error">{{{$error_msg}}}</div>
+						<form method="post" action="/login">
+							<input name="frames" type="hidden" value="yes" />
+							<input type="hidden" name="proid" value="{{{$proid}}}" />
+							<div class="user-phone">
+								<input type="text" name="mobile" placeholder="请输入手机号" class="mobile" />
+								<i></i>
+							</div>
+							<div class="user-phone user-psd">
+								<input type="password" name="password" placeholder="请输入密码" class="password"/>
+								<i></i>
+							</div>
+							<div class="expain">
+								<a href="/login/forget" class="forget">忘记密码？</a>
+								<a href="/login/register" class="resigin">免费注册</a>
+							</div>
+							<button type="submit" class="regit">登录</button>
+						</form>
+						<!--这里是第三方登录-->
+						<!--
+						<div class="third-log">
+							<a href="/login/login_qq"><img src="{{{$static_url}}}/image/qq.png" alt="" /></a>
+							<a href="/login/login_sina"><img src="{{{$static_url}}}/image/weibo.png" alt="" /></a>
+							<a href="/login/login_wechat"><img src="{{{$static_url}}}/image/weixin.png" alt="" /></a>
+						</div>
+						-->
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script src="{{{$static_url}}}/js/common.js"></script>
+		<script src="{{{$static_url}}}/js/log.js"></script>
+		<script>
+			//这是密码验证	
+			function pss(str) {
+				if(str == '') {
+//					alert("密码不能为空")
+					$(".error").text("密码不能为空")
+					return false
+				} else {
+					var reg = /^[\w]{6,12}$/
+						//						以1开始后面加10位数字
+					if(reg.test(str)) {
+					return true
+						
+						
+					} else {
+					$(".error").text("密码格式错误！")
+					return false
+						
+					}
+				}
+			}
+
+			$('button.regit').click(function() {
+//				event.preventDefault()
+					$(".error").text("")
+				
+				var val = $('.mobile').val();
+				if(val == "") {
+//					alert('手机不能为空');
+					$(".error").text("手机不能为空")
+					return false
+					
+				} else {
+//					var re = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/
+					var res = /^1\d{10}$/
+					var reg = /^[\w]{6,12}$/
+					
+					if(res.test(val)) {
+						var ps = $('.password').val();
+						pss(ps)
+					
+						if($(".error").text()==""){
+							return true
+						}else{
+							return false
+						}
+
+					} else {
+					$(".error").text("手机格式错误！")
+					return false
+						
+					}
+				}
+
+			})
+		</script>
+	</body>
+
+</html>

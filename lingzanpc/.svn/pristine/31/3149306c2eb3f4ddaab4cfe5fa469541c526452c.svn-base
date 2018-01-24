@@ -1,0 +1,370 @@
+{{{include file="general/general.header.html"}}}
+		<link rel="stylesheet" href="{{{$static_url}}}/css/library.css" />
+		<!--这里是关注弹窗-->
+		<div id="interset">
+			<div class="interset-box">
+				<div class="interset-content">
+					<div class="interset-title">
+						<span>关注</span>
+						<i></i>
+					</div>
+					<div class="interset-mid">
+						<div class="interset-item">
+							<div class="middle">
+								<img src="{{{$static_url}}}/image/cai1.jpg" alt="" />
+								<h2>亚里士多德</h2>
+							</div>
+							<p>21 项目 324 产品</p>
+							<div class="bottom">
+								<img src="{{{$static_url}}}/image/i16.jpg" alt="" />
+								<img src="{{{$static_url}}}/image/progect2.jpg" alt="" />
+								<img src="{{{$static_url}}}/image/progect3.jpg" alt="" / style="margin-right: 0;">
+							</div>
+						</div>
+					</div>
+
+					<div class="confirm">
+						<button class="guanzhu">确认关注</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<!--这是海报-->
+		<div class="banner">
+			<h1>你所见到的灵感，可直接转换成真实项目</h1>
+			<div class="project">
+				<a href="library?type=1"><img src="{{{$static_url}}}/image/progect1.jpg" alt="" />
+					<p>会所</p>
+				</a>
+				<a href="library?type=2"><img src="{{{$static_url}}}/image/progect2.jpg" alt="" />
+					<p>餐饮</p>
+				</a>
+				<a href="library?type=3"><img src="{{{$static_url}}}/image/progect3.jpg" alt="" />
+					<p>宾馆</p>
+				</a>
+				<a href="library?type=4"><img src="{{{$static_url}}}/image/progect4.jpg" alt="" />
+					<p>公共</p>
+				</a>
+				<a href="library?type=5"><img src="{{{$static_url}}}/image/progect5.jpg" alt="" />
+					<p>办公</p>
+				</a>
+				<a href="library?type=6"><img src="{{{$static_url}}}/image/progect6.jpg" alt="" />
+					<p>私宅</p>
+				</a>
+			</div>
+		</div>
+
+		<!--这是标题-->
+		<div class="middle" style="height:10px;">
+		</div>
+
+		<!--这是瀑布流-->
+
+		<div class="container" id="container">
+			<input type="hidden" id="p" value="{{{$p}}}" />
+			<input type="hidden" id="type" value="{{{$type}}}" />
+			{{{foreach from=$list item=item}}}
+			<div class="box">
+				<a href="/library/project/{{{$item.id}}}" class="project_{{{$item.id}}}">
+					<div class="boximg">
+						<img src="{{{$item.pic}}}" alt="" />
+						<p>{{{$item.name}}}</p>
+						<em>项目</em>
+						{{{if $myInfo.userid != $item.userid}}}
+							{{{if $item.alreadyFollow == 0}}}
+							<div class="rate" onClick="followProject({{{$item.id}}},{{{$item.userid}}})">关注</div>
+							{{{else}}}
+							<div class="rate1">已关注</div>
+							{{{/if}}}
+						{{{/if}}}
+					</div>
+					<div class="behavior">
+						<div class="peson">
+							<img src="{{{$item.avatar}}}" alt="{{{$item.nickname}}}" />
+							<span>{{{$item.nickname}}}</span>
+
+						</div>
+						{{{if $myInfo.userid != $item.userid}}}
+							{{{if $item.alreadyFollow1 == 0}}}
+							<div class="praise praise-tan" onclick="followWindow({{{$item.userid}}},{{{$item.id}}})">
+								<strong>+</strong>
+								<em>关注</em>
+							</div>
+							{{{else}}}
+							<div class="praise">
+								<strong></strong>
+								<em>已关注</em>
+							</div>
+							{{{/if}}}
+						{{{/if}}}
+					</div>
+				</a>
+			</div>
+			{{{/foreach}}}
+
+			<div class="add-btn">
+				加载更多
+			</div>
+		</div>
+		<!-- // <script src="{{{$static_url}}}/js/common.js"></script> -->
+		<script src="{{{$static_url}}}/js/library.js"></script>
+		<script src="{{{$static_url}}}/js/same.js"></script>
+		<script>
+
+			/*
+			 * 瀑布流的原理：
+			 *   寻找到一排中高度最小的图片，然后排放在高度最小的图片的下面
+			 *
+			 * */
+			var container = document.getElementById("container");
+			var btn = document.getElementsByClassName("add-btn").item(0);
+			var index = 0;
+			window.onload = function() {
+				waterfull();
+			};
+
+			function waterfull() {
+				var box = document.getElementsByClassName("box");
+
+				//计算一排中的能排放的数量
+				var containerWidth = document.documentElement.clientWidth;
+				if(containerWidth >= 1600) {
+					containerWidth = 1600;
+				}
+				var boxWidth = box[0].offsetWidth;
+				var num = Math.floor(containerWidth / boxWidth);
+				//居中操作
+				container.style.width = num * (boxWidth + 20) + "px";
+				//摆放位置
+				var boxheight = [];
+				for(var i = 0; i < box.length; i++) {
+					if(i < num) { // 第一排中的元素
+						boxheight.push(box[i].offsetHeight);
+					} else {
+						//非第一排中的内容
+						box[i].style.position = "absolute";
+						//设置位置之前。必须知道当前要放在哪个盒子下面
+						var minBoxHeight = Math.min.apply(null, boxheight);
+						//根据最小值得到位置
+						//               var index = boxheight.indexOf(minBoxHeight);
+						var index = getIndex(boxheight, minBoxHeight);
+						box[i].style.top = (minBoxHeight + 20) + "px";
+						box[i].style.left = (box[index].offsetLeft - 10) + "px";
+						//把盒子的高度加回去
+						boxheight[index] = boxheight[index] + box[i].offsetHeight + 20;
+					}
+				}
+
+				btn.style.top = (box[box.length - 1].offsetTop + box[box.length - 1].offsetHeight + 20) + "px";
+
+			}
+
+			//过滤的形式
+			function getIndex(boxArr, minIndex) {
+				for(var i = 0; i < boxArr.length; i++) {
+					if(boxArr[i] == minIndex) {
+						return i;
+					}
+				}
+			}
+
+			/*
+			 *
+			 * 什么加载！
+			 *    滚动到底部的时候加载
+			 *        滚动
+			 *        底部的判断
+			 *
+			 *    页面的高度+滚动的高度 > 最后一张图片距离页面顶部的高度： 加载
+			 * */
+
+			var data = [{
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i1.jpg",
+				"text": "小猫"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i2.jpg",
+				"text": "小猫"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i3.jpg",
+				"text": "气死我了"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i4.jpg",
+				"text": "感觉要炸了"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i5.jpg",
+				"text": "都是欠收拾"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i6.jpg",
+				"text": "真的"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i7.jpg"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i8.jpg",
+				"text": "小猫"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i9.jpg",
+				"text": "小猫"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i10.jpg",
+				"text": "收拾一下都老实了"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i11.jpg",
+				"text": "小猫"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i12.jpg",
+				"text": "就是惯的"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i13.jpg",
+				"text": "小猫"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i14.jpg",
+				"text": "小猫"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i15.jpg",
+				"text": "日了够了"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i16.jpg",
+				"text": "小猫"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i17.jpg",
+				"text": "小猫"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i18.jpg",
+				"text": "小猫"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i19.jpg",
+				"text": "小猫"
+			}, {
+				"src": "http://www.iwen.wiki/sxtstu/iwentest/img/i20.jpg",
+				"text": "小猫"
+			}];
+
+			//			window.onscroll = function() {
+			//				btn.style.display = "block";
+			//				if(loadFlag()) {
+			//					if(index > 3) {
+			//						data = null;
+			//					}
+			//					index++;
+			//					if(data) {
+			//						for(var i = 0; i < data.length; i++) {
+			//							var box = document.createElement("div");
+			//							var boximg = document.createElement("div");
+			//							var img = document.createElement("img");
+			//							var boxtext = document.createElement("div");
+			//							var ptext = document.createElement("p");
+			//							if(data[i].text) {
+			//								ptext.innerHTML = data[i].text;
+			//							}
+			//							box.className = "box";
+			//							boximg.className = "boximg";
+			//							img.src = data[i].src;
+			//							container.appendChild(box);
+			//							box.appendChild(boximg);
+			//							boximg.appendChild(img);
+			//							boxtext.appendChild(ptext);
+			//							box.appendChild(boxtext);
+			//						}
+			//					} else {
+			//						btn.innerHTML = "没数据啦，别滑了";
+			//					}
+			//					waterfull();
+			//				}
+			//			};
+
+			/*
+			 * 滚动到底部
+			 *
+			 * */
+			function loadFlag() {
+				//获取页面高度
+				var pageHeight = document.documentElement.clientHeight;
+				//滚动的高度
+				var scrollHeight = document.documentElement.scrollTop || document.body.scrollTop;
+				//最后一张图片距离顶部的高度
+				var boxs = document.getElementsByClassName("box");
+				//        var boxHeight = boxs[boxs.length - 1].offsetTop;
+				var btn = document.getElementsByClassName("add-btn").item(0);
+				var boxHeight = btn.offsetTop + 49;
+				/* console.log("页面高度:"+pageHeight);
+				 console.log("滚动高度:"+scrollHeight);
+				 console.log("元素高度:"+boxHeight);*/
+				return pageHeight + scrollHeight > boxHeight ? true : false;
+			}
+
+			$(function(){  
+				$(document).scroll(function(){
+					//滚动条滑动的时候获取滚动条距离顶部的距离
+					var scroll=$(document).scrollTop();
+					//屏幕的高度
+					var client=$(window).height();
+					var h=$(document).height();
+					var flag=true;
+					if (h<=scroll+client) { // 到达底部时,加载新内容
+						if(flag==false){
+							return;
+						}
+
+						var p = $('#p').val();
+						var type = $('#type').val();
+						var str = '';
+						$.ajax({
+							url: '/ajax/get_library_content',
+							type: 'POST',
+							async: true,
+							data: {
+								p: p,
+								type: type,
+							},
+							timeout: 5000,
+							dataType: 'json',
+							success: function(data){
+								//console.log(data);
+								//location.reload();
+								if(!isEmptyObject(data.errmsg)) {
+									$.each(data.errmsg, function(i, n) {
+										// if(n.flag == 1) {
+										// 	//str += '<div class="box product_'+n.id+'" onmouseover="showCollection('+n.id+')" onmouseout="hideCollection('+n.id+')"><a href="/collection/product/'+n.id+'"><div class="boximg"><img src="'+n.pic+'" alt="'+n.name+'"><i onclick="collectionWindowOpen('+n.id+')" style="display:block">采集</i><div class="col-tow" style="display:none">采集</div><p>'+n.name+'</p><textarea style="display:none;">'+n.desc+'</textarea></div><div class="behavior"><div class="peson"><img src="'+n.avatar+'" alt="'+n.nickname+'" /><span>'+n.nickname+'</span></div><div class="praise"><span  onclick="fabulous('+n.id+')"></span><input type="hidden" id="puserid" value="'+n.userid+'" /><i class="zan_'+n.id+'">'+n.zancount+'</i></div></div></a></div>';
+										// 	str += '<div class="box product_'+n.id+'"><a href="/collection/product/'+n.id+'"><div class="boximg"><img src="'+n.pic+'" alt="'+n.name+'" /><!-- <i onclick="assignment('+n.id+')">采集</i><div class="col-tow">采集</div> --><i style="display:none">采集</i><div class="col-tow" onclick="getLibraryList('+n.id+')" style="display:block">采集</div><p>'+n.name+'</p><textarea style="display:none;">'+n.desc+'</textarea></div><div class="behavior"><div class="peson"><img src="'+n.avatar+'" alt="" /><span>'+n.nickname+'</span></div><div class="praise"><span onclick="fabulous('+n.id+')"></span><input type="hidden" id="puserid" value="'+n.userid+'" /><i class="zan_'+n.id+'">'+n.zancount+'</i></div></div></a></div>';
+										// } else {
+											str += '<div class="box"><a href="/library/project/'+n.id+'" class="project_'+n.id+'"><div class="boximg"><img src="'+n.pic+'" alt="'+n.name+'"><p>'+n.name+'</p><em>项目</em>';
+											if({{{$myInfo.userid}}} !=  n.userid) {
+
+												if(n.alreadyFollow == 0) {
+													str += '<div class="rate" onClick="followProject('+n.id+','+n.userid+')">关注</div>';
+												}else{
+													str += '<div class="rate1">已关注</div>';
+												}
+											}
+
+											str += '</div><div class="behavior"><div class="peson"><img src="'+n.avatar+'" alt="'+n.nickname+'" /><span>'+n.nickname+'</span></div>';
+
+											if({{{$myInfo.userid}}} !=  n.userid) {
+
+												if(n.alreadyFollow1 == 0) {
+													str += '<div class="praise praise-tan" onclick="followWindowOpen('+n.userid+','+n.id+')"><strong>+</strong><em>关注</em></div>';
+												}else{
+													str += '<div class="praise"><strong></strong><em>已关注</em></div>';
+												}
+
+											}
+
+											str += '</div></a></div>';
+										// }
+									});
+									$('#container').append(str);
+									$('#p').val(Number(p)+1);
+//									window.onload = function() {
+										waterfull();
+//									};
+								}
+							}
+						});
+					}
+				});
+			});
+		</script>
+	</body>
+
+</html>

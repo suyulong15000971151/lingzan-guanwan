@@ -1,0 +1,195 @@
+		{{{include file="general/general.header.html"}}}
+		<link rel="stylesheet" href="{{{$static_url}}}/css/selffan.css" />
+		<style>
+        #edit .edit-box .edit-content .edit-container .form-one .img-load i{display: inline-block; width: 12px; height: 12px; position: absolute; right: 5px; top: 5px; background: url({{{$static_url}}}/image/delete_03.png) no-repeat; background-size: 100% 100%;}
+        .man-sub{width:100%;height:60px;overflow: hidden;text-align: center;line-height: 60px;font-size: 16px;}
+        .man-sub a{display: inline-block;padding:0 10px;color:#afafaf}
+        .man-sub a.actv{color:#000}
+        #man-box{margin:0 auto 0}
+        </style>
+        <body>
+        <!--成功弹窗-->
+		<div id="win" class="">
+			<div class="win-box">
+				<div class="com">
+					<img src="{{{$static_url}}}/image/laught_03.png" alt="" style="position:relative;"/>
+					<span></span>
+					<i></i>
+				</div>
+			</div>
+		</div>
+		<!--这里是个人简介-->
+		<div class="manpeople">
+			<div class="man-box">
+				<div class="potato">
+					<img src="{{{$userInfo.avatar}}}" alt="{{{$userInfo.nickname}}}" />
+				</div>
+				<div class="explain">
+					<h2>{{{$userInfo.nickname}}}</h2>
+					<p>{{{if $userInfo.groupid == 10 || $userInfo.groupid == 20}}}<i></i>{{{/if}}}<span>{{{if $userInfo.sex == 1}}} 男 {{{else if $userInfo.sex == 2}}} 女 {{{else if $userInfo.sex == 0}}} 保密 {{{/if}}} {{{$address}}} {{{if $userInfo.groupid == 0}}} 普通用户 {{{else if $userInfo.groupid == 10}}} 设计师 {{{else if $userInfo.groupid == 20}}} 品牌 {{{/if}}}</span></p>
+					<strong>{{{$userInfo.signature}}}</strong>
+				</div>
+			</div>
+		</div>
+		<!--这里是个人内容导航-->
+		<div class="man-nav">
+			<div class="navigation">
+				{{{if $userInfo.userid == $userid}}}
+				<a href="/member/library">
+				{{{else}}}
+				<a href="/member/library/{{{$userInfo.userid}}}">
+				{{{/if}}}
+					<span>{{{$count.sLibCount+$count.pLibCount+$count.fLibCount}}}</span>
+					<p>项目</p>
+				</a>
+				{{{if $userInfo.userid == $userid}}}
+				<a href="/member/collection">
+				{{{else}}}
+				<a href="/member/collection/{{{$userInfo.userid}}}">
+				{{{/if}}}
+					<span>{{{$userInfo.productcount}}}</span>
+					<p>产品</p>
+				</a>
+				{{{if $userInfo.userid == $userid}}}
+				<a href="/member/note">
+				{{{else}}}
+				<a href="/member/note/{{{$userInfo.userid}}}">
+				{{{/if}}}
+					<span>{{{$userInfo.notecount + $count.fNotCount}}}</span>
+					<p>笔记</p>
+				</a>
+				<a href="/member/friend/{{{$userInfo.userid}}}" class="man-act" >
+					<span>{{{$userInfo.followcount+$userInfo.fanscount+$userInfo.friendcount}}}</span>
+					<p>人脉</p>
+				</a>
+			</div>
+		</div>
+		<div class="man-sub">
+			{{{if $userInfo.userid == $userid}}}
+			<a href="/member/friend/{{{$userInfo.userid}}}">我的好友</a>
+			<a href="/member/follow/{{{$userInfo.userid}}}">我的关注</a>
+			<a href="/member/fans/{{{$userInfo.userid}}}" class="actv">我的粉丝</a>
+			{{{else}}}
+			<a href="/member/friend/{{{$userInfo.userid}}}">他的好友</a>
+			<a href="/member/follow/{{{$userInfo.userid}}}">他的关注</a>
+			<a href="/member/fans/{{{$userInfo.userid}}}" class="actv">他的粉丝</a>
+			{{{/if}}}
+	    </div>
+	    <div id="man-box">
+		<div class="man-show" id="man-show">
+
+			{{{foreach from=$fans item=item}}}
+			<div class="man-item">
+				<div class="item-box">
+					{{{if $item.user.userid == $userid}}}
+					<a href="/member/library">
+					{{{else}}}
+					<a href="/member/library/{{{$item.user.userid}}}">
+					{{{/if}}}
+						<div class="big-img">
+							<img src="{{{$item.user.avatar}}}" alt="" />
+							<h4>{{{$item.user.nickname}}}</h4>
+						</div>
+						<p>{{{$item.user.librarycount}}} 项目 &nbsp;{{{$item.user.productcount}}} 产品</p>
+						<div class="small">
+							{{{foreach from=$item.pro item=item2}}}
+							<img src="{{{$item2.smallpic}}}" alt="" />
+							{{{/foreach}}}
+						</div>
+					</a>
+					{{{if $userInfo.userid == $userid}}}
+					<div class="edit" onClick="addFollow({{{$item.user.userid}}})">添加关注</div>
+					<div class="remove" onClick="cancelFan({{{$item.user.userid}}})">移除粉丝</div>
+					{{{/if}}}
+				</div>
+			</div>
+			{{{/foreach}}}
+
+		</div>
+		</div>
+		<script src="{{{$static_url}}}/js/index.js"></script>
+
+		<script>
+		//这里是个人中心项目盒子居中
+		 //盒子居中
+   function boxCenter(){
+   	  var clientWid=document.body.clientWidth;
+    var boxnum=Math.floor(clientWid/270)
+    console.log(boxnum)
+    var boxwid=document.getElementById('man-show')
+    boxwid.style.width=(boxnum*270)+'px'
+    document.getElementById('man-box').style.width=(boxnum*270-20)+'px'
+   }
+ 
+   window.onresize=function(){
+   	boxCenter()
+   }
+  boxCenter()
+		</script>
+	</body>
+
+</html>
+<script>
+	//添加关注
+	function addFollow(userid) {
+
+		$.ajax({
+          url:'/member/addFollow',
+          type:"post",
+          data:{userid:userid},
+          success:function(ret){
+
+              if(ret != ''){
+
+                  var jsonarray = eval('('+ret+')');
+                  var msg = jsonarray.msg;
+                  var code = jsonarray.code;
+                 $('#win .win-box .com span').html(msg).attr('style',"position:absolute; top:73px; left:50%;transform:translateX(-50%)");
+				  $('#win').css('display',"block").addClass('anima');
+				  window.location.reload()
+               }
+
+          },   
+          error:function(){  
+              $('#win .win-box .com span').html('网络异常，请稍后再试').attr('style',"position:absolute; top:73px; left:50%;transform:translateX(-50%)");
+			$('#win').css('display',"block").addClass('anima');
+			window.location.reload()
+          }
+
+      	})
+	}
+
+	//移除粉丝
+	function cancelFan(userid) {
+
+		var r = confirm("确定移除该粉丝吗");
+	    if(r == false){
+	       return false;
+	    }
+		$.ajax({
+          url:'/member/cancelFan',
+          type:"post",
+          data:{userid:userid},
+          success:function(ret){
+
+              if(ret != ''){
+
+                  var jsonarray = eval('('+ret+')');
+                  var msg = jsonarray.msg;
+                  var code = jsonarray.code;
+                  $('#win .win-box .com span').html(msg).attr('style',"position:absolute; top:73px; left:50%;transform:translateX(-50%)");
+				  $('#win').css('display',"block").addClass('anima');
+				  window.location.reload()
+               }
+
+          },   
+          error:function(){  
+              $('#win .win-box .com span').html('网络异常，请稍后再试').attr('style',"position:absolute; top:73px; left:50%;transform:translateX(-50%)");
+			$('#win').css('display',"block").addClass('anima');
+			window.location.reload()
+          }
+
+      	})
+
+	}
+</script>

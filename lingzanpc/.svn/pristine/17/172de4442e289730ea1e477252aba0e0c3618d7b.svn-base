@@ -1,0 +1,53 @@
+body{background:#f6f6f6}
+#article{width:840px;overflow: hidden;margin:30px auto 0;background:#fff}
+#article .article-title{width:100%;height:100px;border-bottom: 1px solid #eee;}
+#article .article-title .left{overflow: hidden;width:240px;height:60px;float:left;margin:20px 30px 0;}
+#article .article-title .left img{width:50px;height:50px;border-radius: 50%;vertical-align: middle;float:left}
+#article .article-title .left h3{display: inline-block;margin:5px 0 2px 5px}
+#article .article-title .left p{display: inline-block;margin:2px 0 2px 5px}
+#article .article-title span{cursor: pointer;float:right;display: inline-block;width:60px;height:20px;background:url(../image/share.png) no-repeat left center;background-size: 18px;line-height: 20px;text-indent: 25px;margin:50px 30px 0 10px}
+#article .article-title i{cursor: pointer;float:right;display: inline-block;width:60px;height:20px;background:url(../image/itemzan.png) no-repeat left center;background-size: 18px;line-height: 20px;text-indent: 25px;margin:50px 5px 0;}
+#article .article-title .yizan{float:right;display: inline-block;width:60px;height:20px;background:url(../image/yizan.png) no-repeat left center;background-size: 18px;line-height: 20px;text-indent: 25px;margin:50px 5px 0;}
+#article .article-title em{cursor: pointer;float:right;display: inline-block;width:60px;height:20px;background:url(../image/itemping_03.png) no-repeat left center;background-size: 18px;line-height: 20px;text-indent: 25px;margin:50px 5px 0;}
+#article .textures{width:80%;overflow: hidden;margin:0 auto 20px;}
+#article .textures img{display: block;margin:20px auto 20px}
+#article .textures p{font-size: 14px;line-height: 20px;}
+
+#article .publileave{width:100%;overflow: hidden;border-top:1px solid #dadfdf}
+.moveleave{width:90%;overflow: hidden;margin:30px auto 10px}
+.moveleave .publi{width:100%;overflow: hidden;}
+.moveleave .publi img{width:30px;height:30px;float:left;border-radius: 50%;}
+.moveleave .publi input{display: block;width:90%;height:30px;margin-left:40px}
+.moveleave .publi button{display: inline-block;float:right;width:80px;height:30px;background:#055cfc;color:#fff;text-align: center;border-radius: 5px;line-height: 30px;outline: none;border: none;margin-top:10px}
+.moveleave .publi label{line-height: 32px;display: inline-block;float:left;margin:10px 5px 0 0}
+
+.moveleave .mess{width:90%;overflow: hidden;margin:10px auto 0}
+.moveleave .mess .mess-title{width:100%;height:30px;line-height: 30px;border-bottom:1px solid #eee}
+.moveleave .mess .mess-title i{color:#999;margin-left:5px}
+.moveleave .mess ul{width:100%;}
+.moveleave .mess ul li{width:100%;overflow: hidden;border-bottom:1px solid #eee;height:70px;box-sizing: border-box;}
+.moveleave .mess ul li .liimg{width:30px;height:70px;float:left}
+.moveleave .mess ul li .liimg img{width:100%;height:30px;border-radius:50%;margin-top:20px}
+.moveleave .mess ul li .litext{height:70px;font-size: 13px;line-height: 20px;padding-top:5px;text-indent: 8px;}
+.moveleave .mess ul li .litext p{white-space: nowrap;width:90%;overflow: hidden;}
+.moveleave .mess ul li .litext i{color:#999;display: block;}
+
+/*成功的弹窗*/
+#win{width:100%;height:100%;position: absolute;top:0;left;0;background:rgba(0,0,0,.6);z-index: 999999;display: none;}
+.anima{animation: alls 0.5s ease-in-out;}
+#win .win-box{width:100%;height:100%;position: relative;}
+#win .win-box .com{width:250px;height:100px;background:#fff;position: absolute;top:50%;left:50%;transform: translate(-50%,-50%);}
+#win .win-box .com img{width:40px;height:40px;float:left;margin:30px 100px;}
+#win .win-box .com i{display: inline-block;width:12px;height:12px;position: absolute;top:10px;right:10px;background:url(../image/delete_03.png) no-repeat;background-size: 100% 100%;float:right}
+#win .win-box .com span{text-align: center;}
+
+@keyframes alls{
+      0%{transform: scale(0);}
+      100%{transform: scale(1);}
+      /*100%{transform: scale(0);}*/
+}
+            
+@keyframes rota{
+      from{transform: rotate(360deg);transform-origin: center;}
+      to{transform: rotate(0deg);transform-origin: center;opacity: 0;}
+}

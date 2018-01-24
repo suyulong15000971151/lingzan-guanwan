@@ -1,0 +1,551 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Library_model extends MY_Model {
+
+	public function __construct() {
+
+		parent::__construct();
+
+	}
+
+	public function get_recommend($key, $p) {
+
+		$p = $p * 20;
+
+		if(empty($key)) {
+
+			$table = 'lz_project';
+			$select = 'proid, userid, proname, cover';
+			$where = array('oproid' => 0, 'isshow' => 1, 'isdel'=>0);
+			$order = 'RAND()';
+
+			$product = $this->select_data($table, $select, $where, $order, $p, 20);
+
+		}else{
+
+			$sql = "SELECT proid, userid, proname, cover FROM lz_project WHERE oproid=0 AND isshow=1 AND isdel=0 AND proname LIKE '%{$key}%' OR tag LIKE '%{$key}%' ORDER BY RAND() LIMIT {$p}, 20";
+			$query = $this->db->query($sql);
+			$product = $query->result_array();
+			// echo $this->db->last_query();
+
+		}
+
+		$list = array();
+		foreach ($product as $key => $value) {
+
+			$list[$key]['id'] = $value['proid'];
+			$list[$key]['userid'] = $value['userid'];
+			$list[$key]['name'] = $value['proname'];
+			$list[$key]['pic'] = !empty($value['cover']) ? $value['cover'] : $this->config->item('static_url')."/image/li_image.jpg";
+			$list[$key]['zancount'] = 0;
+			$list[$key]['flag'] = 2;
+
+			$where = array('followid'=>$value['proid'],'userid'=>$this->user->userid,'followtype'=>2);
+			$res = $this->select_data_row('lz_user_follow', 'id', $where);
+			$list[$key]['alreadyFollow'] = 0;
+			if(!empty($res)) {
+
+				$list[$key]['alreadyFollow'] = 1;
+			}
+
+			$where = array('followid'=>$value['userid'],'userid'=>$this->user->userid,'followtype'=>4);
+			$res = $this->select_data_row('lz_user_follow', 'id', $where);
+			$list[$key]['alreadyFollow1'] = 0;
+			if(!empty($res)) {
+
+				$list[$key]['alreadyFollow1'] = 1;
+			}
+			$list[$key] = array_merge($list[$key], $this->get_simple_user($value['userid']));
+
+		}
+
+		return $list;
+
+	}
+
+	public function get_project($proid) {
+
+		$redis_key = 'proid_'.$proid;
+		$field = array('proid', 'userid', 'libid', 'area', 'proname', 'cover', 'type1', 'type2', 'desc', 'status', 'commentcount');
+		$product = $this->getRedis(8, $redis_key, 'set_project', $proid, $field);
+
+		$product = array_merge($this->get_simple_library($product['libid']), $product, $this->get_simple_user($product['userid']));
+
+		return $product;
+
+	}
+
+	public function get_proarea($libid) {
+
+		$table = 'lz_project';
+		$select = 'proid, proname';
+		$where = array('libid' => $libid);
+		$order = 'proid ASC';
+
+		$data = $this->select_data($table, $select, $where, $order, 0, 1000);
+
+		return $data;
+
+	}
+
+	public function get_prolist($proid) {
+
+		$table = 'lz_project_product';
+		$select = '*';
+		$where = array('proid' => $proid, 'isdel' => 0);
+		$order = 'sid ASC';
+
+		$list = $this->select_data($table, $select, $where, $order, 0, 1000);
+
+		$list1 = array();
+		$list2 = array();
+		foreach ($list as $key => $value) {
+
+			$redis_key = 'proid_'.$value['proid2'];
+			$field = array('userid', 'proname', 'smallpic', 'price', 'zancount');
+			$product = $this->getRedis(7, $redis_key, 'set_product', $value['proid2'], $field);
+			$list1[$value['fid']][] = array_merge($value, $product, $this->get_simple_user($product['userid']));
+
+		}
+
+		if(!empty($list1[0])) {
+			foreach ($list1[0] as $key => $value) {
+
+				$list2[$key]['sp1'] = $value;
+				$price = $value['ppprice'] !== '0.00' ? $value['ppprice'] : $value['price'] * (100 + $value['ppfloat']) / 100;
+				$list2[$key]['sp1']['totalprice1'] = $value['price'] * $value['count'];
+				$list2[$key]['sp1']['totalprice2'] = $price * $value['count'];
+
+				if(!empty($list1[$value['sid']])) {
+
+					foreach ($list1[$value['sid']] as $k => $v) {
+	
+						$list2[$key]['sp2']['tyid_'.$v['tyid']][$k] = $v;
+						$price = $v['ppprice'] !== '0.00' ? $v['ppprice'] : $v['price'] * (100 + $v['ppfloat']) / 100;
+						$list2[$key]['sp2']['tyid_'.$v['tyid']][$k]['totalprice1'] = $v['price'] * $v['count'];
+						$list2[$key]['sp2']['tyid_'.$v['tyid']][$k]['totalprice2'] = $price * $v['count'];
+	
+					}
+
+				}
+
+			}
+		}
+
+		return $list2;
+
+	}
+
+	public function get_friend($userid) {
+
+		$table = 'lz_friend';
+		$select = 'userid2';
+		$where = array('userid1' => $userid);
+		$order = 'id ASC';
+
+		$friend = $this->select_data($table, $select, $where, $order, 0, 1000);
+
+		foreach ($friend as $key => $value) {
+
+			$friend[$key] = array_merge($value, $this->get_simple_user($value['userid2']));
+
+		}
+
+		return $friend;
+
+	}
+
+	public function add_project_member($data) {
+
+		$table = 'lz_project_member';
+		return $this->insert_data($table, $data);
+
+	}
+
+	public function get_user_group1($proid, $userid) {
+
+		$table = 'lz_project_member';
+		$select = 'groupid';
+		$where = array('proid' => $proid, 'userid' => $userid);
+
+		$user = $this->select_data_row($table, $select, $where);
+
+		return empty($user) ? 0 : $user['groupid'];
+
+	}
+
+	public function get_user_group($proid, $userid) {
+
+		$table = 'lz_project_member';
+		$select = 'group,permissions';
+		$where = array('proid' => $proid, 'userid' => $userid);
+
+		$user = $this->select_data_row($table, $select, $where);
+
+		return empty($user) ? 0 : $user;
+
+	}
+
+	public function get_project_member($proid) {
+
+		$table = 'lz_project_member';
+		$select = '*';
+		$where = array('proid' => $proid);
+		$order = '';
+
+		$member = $this->select_data($table, $select, $where, $order, 0, 100);
+
+		foreach ($member as $key => $value) {
+
+			$redis_key = 'userid_'.$value['userid'];
+			$redis_res = $this->ci_redis->getinstance(5)->hMGet($redis_key, array('avatar', 'nickname', 'mobile', 'email'));
+			$member[$key]['permissions'] = explode(',', $member[$key]['permissions']);
+			$member[$key] = array_merge($member[$key], $redis_res);
+
+		}
+
+		return $member;
+
+	}
+
+	public function get_project_doc($proid) {
+
+		$table = 'lz_project_doc';
+		$select = '*';
+		$where = array('proid' => $proid);
+		$order = '';
+
+		$doc = $this->select_data($table, $select, $where, $order, 0, 100);
+
+		foreach ($doc as $key => $value) {
+
+			$doc[$key] = array_merge($doc[$key], $this->get_simple_user($value['userid']));
+			$doc[$key]['addtime'] = date('Y.m.d', strtotime($value['addtime']));
+
+		}
+
+		return $doc;
+
+	}
+
+	public function get_product_list($userid) {
+
+		$table = 'lz_product';
+		$select = 'proid, userid, proname, smallpic, price, zancount';
+		$where = array('userid' => $userid);
+		$order = 'proid desc';
+
+		$product = $this->select_data($table, $select, $where, $order, 0, 1000);
+
+		foreach ($product as $key => $value) {
+
+			$product[$key] = array_merge($product[$key], $this->get_simple_user($value['userid']));
+
+		}
+
+		return $product;
+
+	}
+
+	public function get_project_code($proid) {
+
+		$table = 'lz_project';
+		$select = 'area';
+		$where = array('proid' => $proid);
+
+		$project = $this->select_data_row($table, $select, $where);
+
+		return $project['area'];
+
+	}
+
+	public function get_project_product_code($proid) {
+
+		$table = 'lz_project_product';
+		$select = 'ppcode';
+		$where = array('proid' => $proid, 'fid' => 0);
+		$order = 'sid desc';
+
+		$product = $this->select_data($table, $select, $where, $order, 0, 1);
+
+		return $product[0]['ppcode'];
+
+	}
+
+	public function get_project_product_code2($sid) {
+
+		$table = 'lz_project_product';
+		$select = 'ppcode';
+		$where = array('fid' => $sid, 'tyid' => 2);
+		$order = 'sid desc';
+
+		$product = $this->select_data($table, $select, $where, $order, 0, 1);
+
+		return $product[0]['ppcode'];
+
+	}
+
+	public function add_project_product($data) {
+
+		$table = 'lz_project_product';
+		return $this->insert_data($table, $data);
+
+	}
+
+	public function get_project_product_checkorder($proid) {
+
+		$table = 'lz_project_product';
+		$select = 'sid,fid,tyid,proid,proid2,ppcode,ppname,ppdesc,ppprice,ppfloat,count';
+		$where = array('proid' => $proid, 'fid' => 0, 'isdel' => 0);
+		$order = 'sid asc';
+		$list1 = $this->select_data($table, $select, $where, $order, 0, 1000);
+
+		$table = 'lz_project_product';
+		$select = 'sid,fid,tyid,proid,proid2,ppcode,ppname,ppdesc,ppprice,ppfloat,count';
+		$where = array('proid' => $proid, 'tyid' => 2, 'isuse' => 1, 'isdel' => 0);
+		$order = 'sid asc';
+		$list2 = $this->select_data($table, $select, $where, $order, 0, 1000);
+
+		$list = array_merge($list1, $list2);
+
+		return $list;
+
+	}
+
+	public function get_project_product_order_datas($proid) {
+
+		$sql = "SELECT orderid,ordername,orderuserid,`desc`,addtime FROM lz_project_product_order WHERE proid='{$proid}' GROUP BY orderid";
+		$query = $this->db->query($sql);
+		$res = $query->result_array();
+
+		foreach ($res as $key => $value) {
+
+			$res[$key] = array_merge($value, $this->get_simple_user($value['orderuserid']));
+			$res[$key]['addtime'] = date('Y.m.d', strtotime($value['addtime']));
+
+		}
+
+		return $res;
+
+	}
+
+	public function get_project_product_order_data($proid, $type) {
+
+		$sql = "SELECT ordername,orderuserid,`desc`,addtime,count(1) AS count FROM lz_project_product_order WHERE orderid='{$type}' AND fid=0 GROUP BY orderid";
+		$query = $this->db->query($sql);
+		$res = $query->row_array();
+
+		$res = array_merge($res, $this->get_simple_user($res['orderuserid']));
+		$res['addtime'] = date('Y.m.d', strtotime($res['addtime']));
+
+		return $res;
+
+	}
+
+	public function get_project_product_order_list($proid, $type) {
+
+		$table = 'lz_project_product_order';
+		$select = '*';
+		$where = array('orderid' => $type);
+		$order = 'id ASC';
+
+		$list = $this->select_data($table, $select, $where, $order, 0, 1000);
+
+		foreach ($list as $key => $value) {
+
+			$redis_key = 'proid_'.$value['proid2'];
+			$field = array('userid', 'proname', 'smallpic', 'price', 'zancount');
+			$product = $this->getRedis(7, $redis_key, 'set_product', $value['proid2'], $field);
+			$list[$key] = array_merge($value, $product, $this->get_simple_user($product['userid']));
+
+		}
+
+		$list1 = array();
+		$list2 = array();
+
+		foreach ($list as $key => $value) {
+
+			if($value['fid'] == 0) {
+
+				$list1[] = $value;
+
+			} else {
+
+				$list2[$value['fid']][] = $value;
+
+			}
+
+		}
+
+		foreach ($list1 as $key => $value) {
+
+			if(isset($list2[$value['sid']])) {
+
+				$price = 0;
+
+				foreach ($list2[$value['sid']] as $k => $v) {
+
+					$price1 = $v['ppprice'] !== '0.00' ? $v['ppprice'] : $v['price'] * (100 + $v['ppfloat']) / 100;
+					$price += $price1;
+
+				}
+
+				$price2 = $value['ppprice'] !== '0.00' ? $value['ppprice'] : $value['price'] * (100 + $value['ppfloat']) / 100;
+				$list1[$key]['realprice'] = $price2 + $price;
+
+			} else {
+
+				$price2 = $value['ppprice'] !== '0.00' ? $value['ppprice'] : $value['price'] * (100 + $value['ppfloat']) / 100;
+				$list1[$key]['realprice'] = $price2;
+
+			}
+
+		}
+
+		return $list1;
+
+	}
+
+	public function set_project_product_order($data) {
+
+		$table = 'lz_project_product_order';
+
+		return $this->insert_data($table, $data);
+
+	}
+
+	public function get_comment($sourcetype, $sourceid) {
+
+		$table = 'lz_comment';
+		$select = 'userid, comment, addtime';
+		$where = array('sourcetype' => $sourcetype, 'sourceid' => $sourceid);
+		$order = 'addtime DESC';
+
+		$comment = $this->select_data($table, $select, $where, $order, 0, 3);
+
+		foreach ($comment as $key => $value) {
+
+			$comment[$key] = array_merge($value, $this->get_simple_user($value['userid']));
+
+		}
+
+		return $comment;
+
+	}
+
+	public function get_comment_all($sourcetype, $sourceid) {
+
+		$table = 'lz_comment';
+		$select = 'userid, comment, addtime';
+		$where = array('sourcetype' => $sourcetype, 'sourceid' => $sourceid);
+		$order = 'addtime DESC';
+
+		$comment = $this->select_data($table, $select, $where, $order, 0, 1000);
+
+		foreach ($comment as $key => $value) {
+
+			$comment[$key] = array_merge($value, $this->get_simple_user($value['userid']));
+
+		}
+
+		return $comment;
+
+	}
+
+	public function upload_doc($data) {
+
+		$table = 'lz_project_doc';
+		return $this->insert_data($table, $data);
+
+	}
+
+	public function upload_cover($proid, $data) {
+
+		$table = 'lz_project';
+		$where = array('proid' => $proid);
+
+		return $this->update_data($table, $where, $data);
+
+	}
+
+//	public function get_prolist_real($proid) {
+//
+//		$table = 'lz_project_product';
+//		$select = '*';
+//		$where = array('proid' => $proid, 'fid' => 0);
+//		$order = 'sid ASC';
+//
+//		$list = $this->select_data($table, $select, $where, $order, 0, 1000);
+//
+//		return $list;
+//
+//	}
+
+	public function getLibraryData($userid) {
+
+		$where = array('userid'=>$userid,'isdel'=>0);
+		$library = $this->select_data('lz_library', 'libid,libname', $where , 'libid desc', 0, 1000);
+
+		foreach ($library as $k => $v) {
+			$library[$k]['project'] = array();
+			$libid = $v['libid'];
+			$where = array('libid'=>$libid, 'isdel'=>0);
+			$project = $this->select_data('lz_project', 'proid,proname', $where , 'proid desc', 0, 1000);
+			$library[$k]['project'] = $project;
+		}
+
+		return $library;
+
+	}
+
+	//获取数据详情
+	public function getOneData($table, $select = '*', $where) {
+
+		return $this->select_data_row($table, $select, $where);
+	}
+
+	//获取redis
+	public function getRedisData($slice, $redis_key, $method, $field1, $field2) {
+		return $this->getRedis($slice, $redis_key, $method, $field1, $field2);
+	}
+
+	//获取表的数据量
+	public function getDataCount($table, $where = array(), $like = array()) {
+
+		return $this->get_one_table_count($table, $where, $like);
+	}
+
+	//添加数据入库
+	public function insertData($table, $data = array()) {
+		return $this->insert_data($table, $data);
+	}
+
+	//货物一个表的列表
+	public function getData($table, $select, $where, $order) {
+
+		return $this->select_data($table, $select, $where, $order, 0, 1000);
+
+	}
+
+	//增加数量
+	// public function field_increase($table, $where, $field) {
+
+	// 	return $this->incr_data($table, $where, $field);
+
+	// }
+	public function field_change($table, $fieldArr, $where) {
+
+		return $this->field_edit($table, $fieldArr, $where);
+
+	}
+
+	//修改数据
+	public function edit_table($table, $where, $data = array()) {
+
+		return $this->update_data($table, $where, $data);
+
+	}
+
+
+}

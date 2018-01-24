@@ -1,0 +1,240 @@
+body{background:#f6f6f6}
+/*自导航下面的搜索输入框*/
+.man-sub{position: relative;}
+.man-sub .sub-sear{position: absolute;width:220px;height:35px;right:30px;top:12px;box-sizing: border-box;border:1px solid #eee;background:#fff}
+.man-sub .sub-sear input{display: block;width:80%;height:100%;outline: none;border: none;font-size: 13px;line-height: 35px;text-indent: 10px;color:#b6b6b6}
+.man-sub .sub-sear button{width:30px;height:100%;background:url(../image/sub-sear.png) no-repeat center center;float:right;border: none;outline: none;}
+/*这是banner区域*/
+.manpeople{width:100%;height:200px;border-bottom: 1px solid #eee;background:#fff}
+.manpeople .man-box{width:300px;height:150px;margin:0 auto 0;overflow: hidden;display: flex;box-sizing: border-box;padding-top:50px}
+.manpeople .man-box .potato{display: inline-block;width:100px;height:100%;float:left;margin-right:10px}
+.manpeople .man-box .potato img{width:100px;height:100px;border-radius: 50%;}
+.manpeople .man-box .explain{display: inline-block;float:left;flex: 1;}
+.manpeople .man-box .explain h2{font-size: 23px;margin:10px 0 5px}
+.manpeople .man-box .explain p{font-size: 14px;color:#a2a2a2;margin-bottom:5px; white-space: nowrap;}
+.manpeople .man-box .explain strong{}
+.manpeople .man-box .explain i{display: inline-block;width:20px;height:20px;background:url(../image/vip.png) no-repeat;background-size:100% 100%;vertical-align: middle;margin-right:5px}
+/*这里是个人导航也*/
+.man-nav{width:100%;height:100px;background:#fff;overflow: hidden;}
+.man-nav .navigation{overflow: hidden;width:100%;height:100%;text-align: center;}
+.man-nav .navigation a{display: inline-block;height:100%;font-size: 18px;line-height: 25px;color:#919191;padding:0 40px}
+.man-nav .navigation a span{margin-top:20px;display: inline-block;}
+/*这里是下面展示的内容*/
+
+.man-show .plus{position: relative;}
+
+.man-show{width:100%;overflow: hidden;background:#f6f6f6;padding:30px 0 0;width:95%;margin:0 auto 0;padding-bottom:40px}
+.man-show .man-item{margin-bottom: 20px;box-sizing: border-box;width:255px;height:330px;background:#fff;display: inline-block;float:left;border:1px solid #eae9e9;margin-right:20px;overflow: hidden;position: relative;padding-bottom:10px}
+.man-show .man-item .edit{cursor: pointer;margin-top:10px;width:110px;height:30px;font-size:14px;line-height: 30px;text-align: center;border:1px solid #dcdcdc;box-sizing: border-box;background:#f4f4f4;display: inline-block;float:left}
+.man-show .man-item .remove{cursor: pointer;margin-top:10px;width:110px;height:30px;font-size:14px;line-height: 30px;text-align: center;border:1px solid #dcdcdc;box-sizing: border-box;background:#f4f4f4;display: inline-block;float:right}
+.man-show .man-item p{text-align: center;font-size: 14px;height:30px;box-sizing: border-box;border-top:1px solid #eee;border-bottom:1px solid #eee;color:#999;line-height: 30px;margin-bottom:10px}
+.man-show .man-item .item-box{width:230px;overflow: hidden;display: block;margin:10px auto 0;}
+.man-show .man-item .item-box h4{font-size:16px;line-height: 25px;margin-bottom: 5px;text-align: center;}
+.man-show .man-item .item-box .big-img{width:100%;height:150px;overflow: hidden;margin-bottom:5px}
+.man-show .man-item .item-box .big-img img{width:100px;height:100px;display:block;margin:10px auto 10px;border-radius: 50%;}
+.man-show .man-item .item-box .small{width:260px;overflow: hidden;}
+.man-show .man-item .item-box .small img{display: inline-block;float:left;width:70px;height:70px;margin-right:10px}
+.man-show .man-item .state{position: absolute;right:-100px;top:10px;width:100%;height:30px;background: #055cfc;text-align: center;color:#fff;line-height: 30px;transform: rotate(45deg);transform-origin:center ;}
+.man-show .man-item .production{background:#000;}
+.man-show .man-item .win{background:#ababab;}
+
+
+
+.man-show .plus p{cursor: pointer;height:40px;line-height: 40px;text-indent: 50px;position: absolute;top:50%;transform: translateY(-50%);border:0;margin:0;width:100%;font-size: 16px;color:#919191;background:url(../image/friends.png) no-repeat 70px center;background-size:40px 30px;}
+
+.add-btn{
+            width: 100%;
+            background-color: #ff7d3c;
+            height: 50px;
+            text-align: center;
+            font-size: 30px;
+            font-weight: 700;
+            position: absolute;
+            color: #fff;
+            display: none;
+        }
+.man-nav .navigation a.man-act{color:#000;font-weight: 600;}
+
+
+/*好友弹窗*/
+#friend{width:100%;height:100%;position: absolute;top:0;left:0;background:rgba(0,0,0,.6);z-index: 999999;display:none}
+#friend .friend-box{width:100%;height:100%;position: relative;}
+#friend .friend-box .content{width:600px;height:400px;position: absolute;top:50%;left:50%;background:#fff;transform: translate(-50%,-50%);}
+#friend .friend-box .content .title{width:100%;height:50px;box-sizing: border-box;border-bottom: 1px solid #eee;}
+#friend .friend-box .content .title span{display: inline-block;float:left;line-height: 50px;text-indent: 10px;font-weight: 600;font-size: 16px;}
+#friend .friend-box .content .title i{display: inline-block;float:right;width:15px;height:15px;background:url(../image/delete_03.png) no-repeat;background-size: 100% 100%;margin:19px}
+#friend .friend-box .content .title .go-back{display: none;text-indent: 40px;background:url(../image/go-back.png) no-repeat center left;height:50px;float:left;margin-left:10px;font-size: 17px;line-height: 50px;}
+
+#custom .content .title .go-back{display: none;text-indent: 40px;background:url(../image/go-back.png) no-repeat center left;height:50px;float:left;margin-left:10px;font-size: 17px;line-height: 50px;}
+
+
+
+
+#friend .friend-box .content .friend-con{width:100%;height:350px;clear: both;}
+#friend .friend-box .content .friend-con .box-one{width:100%;overflow: hidden;display: block;}
+#friend .friend-box .content .friend-con .box-one .look{width:80%;height:30px;margin:30px auto 20px;font-size: 15px;line-height: 30px;}
+#friend .friend-box .content .friend-con .box-one .look i{color:#055cfc;font-weight: 600;}
+#friend .friend-box .content .friend-con .box-one .look span{margin:0 5px 0}
+#friend .friend-box .content .friend-con .box-one .look input{box-sizing: border-box;height:30px;width:200px;text-indent: 10px;margin-right:10px}
+#friend .friend-box .content .friend-con .box-one .look button{box-sizing: border-box;height:30px;width:60px;text-align: center;color:#fff;background:#055cfc;outline: none;border:none}
+
+#friend .friend-box .content .friend-con .box-one .look-end{width:90%;overflow: hidden;margin:0 auto 0}
+#friend .friend-box .content .friend-con .box-one .look-end .looktext{width:100%;height:30px;line-height: 30px;color:#055cfc;margin:20px auto 20px;font-size: 16px;}
+#friend .friend-box .content .friend-con .box-one .look-end .look-pson{width:100%;height:60px;overflow: hidden;margin:10px auto 10px}
+#friend .friend-box .content .friend-con .box-one .look-end .look-pson img{width:60px;height:60px;float:left;border-radius: 50%;margin-right:10px}
+#friend .friend-box .content .friend-con .box-one .look-end .look-pson p{color:#919191}
+#friend .friend-box .content .friend-con .box-one .look-end .look-pson span{display: inline-block;background:#055cfc;color:#fff;padding:0 3px;border-radius: 3px;}
+
+#friend .friend-box .content .friend-con .box-tow{width:100%;overflow: hidden;display: none;}
+#friend .friend-box .content .friend-con .box-tow .sub-peson{width:200px;height:60px;margin:20px auto 20px}
+#friend .friend-box .content .friend-con .box-tow .sub-peson img{float:left;width:60px;height:60px;border-radius:50%;margin-right:10px;vertical-align: middle;}
+#friend .friend-box .content .friend-con .box-tow .sub-peson .text{vertical-align: middle;box-sizing: border-box;padding-top:10px;}
+#friend .friend-box .content .friend-con .box-tow .sub-peson .text p{color:#a2a2a2}
+
+#friend .friend-box .content .friend-con .box-tow .send{width:80%;height:30px;margin:30px auto 20px;font-size: 15px;line-height: 30px;}
+#friend .friend-box .content .friend-con .box-tow .send i{color:#055cfc;font-weight: 600;}
+#friend .friend-box .content .friend-con .box-tow .send span{margin:0 5px 0}
+#friend .friend-box .content .friend-con .box-tow .send input{box-sizing: border-box;height:30px;width:250px;text-indent: 10px;margin-right:10px}
+#friend .friend-box .content .friend-con .box-tow .send button{box-sizing: border-box;height:30px;width:60px;text-align: center;color:#fff;background:#055cfc;outline: none;border:none}
+
+
+/*添加好友站内好友*/
+#custom .first-befor .friend-con{width:100%;height:350px;clear: both;}
+#custom .first-befor .friend-con .box-one{width:100%;overflow: hidden;display: block;}
+#custom .first-befor .friend-con .box-one .look{width:80%;height:30px;margin:30px auto 20px;font-size: 15px;line-height: 30px;}
+#custom .first-befor .friend-con .box-one .look i{color:#055cfc;font-weight: 600;}
+#custom .first-befor .friend-con .box-one .look span{margin:0 5px 0}
+#custom .first-befor .friend-con .box-one .look input{box-sizing: border-box;height:30px;width:200px;text-indent: 10px;margin-right:10px}
+#custom .first-befor .friend-con .box-one .look button{cursor: pointer;box-sizing: border-box;height:30px;width:60px;text-align: center;color:#fff;background:#055cfc;outline: none;border:none}
+      
+#custom .first-befor .friend-con .box-one .look-end{width:90%;overflow: hidden;margin:0 auto 0}
+#custom .first-befor .friend-con .box-one .look-end .looktext{width:100%;height:30px;line-height: 30px;color:#055cfc;margin:20px auto 20px;font-size: 16px;}
+#custom .first-befor .friend-con .box-one .look-end .look-pson{width:100%;height:60px;overflow: hidden;margin:10px auto 10px}
+#custom .first-befor .friend-con .box-one .look-end .look-pson img{width:60px;height:60px;float:left;border-radius: 50%;margin-right:10px}
+#custom .first-befor .friend-con .box-one .look-end .look-pson p{color:#919191}
+#custom .first-befor .friend-con .box-one .look-end .look-pson span{display: inline-block;background:#055cfc;color:#fff;padding:0 3px;border-radius: 3px;}
+      
+#custom .first-befor .friend-con .box-tow{width:100%;overflow: hidden;display: none;}
+#custom .first-befor .friend-con .box-tow .sub-peson{width:200px;height:60px;margin:20px auto 20px}
+#custom .first-befor .friend-con .box-tow .sub-peson img{float:left;width:60px;height:60px;border-radius:50%;margin-right:10px;vertical-align: middle;}
+#custom .first-befor .friend-con .box-tow .sub-peson .text{vertical-align: middle;box-sizing: border-box;padding-top:10px;}
+#custom .first-befor .friend-con .box-tow .sub-peson .text p{color:#a2a2a2}
+      
+#custom .first-befor .friend-con .box-tow .send{width:80%;height:30px;margin:30px auto 20px;font-size: 15px;line-height: 30px;}
+#custom .first-befor .friend-con .box-tow .send i{color:#055cfc;font-weight: 600;}
+#custom .first-befor .friend-con .box-tow .send span{margin:0 5px 0}
+#custom .first-befor .friend-con .box-tow .send input{box-sizing: border-box;height:30px;width:250px;text-indent: 10px;margin-right:10px}
+#custom .first-befor .friend-con .box-tow .send button{box-sizing: border-box;height:30px;width:60px;text-align: center;color:#fff;background:#055cfc;outline: none;border:none}
+
+
+
+/*成功的弹窗*/
+#win{width:100%;height:100%;position: absolute;top:0;left;0;background:rgba(0,0,0,.6);z-index: 999999;display: none;}
+.anima{animation: alls 0.5s ease-in-out;}
+#win .win-box{width:100%;height:100%;position: relative;}
+#win .win-box .com{width:250px;height:100px;background:#fff;position: absolute;top:50%;left:50%;transform: translate(-50%,-50%);}
+#win .win-box .com img{width:40px;height:40px;float:left;margin:30px 100px;}
+#win .win-box .com i{display: inline-block;width:12px;height:12px;position: absolute;top:10px;right:10px;background:url(../image/delete_03.png) no-repeat;background-size: 100% 100%;float:right}
+#win .win-box .com span{text-align: center;}
+
+
+
+
+
+/*这里是添加成员弹窗*/
+#custom{width:100%;height:100%;position:absolute;left:0;top:0;z-index: 99999;background:rgba(0,0,0,.7);display: none;}
+#custom .custom-box{width:100%;height:100%;position:relative}
+#custom .custom-box .content{width:600px;height:500px;background:#fff;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);}
+#custom .custom-box .content .title{width:100%;height:60px;box-sizing: border-box;border-bottom: 1px solid #989898;text-indent: 20px;line-height: 60px;font-size: 18px;}
+#custom .custom-box .content .title i{width:16px;height:16px;display: inline-block;float:right;margin:22px;background:url(../image/delete_03.png) no-repeat;background-size: 100% 100%;}
+#custom .custom-box .content .container{width:100%;height:440px;}
+#custom .custom-box .content .container .caption{overflow: hidden;text-align: center;margin:20px 0}
+#custom .custom-box .content .container .caption a{display: inline-block;padding:0px 10px;color:#b1b1b1}
+#custom .custom-box .content .container .caption a.mid{box-sizing: border-box;border-right:1px solid #ababab;}
+/*这是添加成员添加的一个选项*/
+/*#custom .custom-box .content .container .first-befor{width:100%;overflow: hidden;}*/
+#custom .custom-box .content .container .tow{display: none;}
+/*#custom .custom-box .content .container .first-befor .select-pso{width:90%;overflow: hidden;margin:30px auto 0}
+#custom .custom-box .content .container .first-befor ul{width:600px;height:250px;overflow-y: scroll;}
+#custom .custom-box .content .container .first-befor ul li{width:150px;height:60px;float:left;margin:0 15px 10px 0;overflow: hidden;position: relative;}
+#custom .custom-box .content .container .first-befor ul li img{width:40px;height:40px;border-radius: 50%;float:left;margin:10px 10px 0 30px;}
+#custom .custom-box .content .container .first-befor ul li .text{padding-top:10px;font-size: 13px;line-height: 20px;}
+#custom .custom-box .content .container .first-befor ul li .text h3{white-space: nowrap;text-overflow: ellipsis;}
+#custom .custom-box .content .container .first-befor ul li .text p{color:#919191}
+#custom .custom-box .content .container .first-befor ul li .choics{width:15px;height:15px;position: relative;display: inline-block;border:1px solid #d5d5d5;position: absolute;top:22px;left:5px}*/
+.checkeds{background:url(../image/select-p_03.png) no-repeat center center;background-size: 100% 100%;}
+.checked{background:url(../image/gouselect.png) no-repeat center center;background-size: 100% 100%;}
+
+/*#custom .custom-box .content .container .first-befor .Invitation{width:100%;height:100px;background:#f3f3f3;clear: both;box-sizing: border-box;padding-top:30px}*/
+/*#custom .custom-box .content .container .first-befor .Invitation button{display: block;width:200px;height:40px;outline: none;border: none;background:#055cfc;color:#fff;line-height: 40px;text-align: center;margin:0px auto 0}*/
+
+/*这是添加成员的第一个内容*/
+#custom .custom-box .content .container .first{width:100%;height:380px;display: none;}
+#custom .custom-box .content .container .first .first-box{width:100%;height:100%;margin:0 auto 0}
+#custom .custom-box .content .container .first .first-box .firstput{width:80%;height:300px;margin:0 auto 0}
+#custom .custom-box .content .container .first .first-box p{color:#2b6bfc;line-height: 30px;height:30px;margin:10px;text-align: center;}
+#custom .custom-box .content .container .first .first-box .item{width:100%;overflow: hidden;margin:10px 0}
+#custom .custom-box .content .container .first .first-box .item label{width:100px;margin-right:10px;text-align: right;height:30px;line-height: 30px;display: inline-block;}
+#custom .custom-box .content .container .first .first-box .item input{width:300px;height:30px;box-sizing: border-box;}
+#custom .custom-box .content .container .first .first-box .sub{width:100%;height:100px;background:#f3f3f3;box-sizing: border-box;border-top:1px solid transparent}
+#custom .custom-box .content .container .first .first-box .sub button{cursor: pointer;width:150px;height:40px;display: block;background:#055cfc;text-align: center;line-height:40px;color:#fff;outline: none;border: none;margin: 30px auto 0;}
+/*这是添加成员的第二个内容*/
+#custom .custom-box .content .container .second{width:100%;height:380px;display:none;}
+#custom .custom-box .content .container .second .second-box{width:80%;height:300px;margin:0 auto 0}
+#custom .custom-box .content .container .second .second-box p{color:#2b6bfc;line-height: 30px;height:30px;margin:10px;text-align: center;}
+#custom .custom-box .content .container .second .second-box .item{width:100%;overflow: hidden;margin:10px 0}
+#custom .custom-box .content .container .second .second-box .item label{width:100px;margin-right:10px;text-align: right;height:30px;line-height: 30px;display: inline-block;}
+#custom .custom-box .content .container .second .second-box .item input{width:300px;height:30px;box-sizing: border-box;}
+#custom .custom-box .content .container .second .second-box button{width:80px;height:30px;text-align: center;line-height: 30px;margin:10px 100px}
+#custom .custom-box .content .container .second .sub{width:100%;height:100px;background:#f3f3f3;box-sizing: border-box;border-top:1px solid transparent}
+#custom .custom-box .content .container .second .sub button{cursor: pointer;width:150px;height:40px;display: block;background:#055cfc;text-align: center;line-height:40px;color:#fff;outline: none;border: none;margin: 30px auto 0;}
+/*这里是添加成员的第三个按钮*/
+#custom .custom-box .content .container .third{width:100%;height:380px;display: none;}
+#custom .custom-box .content .container .third .third-box{width:80%;height:300px;margin:0 auto 0}
+#custom .custom-box .content .container .third .third-box p{color:#2b6bfc;line-height: 30px;margin:10px;text-align: center;}
+#custom .custom-box .content .container .third .third-box .item{width:100%;overflow: hidden;margin:10px 0}
+#custom .custom-box .content .container .third .third-box .item label{width:100px;margin-right:10px;text-align: right;height:30px;line-height: 30px;display: inline-block;}
+#custom .custom-box .content .container .third .third-box .item input{width:300px;height:30px;box-sizing: border-box;text-indent: 15px;}
+#custom .custom-box .content .container .third .third-box button{cursor: pointer;width:100px;height:30px;text-align: center;line-height: 30px;margin:10px 100px}
+/*这里是移除弹框对话框*/
+.member-dele{width:100%;height:100%;position:absolute;top:0;left:0;background:rgba(0,0,0,.8);z-index: 999999;display: none;}
+.member-dele .dele-box{width:100%;height:100%;position:relative}
+.member-dele .dele-box .content{width:300px;height:300px;background:#fff;position: absolute;top:50%;left:50%;transform: translate(-50%,-50%);}
+.member-dele .dele-box .content .title{width:100%;height:60px;box-sizing: border-box;border-bottom:1px solid #dadfdf;line-height: 60px;text-indent: 15px;font-size: 17px;font-weight:600;}
+.member-dele .dele-box .content i{width:16px;height:16px;display: inline-block;float:right;margin:22px;background:url(../image/delete_03.png) no-repeat;background-size: 100% 100%;}
+.member-dele .dele-box .content .containers{width:100%;height:150px;box-sizing: border-box;padding-top:20px}
+.member-dele .dele-box .content .containers img{width:60px;height:60px;display: block;margin:0px auto 10px;border-radius: 50%;}
+.member-dele .dele-box .content .containers p{text-align: center;font-size: 16px;font-weight: 500;}
+.member-dele .dele-box .content .sub{width:100%;height:90px;background:#f3f3f3;box-sizing: border-box;padding-top:25px}
+.member-dele .dele-box .content .sub button{width:150px;background:#055cfc;color:#fff;height:40px;text-align: center;display: block;line-height: 40px;outline: none;border: none;margin:0 auto 0}
+
+/*这里是添加的class*/
+#custom .custom-box .content .container .caption a.cutv{color:#000}
+
+/*这里是确认上传弹窗*/
+#config{position: fixed;width:100%;height:100%;background:rgba(0,0,0,.4);z-index: 99999999999;top:0;left:0;transform: scale(0);}
+#config .config-box{width:100%;height:100%;position: relative;}
+#config .config-box .content{width:200px;height:100px;background:#fff;position: absolute;top:50%;left:50%;transform: translate(-50%,-50%);border-radius: 5px;}
+#config .config-box .content .title{width:180px; height:30px; margin:10px; color:#a2a2a2;text-align: center;float:left;}
+#config .config-box .content button{width:60px;height:30px;background: #47a447;color:#fff;line-height: 30px;border-radius: 2px;text-align: center;margin:0 10px 0 10px;border:none;outline: none;}
+#config .config-box .content span{width:60px;height:30px;display: inline-block;background: #47a447;color:#fff;line-height: 30px;border-radius: 2px;text-align: center;margin:0 10px 0 30px;float:left;}
+div.big{transition:transform 0.5s linear;transform: scale(1) !important;}
+@keyframes win{
+      0%{transform: scale(0);}
+      100%{transform: scale(1)};
+}
+@keyframes big{
+      0%{transform: scale(0);}
+      100%{transform: scale(1)};
+}
+
+@keyframes alls{
+      0%{transform: scale(0);}
+      100%{transform: scale(1);}
+      /*100%{transform: scale(0);}*/
+}
+            
+@keyframes rota{
+      from{transform: rotate(360deg);transform-origin: center;}
+      to{transform: rotate(0deg);transform-origin: center;opacity: 0;}
+}

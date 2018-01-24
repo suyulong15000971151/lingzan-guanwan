@@ -1,0 +1,30 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Home extends MY_controller {
+
+	public function __construct() {
+
+		$this->_class = 'home';
+		parent::__construct();
+
+		$this->load->model('home_model');
+
+	}
+
+	public function index() {
+
+		$p = 0;
+		$type1 = explode(',', $this->user->tag1);
+		$type2 = explode(',', $this->user->tag2);
+		$list = $this->home_model->get_recommend($p, $type1, $type2);
+		$myInfo = $this->home_model->getData('lz_user', 'groupid,userid', array('userid'=>$this->user->userid));
+		$p++;
+
+		$this->assign('p', $p);
+		$this->assign('list', $list);
+		$this->assign('myInfo', $myInfo);
+		$this->display('home/home.index.html');
+
+	}
+}

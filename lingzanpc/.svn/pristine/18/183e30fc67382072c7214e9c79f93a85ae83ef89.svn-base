@@ -1,0 +1,196 @@
+{{{include file="general/general.header.html"}}}
+		<link rel="stylesheet" href="{{{$static_url}}}/css/brand.css" />
+		<div id="Authentication">
+			<div class="authen-box">
+				<div class="authen-content">
+					<div class="title">
+						<span>品牌认证</span>
+						<i></i>
+					</div>
+					<div class="content">
+						<span></span>
+						<p>我们将在三个工作日内处理</p>
+						<p>审核通过后领赞网会在网站消息中通知提醒</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--这是项目标题-->
+		<div class="sub-nav">
+			<h1>品牌认证</h1>
+			<span>&nbsp;&nbsp;填写以下表单，工作人员审核通过后，即可成为瓴赞认证品牌。带 * 为必填内容</span>
+			<!--<i>返回</i>-->
+		</div>
+		<!--这里是里面的内容-->
+		<div class="content">
+			<form action="/authentication/brand" method="post" enctype="multipart/form-data" id="tijiao">
+				<input name="frames" type="hidden" value="yes"/>
+				<div class="content-box">
+					<h4>* 您的品牌信息将仅用于领赞管理员审核之用，相关涉密信息完全保密</h4>
+					<div class="lebe">
+						<span>* </span><label for=""> 品牌名称：</label>
+					</div>
+					<input type="text" placeholder="输入品牌完整名称" class="brandname" name="brandname"/><br />
+					<div class="lebe">
+						<span>* </span><label for="">品牌领域：</label>
+					</div><input type="text" placeholder="选择" class="brandfield" name="brandfield"/><br />
+					<div class="lebe">
+						<span >* </span><label for="" >品牌介绍：</label></div> <textarea class="brandintroduction" name="brandintroduction" rows="" cols="" placeholder="将公开显示于品牌主页认证信息中，限 100 字"></textarea><br />
+					<div class="lebe"><span>* </span><label for="" >证明材料：</label> </div>
+					<div class="up-pro">
+						<input type="file" multiple="true" id="btn" onchange="uploads(this)" class="license" name="license">
+						<img src="{{{$static_url}}}/image/zhengming_03.png" alt="" />
+						<em>上传营业执照</em>
+					</div>
+					<br />
+					<div class="lebe"><span>* </span><label for="">联系人姓名：</label></div> <input type="text" placeholder="" class="linkman" name="linkman"/><br />
+					<div class="lebe"><span >* </span><label for="">联系人手机号：</label></div>
+					<div class="phone-state">
+						<input type="text" placeholder="{{{$mobile}}}" class="linkphone" name="linkphone" />
+						<i>修改</i>
+						<em>默认</em>
+					</div>
+					<br />
+					<div class="lebe"><span>* </span><label for="">企业邮箱：</label> </div><input type="text" placeholder="" class="mailbox" name="mailbox"/><br />
+					<div class="lebe"><span></span><label for="">企业网站：</label> </div><input type="text" placeholder="" class="website" name="website"/><br />
+	                 <!--这里是保证-->
+	                 <div class="promise">
+	                 	<input type="checkbox" class="isTure" name="isTure" value="1"/>
+	                 	<p>我保证品牌的真实性，上传的资料没有法律纠纷，我对因虚假资料及品牌版权引起的法律纠纷负全部责任。</p>
+	                 </div>
+	                 <button class="praise-tan">提交审核</button>
+				</div>
+			</form>
+		</div>
+		<script type="text/javascript" src='{{{$static_url}}}/js/jquery-form.js'></script>
+		<script>
+
+		//如果查到已经提交审核的数据则直接赋值输入框
+		var authCompany = {{{$authCompany}}};
+		if(authCompany != null) {
+
+			$('.brandname').val(authCompany.brandname);
+			$('.brandfield').val(authCompany.brandfield);
+			$('.brandintroduction').val(authCompany.brandintroduction);
+
+			var image = '<div class="imgBox"><div class="bg" style="background:url('+authCompany.license+') no-repeat center;background-size:100% 100%"></div></div>';
+			$('.content .content-box .up-pro img').after(image);
+
+			$('.linkman').val(authCompany.linkman);
+			$('.linkphone').val(authCompany.linkphone);
+			$('.mailbox').val(authCompany.mailbox);
+			$('.website').val(authCompany.website);
+			$('.isTure').prop('checked','true');
+
+		}
+
+			$(".praise-tan").click(function(event) {
+			$(this).attr("disabled","true"); //设置变灰按钮
+				$("#tijiao").ajaxSubmit({
+			    success:function(ret){
+			      $('.error').remove();
+			      if(ret != ''){
+			        setTimeout("$('.praise-tan').removeAttr('disabled')",3000);
+			         $('.praise-tan').before('<p class="error">'+ret+'</p>');
+			         event.preventDefault()
+					 event.stopPropagation();
+					$('body').css("overflow", 'scroll')
+			         return false;
+
+			      }
+			      contirm(event);
+			     
+			    },   
+			    error:function(){  
+				    $(this).before('<p>网络异常，请稍后再试</p>');
+				    return false;
+			  }
+			})
+			// event.preventDefault();
+			// event.cancelBubble
+			// event.stopPropagation();
+			// $(window).scrollTop(0);
+			// $('body').css("overflow", 'hidden')
+			// $("#Authentication").css('display', 'block');
+
+		})
+
+		function contirm(event) {
+			event.preventDefault();
+			event.cancelBubble
+			event.stopPropagation();
+			$(window).scrollTop(0);
+			$('body').css("overflow", 'hidden')
+			$("#Authentication").css('display', 'block');
+		}
+//	$(".container .box a").click(function(event) {
+//		//		event.preventDefault()
+//		event.stopPropagation();
+//	})
+	$("#Authentication .authen-box .authen-content .title i").click(function(event) {
+		event.preventDefault()
+		event.stopPropagation();
+		//		$(window).scrollTop(0);
+		$('body').css("overflow", 'scroll')
+		$("#Authentication").css('display', 'none')
+		location.reload()
+	})
+	$("#Authentication .authen-box").click(function(event) {
+		//		event.preventDefault()
+		event.stopPropagation();
+		$('body').css("overflow", 'scroll')
+		$("#Authentication").css('display', 'none')
+
+	})
+	$("#Authentication .authen-box .authen-content").click(function(event) {
+		//		event.preventDefault()
+		event.stopPropagation();
+
+	});
+		</script>
+		<script>
+			var n = 0;
+
+			function uploads(obj) {
+				//alert(obj.files.length);
+				if(!obj.value.match(/.jpg|.gif|.jpeg|.png|.bmp/i)) {
+					alert("请选择图片文件！");
+				} else {
+					n = obj.files.length;
+					var html = "";
+					for(var i = 0; i < n; i++) {
+						var url = window.URL.createObjectURL(obj.files[i]);
+						var txt = obj.files[i].name.split(judge(obj.files[i]));
+						//txt = txt.split("")
+						console.log(url);
+						html += `<div class='imgBox'>
+			<div class='bg' style='background:url(` + url + `) no-repeat center;background-size:100% 100%'>
+			</div>
+			</div>`;
+					}
+					$(".imgBox").remove();
+//					$(".newUpload").remove();
+					$(".content .content-box .up-pro img").after(html);
+				}
+			}
+
+			function judge(obj) {
+				var str = '';
+				if(obj.name.match(/.jpg/i)) {
+					str = ".jpg";
+				} else if(obj.name.match(/.png/i)) {
+					str = ".png";
+				} else if(obj.name.match(/.gif/i)) {
+					str = ".gif";
+				} else if(obj.name.match(/.bmp/i)) {
+					str = ".bmp";
+				} else if(obj.name.match(/.jpeg/i)){
+					str = ".jpeg";
+				}
+				return str;
+			}
+		</script>
+
+	</body>
+
+</html>

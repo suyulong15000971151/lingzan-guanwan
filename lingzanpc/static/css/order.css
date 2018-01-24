@@ -1,0 +1,103 @@
+body{background:#ebebeb}
+input{border:none;background:none}
+.man-title{width:100%;height:80px;padding:0 50px;line-height: 80px;box-sizing: border-box;background:#fff}
+.man-title .man-box{width:1200px;height:100%;margin:0 auto;overflow: hidden;position: relative;}
+.man-title .man-box h3{display: inline-block;position: absolute;left:50%;transform: translateX(-50%);top:0;line-height: 80px;font-size: 18px;}
+.man-title .man-box .make .back{cursor: pointer;display: inline-block;width:60px;text-align: right;line-height: 80px;background:url(../image/back-history.png) no-repeat right center;background-size: 25px 25px;height:80px}
+.man-title span{float:left;}
+.man-title .make{float:right;display: inline-block;}
+.man-title .make img{width:40px;height:40px;border-radius: 50%;vertical-align: middle;display: inline-block;margin-left:10px}
+.man-title .make p{display: inline-block;}
+
+.order-box{width:1200px;overflow: hidden;margin:20px auto 0}
+.order-box .order-title{width:100%;height:40px;border-bottom:1px solid #989898;line-height: 40px;font-size: 15px;font-weight: 600;}
+.order-box .order-title h3{display: inline-block;text-indent: 25px;background:url(../image/line.png) no-repeat left center;background-size: 18px 26px;font-size: 18px;margin-right:10px}
+.order-box .order-title .prints{float: right;cursor: pointer;display: inline-block;width:35px;height:40px;background:url(../image/primer.png) no-repeat center center;background-size: 20px 22px;}
+.order-box .order-title .export{float: right;cursor: pointer;display: inline-block;width:35px;height:40px;background:url(../image/serive.png) no-repeat center center;background-size: 20px 22px;margin-left:20px}
+
+.order-box .order-title .pro{display: inline-block;}
+
+
+ .order-box .detail-item{width:100%;overflow: hidden;display: block;margin:0 auto 100px}
+ .order-box .detail-item .thead{width:100%;height:50px;border-bottom:1px solid #989898;line-height: 50px;box-sizing: border-box;font-weight: 600;}
+ .order-box .detail-item .thead .all-select{width:30px;text-align: center;display: inline-block;float:left;height:100%}
+ .order-box .detail-item .thead .number{width:100px;text-align: center;display: inline-block;margin:0 50px 0 35px;;float:left}
+ .order-box .detail-item .thead .name{width:40px;text-align: center;display: inline-block;margin:0 55px 0 10px;float:left}
+ .order-box .detail-item .thead .pros{width:100px;text-align: center;display: inline-block;margin:0 120px 0 90px;float:left}
+ .order-box .detail-item .thead .parameter{width:60px;text-align: center;display: inline-block;margin:0 120px 0 10px;float:left}
+ .order-box .detail-item .thead .unit{width:80px;text-align: center;display: inline-block;margin:0 20px 0 10px;float:left}
+ .order-box .detail-item .thead .adjust{width:80px;text-align: center;display: inline-block;margin:0 15px 0 10px;float:left}
+ .order-box .detail-item .thead .offer{width:80px;text-align: center;display: inline-block;margin:0 0px 0 10px;float:left}
+ .order-box .detail-item .thead .count{width:80px;text-align: center;display: inline-block;margin:0 -5px 0 0px;float:left}
+ .order-box .detail-item .thead .subtotal{width:80px;text-align: center;display: inline-block;float:left;margin-left:30px}
+ .order-box .detail-item .thead .operation{width:80px;text-align: center;display: inline-block;;float:left;margin-left:55px}
+ /*.order-box*/ 
+ .order-box .detail-item ul{width:100%;}
+ .order-box .detail-item ul li{width:100%;border-bottom:1px solid #dadada;clear: both;padding:10px 0;overflow: hidden;}
+ .order-box .detail-item ul li .author{width:100%;height:80px}
+ .order-box .detail-item ul li .all-select{width:30px;height:100%;overflow: hidden;display: inline-block;float:left;line-height: 48px;text-align: center;}
+ .order-box .detail-item ul li .all-select i{width:12px;height:12px;border:1px solid #acacac;display: block;float:left;margin:8px auto 0}
+ .order-box .detail-item ul li .remark{display: inline-block;float:left;width:130px;height:80px;overflow: hidden;margin:0 60px 0 20px;padding-top:10px;box-sizing: border-box;text-align: center;font-size: 12px;}
+ .order-box .detail-item ul li .remark p{line-height: 25px;}
+ .order-box .detail-item ul li .remark input{height:30px;box-sizing: border-box;font-size: 12px;outline: none;border:none;text-indent: 5px;background:none;color:#000;disabled:disabled}
+ .order-box .detail-item ul li .remark input.number{width:80px;margin-right:14px;margin-bottom:15px}
+ .order-box .detail-item ul li .remark input.name{width:50px;}
+ .order-box .detail-item ul li .pros{width:220px;height:80px;display: inline-block;float:left;margin:0 10px 0 0;line-height: 25px;font-size: 12px;text-indent: 5px;}
+ .order-box .detail-item ul li .pros img{width:60px;height:60px;display: inline-block;float:left;margin:10px 5px}
+ .order-box .detail-item ul li .pros p{line-height: 25px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;margin-top:10px}
+ .order-box .detail-item ul li .param{width:180px;height:80px;display: inline-block;float:left;line-height: 20px;margin:0 30px 0 30px;overflow: hidden;box-sizing: border-box;padding-top:10px;line-height: 25px;}
+ .order-box .detail-item ul li .param p{white-space: nowrap;/*color:#767676;*/overflow: hidden;text-overflow: ellipsis;font-size: 12px;}
+ .order-box .detail-item ul li .unpric{width:70px;line-height: 25px;float:left;display: inline-block;height:80px;margin-left:20px;color:#000;text-align: center;box-sizing: border-box;padding-top:10px;font-size: 12px;}
+ .order-box .detail-item ul li .adjust{width:70px;height:80px;float:left;display: inline-block;margin-left:35px}
+ .order-box .detail-item ul li .adjust input{width:100%;height:20px;outline: none;}
+ .order-box .detail-item ul li .flo input{width:35px;display: inline-block;margin-right:5px;text-align: center;}
+ .order-box .detail-item ul li .count{display: inline-block;float:left;height:80px;width:40px;text-align: center;line-height: 30px;margin:0 30px 0 40px;font-size: 12px;box-sizing: border-box;padding-top:10px;line-height: 25px;}
+ .order-box .detail-item ul li .substro{display: inline-block;float:left;height:80px;width:50px;text-align: center;line-height: 30px;margin-left:35px;font-size: 12px;box-sizing: border-box;padding-top:10px;line-height: 25px;}
+ .order-box .detail-item ul li .notes{width:120px;height:100%;float:right;display: inline-block;margin-right:30px;line-height: 25px;overflow: hidden;text-align: center;box-sizing: border-box;padding-top:10px;font-size: 12px;}
+ /*.order-box .detail-item ul li .replace .replace-item .notes{margin-right:70px}*/
+ 
+ .order-box .detail-item ul li .set{width:80px;height:100%;float:right;position: relative;}
+ .order-box .detail-item ul li .set .set-sect{width:70px;height:30px;line-height: 30px;background:#055cfc;border-radius: 3px;color:#fff;text-align: center;position: relative;}
+ .order-box .detail-item ul li .set .set-sect i{display: inline-block;position: absolute;border-left:5px solid transparent;border-top:5px solid transparent;border-right:5px solid #fff;border-bottom:5px solid #fff;right:3px;bottom:3px}
+ .order-box .detail-item ul li .set .selct-box{width:70px;height:75px;z-index: 99990;background:#fff;box-shadow: 0 0 5px #000;position: absolute;top:40px;left:0;display: none;}
+ .order-box .detail-item ul li .set .selct-box a{display: block;height:25px;line-height: 25px;text-align: center;}
+ 
+
+/*这里是里面替换的内容*/
+.order-box .detail-item ul li .replace{width:100%;background:#fff;float:left;margin:20px 0 0 0px;position: relative;}
+.order-box .detail-item ul li .replace .replace-title{position: absolute;width:80px;height:30px;background:#fff;top:-30px;left:0;text-align: center;line-height: 30px;}
+.order-box .detail-item ul li .replace .replace-title em{width:5px;height:5px;display: inline-block;background:#ff001c;border-radius: 50%;position: absolute;right:5px;top:5px}
+.order-box .detail-item ul li .replace .replace-item{width:100%;overflow: hidden;margin:0 auto 0;border-bottom:1px solid #e5e5e5;height:80px;padding:10px 0}
+.order-box .detail-item ul li .replace .replace-item .replace-check{width:30px;height: 100%;float:left;display: inline-block;line-height: 47px;text-align: center;color:#747474}
+.order-box .detail-item ul li .replace .replace-item .replace-check i{display: block;width:12px;height:12px;border:1px solid #acacac;margin:10px auto 0;background:#eee}
+.order-box .detail-item ul li .replace .replace-item .head{width:50px;height: 100%;float:left;display: inline-block;}
+.order-box .detail-item ul li .replace .replace-item .head img{display: block;width:40px;height:40px;border-radius: 50%;margin:10px auto 0}
+.order-box .detail-item ul li .replace .replace-item .pros{width:220px;height: 100%;float:left;display: inline-block;}
+.order-box .detail-item ul li .replace .replace-item .pros img{width:60px;height:60px;display: inline-block;float:left;margin:10px 5px}
+.order-box .detail-item ul li .replace .replace-item .pros p{line-height: 25px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+.order-box .detail-item ul li .replace .replace-item .param{width:180px;height:80px;display: inline-block;float:left;line-height: 20px;margin:0 30px;overflow: hidden;}
+.order-box .detail-item ul li .replace .replace-item .param p{white-space: nowrap;/*color:#767676;*/overflow: hidden;text-overflow: ellipsis;font-size: 12px;}
+.order-box .detail-item ul li .replace .replace-item .unpric{width:70px;line-height: 25px;float:left;display: inline-block;height:80px;margin-left:20px;color:#000;font-size: 12px;box-sizing: border-box;padding-top:10px}
+.order-box .detail-item ul li .replace .replace-item .adjust{width:70px;height:80px;float:left;display: inline-block;margin-left:35px}
+.order-box .detail-item ul li .replace .replace-item .adjust input{width:100%;height:20px;outline: none;}
+.order-box .detail-item ul li .replace .replace-item .flo input{width:35px;display: inline-block;margin-right:5px;text-align: center;}
+.order-box .detail-item ul li .replace .replace-item .count{display: inline-block;float:left;height:80px;width:70px;text-align: center;line-height: 25px;margin-left:25px;box-sizing: border-box;padding-top:10px;margin-right:20px;white-space: normal;overflow: hidden;}
+.order-box .detail-item ul li .replace .replace-item .substro{display: inline-block;float:left;height:80px;width:50px;text-align: center;line-height: 25px;margin-left:35px;font-size: 12px;box-sizing: border-box;padding-top:10px}
+.order-box .detail-item ul li .replace .replace-item .use{width:80px;height:25px;background:#038aa7;color:#fff;float:right;line-height: 25px;margin-right:45px;text-align: center;border-radius: 5px;}
+/*.order-box*/
+.order-box .detail-item .bottom-total{width:100%;overflow: hidden;margin:20px 0;}
+.order-box .detail-item .bottom-total .all{width:100px;height:30px;float:left;display: inline-block;line-height: 30px;text-indent: 10px;}
+.order-box .detail-item .bottom-total .all i{width:12px;height:12px;border:1px solid #acacac;display: block;float:left;margin:9px auto 0}
+.order-box .detail-item .bottom-total .float{width:200px;display: inline-block;float:left;height:30px;line-height: 30px;}
+.order-box .detail-item .bottom-total .float input{display: inline-block;width:30px;height:25px;outline: none;}
+.order-box .detail-item .bottom-total .remak{height:30px;float:right}
+.order-box .detail-item .bottom-total .remak span{display: inline-block;line-height: 30px;margin-right:5px}
+.order-box .detail-item .bottom-total .remak input{display: inline-block;height:25px;outline: none;width:400px}
+.order-box .detail-item .bottom-total .money{height:30px;line-height: 30px;float:right;clear: both;margin:20px 0;font-size: 15px;font-weight: 600;}
+.order-box .detail-item .bottom-total .money em{color:#055cfc;margin:0 5px;color:#055cfc;margin-right:35px}
+.order-box .detail-item .bottom-total .money button{width:100px;height:25px;line-height: 25px;text-align: center;background:#055cfc;color:#fff;outline: none;border: none;border-radius: 5px;}
+/*.order-box
+.order-box*/
+.order-box .detail-item ul li .replace .replace-item .replace-check i.ck{background:url(../image/gou.png) no-repeat;background-size:100% 100%;}
+.order-box .detail-item ul li .all-select i.ck{background:url(../image/gou.png) no-repeat;background-size:100% 100%;}
+.order-box .detail-item .bottom-total .all i.ck{background:url(../image/gou.png) no-repeat;background-size:100% 100%;}

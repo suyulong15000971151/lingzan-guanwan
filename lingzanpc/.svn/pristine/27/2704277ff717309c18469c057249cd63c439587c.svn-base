@@ -1,0 +1,82 @@
+body{background:#fff;position:relative}
+body .back{position: absolute;right:50px;top:100px;width:36px;height:36px;background:url(../image/back-history.png) no-repeat;background-size: 100% 100%;}
+#article{width:710px;margin:0px auto 0;background:#fff}
+#article .article-title{width:100%;height:70px;position: relative;}
+#article .article-title h3{display: inline-block;line-height: 70px;position:absolute;left:50%;transform: translateX(-50%);font-size: 16px;}
+#article .article-title .left{overflow: hidden;height:70px;float:left;display: inline-block;}
+
+#article .article-title span{float:right;display: inline-block;width:20px;height:20px;background:url(../image/share.png) no-repeat left center;background-size: 18px;line-height: 20px;text-indent: 25px;margin:25px 30px 0 10px}
+#article .article-title i{float:right;display: inline-block;width:60px;height:20px;background:url(../image/itemzan.png) no-repeat left center;background-size: 18px;line-height: 20px;text-indent: 25px;margin:25px 5px 0;}
+#article .article-title .yizan{float:right;display: inline-block;width:60px;height:20px;background:url(../image/yizan.png) no-repeat left center;background-size: 18px;line-height: 20px;text-indent: 25px;margin:25px 5px 0;}
+#article .article-title em{float:right;display: inline-block;width:22px;height:20px;background:url(../image/col.png) no-repeat left center;background-size: 18px;line-height: 20px;margin:25px 25px 0 5px;}
+
+
+/*这里是产品展示轮播*/
+.Carousel{margin-bottom:20px}
+.Carousel .img-show{width:100%;height:540px;position: relative;background-size: contain;}
+.Carousel .img-show a{display: inline-block;position: absolute;width:25px;height:45px;}
+.Carousel .img-show a.pre{background:url(../image/pre.png) no-repeat;background-size: 100% 100%;left:-40px;top:50%;transform: translateY(-50%);}
+.Carousel .img-show a.next{background:url(../image/next.png) no-repeat;background-size: 100% 100%;right:-40px;top:50%;transform: translateY(-50%);}
+.Carousel .introduce{width:100%;border-bottom: 1px solid #eee;overflow: hidden;margin-top:20px;padding:10px 0}
+.Carousel .introduce span.money{display: inline-block;line-height: 50px;color:#000;font-weight: 600;font-size: 24px;}
+.Carousel .introduce span.mall{display: inline-block;line-height: 50px;color:#000;font-weight: 400;font-size: 14px;float:right;background:url(../image/ads.png) no-repeat left center;text-indent: 35px;}
+.Carousel .introduce .detail{line-height: 70px;}
+.Carousel .introduce .detail .company{margin:0 15px}
+.Carousel .Specifications{width:100%;border-bottom:1px solid #eee;padding:15px 0}
+.Carousel .Specifications label{width:50px;line-height: 30px;margin-right:10px;display: inline-block;height:30px}
+.Carousel .Specifications span{line-height: 30px;margin-bottom:20px}
+.Carousel .Specifications span.size{line-height: 30px;width:200px;display: inline-block;}
+.Carousel .Specifications i{height:30px;width:60px;background:#5f5856;display: inline-block;vertical-align: middle;}
+/*这里是相关产品*/
+.Carousel .Relevant{width:100%;margin-top:10px;position: relative;}
+.Carousel .Relevant span{display: block;line-height: 40px;margin-bottom: 10px;}
+.Carousel .Relevant .man-some{width:100%;height:100px;overflow: hidden;}
+.Carousel .Relevant .man-some ul{overflow: hidden;}
+.Carousel .Relevant .man-some ul li{float:left;width:110px;height:100px;margin-right:10px}
+.Carousel .Relevant .man-some ul li img{width:100%;height:100%}
+.Carousel .Relevant a{position: absolute;display: inline-block;width:15px;height:35px}
+.Carousel .Relevant a.pre{background:url(../image/pre.png) no-repeat;background-size: 100% 100%;left:-30px;top:80px;}
+.Carousel .Relevant a.next{background:url(../image/next.png) no-repeat;background-size: 100% 100%;right:-30px;top:80px;}
+
+
+
+#article .publileave{width:100%;overflow: hidden;margin-bottom:20px;}
+.moveleave{width:100%;overflow: hidden;margin:30px auto 10px}
+.moveleave .publi{width:100%;overflow: hidden;}
+.moveleave .publi img{width:30px;height:30px;float:left;border-radius: 50%;}
+.moveleave .publi input{display: block;width:90%;height:30px;margin-left:40px}
+.moveleave .publi button{display: inline-block;float:right;width:80px;height:30px;background:#055cfc;color:#fff;text-align: center;border-radius: 5px;line-height: 30px;outline: none;border: none;margin-top:10px}
+.moveleave .publi label{line-height: 32px;display: inline-block;float:left;margin:10px 5px 0 0}
+
+.moveleave .mess{width:90%;overflow: hidden;margin:10px auto 0}
+.moveleave .mess .mess-title{width:100%;height:30px;line-height: 30px;border-bottom:1px solid #eee}
+.moveleave .mess .mess-title i{color:#999;margin-left:5px}
+.moveleave .mess ul{width:100%;}
+.moveleave .mess ul li{width:100%;overflow: hidden;border-bottom:1px solid #eee;height:70px;box-sizing: border-box;}
+.moveleave .mess ul li .liimg{width:30px;height:70px;float:left}
+.moveleave .mess ul li .liimg img{width:100%;height:30px;border-radius:50%;margin-top:20px}
+.moveleave .mess ul li .litext{height:70px;font-size: 13px;line-height: 20px;padding-top:5px;text-indent: 8px;}
+.moveleave .mess ul li .litext p{white-space: nowrap;width:90%;overflow: hidden;}
+.moveleave .mess ul li .litext i{color:#999;display: block;}
+
+
+
+/*成功的弹窗*/
+#win{width:100%;height:100%;position: absolute;top:0;left;0;background:rgba(0,0,0,.6);z-index: 999999;display: none;}
+.anima{animation: alls 0.5s ease-in-out;}
+#win .win-box{width:100%;height:100%;position: relative;}
+#win .win-box .com{width:250px;height:100px;background:#fff;position: absolute;top:50%;left:50%;transform: translate(-50%,-50%);}
+#win .win-box .com img{width:40px;height:40px;float:left;margin:30px 100px;}
+#win .win-box .com i{display: inline-block;width:12px;height:12px;position: absolute;top:10px;right:10px;background:url(../image/delete_03.png) no-repeat;background-size: 100% 100%;float:right}
+#win .win-box .com span{text-align: center;}
+
+@keyframes alls{
+  0%{transform: scale(0);}
+  100%{transform: scale(1);}
+  /*100%{transform: scale(0);}*/
+}
+@keyframes rot{
+  0%{transform: rotate(0deg);transform-origin: center;}
+  100%{transform: rotate(180deg);transform-origin: center;}
+  /*100%{transform: scale(0);}*/
+}

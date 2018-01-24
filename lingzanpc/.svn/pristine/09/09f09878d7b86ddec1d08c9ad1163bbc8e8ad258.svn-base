@@ -1,0 +1,393 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Product extends MY_controller {
+
+	public function __construct() {
+
+		parent::__construct();
+
+		$this->load->model('product_model');
+
+	}
+
+
+	// //单品采集
+	// public function collection() {
+
+	// 	$proid = $this->input->post('proid');
+	// 	$libid = $this->input->post('libid');
+	// 	$tag = $this->input->post('tag');//标签入财思库
+	// 	if(!is_numeric($proid) || !is_numeric($libid)) {
+	// 		echo json_encode(array('code'=>2001,'msg'=>'参数错误'));
+	// 		return false;
+	// 	}
+
+	// 	$this->db->trans_begin();
+	// 	$userid = $this->user->userid;
+	// 	$where = array('proid'=>$proid);
+	// 	$data = $this->product_model->getTable('lz_product', "*", $where);
+	// 	$result = $data[0];
+	// 	unset($result['proid']);
+	// 	$result['oproid'] = $proid;
+	// 	$result['userid'] = $userid;//当前session的用户
+	// 	$result['libid'] = $libid;
+	// 	$result['zancount'] = 0;
+	// 	$result['tag'] = $tag;
+	// 	$result['addtime'] = date('Y-m-d H:i:s');
+	// 	$insertId = $this->product_model->addData('lz_product', $result);
+	// 	if(empty($insertId)) {
+
+	// 		echo json_encode(array('code'=>2003,'msg'=>'采集失败'));
+	// 		return;
+
+	// 	}
+
+	// 	//该用户的采集数增加1
+	// 	$where = array('libid'=>$libid);
+	// 	$row = $this->product_model->field_change('lz_library', $where, 'procount1');
+	// 	if(empty($row)){
+
+	// 		$this->db->trans_rollback();
+	// 		echo json_encode(array('code'=>2004,'msg'=>'采集失败'));
+	// 		return;
+	// 	}
+
+	// 	//该用户的采集数增加1
+	// 	$where = array('userid'=>$userid);//当前session的用户
+	// 	$row = $this->product_model->field_change('lz_user', $where, 'productcount');
+	// 	if(empty($row)){
+
+	// 		$this->db->trans_rollback();
+	// 		echo json_encode(array('code'=>2005,'msg'=>'采集失败'));
+	// 		return;
+	// 	}
+
+	// 	//发送采集消息给别人(如果是采集自己的产品就不用发送消息)
+	// 	if($this->user->userid != $data[0]['userid']) {
+
+	// 		$data1 = array(
+	// 		'userid'=>$data[0]['userid'], 
+	// 		'action'=>2, 
+	// 		'action_detail'=>21,
+	// 		'action_userid'=>$this->user->userid, 
+	// 		'action_stype'=>2, 
+	// 		'action_sid'=>$proid, 
+	// 		'isread'=>0,
+	// 		'addtime'=>date('Y-m-d H:i:s'));
+	// 		$insertId1 = $this->product_model->addData('lz_msg', $data1);
+	// 		if (empty($insertId1)) {
+
+	// 			$this->db->trans_rollback();
+	// 			echo json_encode(array('code'=>2006,'msg'=>'<p>添加失败</p>'));
+	// 			return;
+
+	// 		}else {
+
+	// 			$this->db->trans_commit();
+
+	// 		}
+
+	// 	}else {
+
+	// 		$this->db->trans_commit();
+
+	// 	}
+
+	// 	//操作redis
+	// 	$row = $this->redis_model->set_product($insertId);
+	// 	if(empty($row)) {
+
+	// 		echo json_encode(array('code'=>2007,'msg'=>'操作redis失败,请联系管理员'));
+	// 		return;
+
+	// 	}
+
+	// 	$row = $this->redis_model->set_library($libid);
+	// 	if(empty($row)) {
+
+	// 		echo json_encode(array('code'=>2008,'msg'=>'操作redis失败,请联系管理员'));
+	// 		return;
+
+	// 	}
+
+	// 	$row = $this->redis_model->set_user($userid);
+	// 	if(empty($row)) {
+
+	// 		echo json_encode(array('code'=>2009,'msg'=>'操作redis失败,请联系管理员'));
+	// 		return;
+	// 	}
+
+	// 	echo json_encode(array('code'=>200,'msg'=>'采集成功'));
+
+	// }
+
+
+	//获取个人材思库列表
+	public function getLibraryData() {
+		$userid = $this->user->userid;
+		$where = array('userid'=>$userid,'isdel'=>0);
+		$library = $this->product_model->getLibraryData('lz_library', 'libid,libname', $where , 'libid desc');
+		echo json_encode(array('code'=>200,'library'=>$library));
+
+	}
+
+
+	//新增材思库
+	public function addLibrary() {
+
+		$libflg = $this->input->post('libflg');
+		$libname = $this->input->post('libname');
+
+		if(empty($libname) || !in_array($libflg, array(1,2))) {
+			echo json_encode(array('code'=>-2001,'msg'=>'参数错误'));
+			return false;
+		}
+
+		$userid = $this->user->userid;
+		$where = array('userid'=>$userid,'libname'=>$libname,'isdel'=>0);
+		$res = $this->product_model->getLibraryData('lz_library', 'libid', $where, 'libid desc');
+		if(!empty($res)){
+			// echo json_encode(array('code'=>-2002,'msg'=>'该材思库已存在,添加失败'));
+			return;
+		}
+
+		$data = array(
+		'libflg' =>$libflg,
+		'userid'=>$userid,//session的用户id
+		'libname' =>$libname,
+		'status'=>1,
+		'createtime'=>date('Y-m-d H:i:s')
+		);
+		$this->db->trans_begin();
+		$insertId = $this->product_model->addData('lz_library', $data);
+		if(empty($insertId)) {
+
+			echo json_encode(array('code'=>-2002,'msg'=>'添加失败'));
+			return;
+
+		}
+
+		//修改用户的画册数
+		$where = array('userid'=>$userid);//当前session的用户
+		$fieldArr = array('librarycount'=>' + 1');
+		//每日添加的前5个材思库可以获得5个积分
+		$res = $this->product_model->getAddCountByToDay('lz_library', 'createtime', $where);
+		if($res['count'] <= 5) {
+
+			$fieldArr = array('librarycount'=>' + 1','point'=>' + 5');
+			//添加积分明细记录
+			$data = array('userid'=>$userid, 'action'=>'添加项目', 'point'=>5, 'addtime'=>date('Y-m-d H:i:s'));
+			$pointLogId = $this->product_model->addData('lz_point_log', $data);
+			if(empty($pointLogId)) {
+
+				echo json_encode(array('code'=>-2003,'msg'=>'添加失败'));
+				return;
+
+			}
+
+		}
+
+		$row = $this->product_model->changeField('lz_user', $fieldArr, $where);
+		if(empty($row)) {
+
+			$this->db->trans_rollback();
+			echo json_encode(array('code'=>-2004,'msg'=>'添加失败'));
+			return;
+
+		}
+
+		$this->db->trans_commit();
+
+		//操作redis
+		$row = $this->redis_model->set_user($userid);
+		if(empty($row)) {
+
+			echo json_encode(array('code'=>-2005,'msg'=>'操作redis失败,请联系管理员'));
+			return;
+
+		}
+
+		echo json_encode(array('code'=>200,'msg'=>$insertId));
+
+	}
+
+	//点赞单品
+	public function fabulous() {
+
+		$proid = $this->input->post('proid');
+		$puserid = $this->input->post('puserid');
+
+		if(!is_numeric($proid)) {
+			echo json_encode(array('code'=>-2001,'msg'=>'参数错误'));
+			return false;
+		}
+
+		//判断是否重复点赞
+		$data = array('action' => 3, 'action_detail' => 31, 'action_userid' => $this->user->userid, 'action_stype' => 2, 'action_sid' => $proid);
+		if(!$this->product_model->check_msg($data)) {
+
+			echo json_encode(array('code'=>-2004,'msg'=>'重复点赞'));
+			return;
+
+		}
+
+		$where = array('proid'=>$proid);
+		$row = $this->product_model->field_change('lz_product', $where, 'zancount');
+		if(empty($row)){
+
+			echo json_encode(array('code'=>-2002,'msg'=>'点赞失败'));
+			return;
+		}
+
+		$row = $this->redis_model->set_product($proid);
+		if(empty($row)) {
+
+			echo json_encode(array('code'=>-2003,'msg'=>'操作redis失败,请联系管理员'));
+			return;
+
+		}
+
+		// 通知用户
+		$msg = array('userid' => $puserid, 'action' => 3, 'action_detail' => 31, 'action_userid' => $this->user->userid, 'action_stype' => 2, 'action_sid' => $proid, 'isread' => 0, 'addtime' => date('Y-m-d H:i:s'));
+		$this->product_model->set_msg($msg);
+
+		echo json_encode(array('code'=>200,'msg'=>'点赞成功'));
+
+
+	}
+
+	//关注弹窗数据查询
+	public function getUserData() {
+
+		$userid = $this->input->post('userid');
+		if(!is_numeric($userid)) {
+			echo json_encode(array('code'=>-2001,'msg'=>'参数错误'));
+			return false;
+		}
+		$where = array('userid'=>$userid);
+		$select = 'userid,nickname,avatar,librarycount,productcount';
+		$user = $this->product_model->getTable('lz_user', $select, $where);
+
+		$select = 'proid,proname,smallpic';
+		$where = array('userid'=>$userid,'isdel'=>0);
+		$product = $this->product_model->getTable('lz_product', $select, $where, 'proid desc', 0, 3);
+		$user['product'] = $product;
+
+		echo json_encode(array('code'=>200,'msg'=>$user));
+
+	}
+
+
+	//关注人、品牌
+	public function follow() {
+
+		$userid = $this->input->post('userid');
+		if(!is_numeric($userid)) {
+
+			echo json_encode(array('code'=>-2001,'msg'=>'参数错误'));
+			return false;
+
+		}
+
+		if($userid == $this->user->userid) {
+			echo json_encode(array('code'=>-2002,'msg'=>'不能关注自己'));
+			return false;
+		}
+		$own = $this->user->userid;
+		$where = array('followid'=>$userid,'userid'=>$own,'followtype'=>4);
+		$res = $this->product_model->getTable('lz_user_follow', 'id', $where, 'id desc', 0, 1);
+		if(!empty($res)) {
+
+			echo json_encode(array('code'=>-2003,'msg'=>'该用户或品牌已被关注，请勿重复关注'));
+			return false;
+		}
+
+		$this->db->trans_begin();
+		
+		$data = array(
+			'userid'=>$own,
+			'followtype' =>4, //品牌也是用户类型
+			'followid'=>$userid,
+			'followtime'=>date('Y-m-d H:i:s')
+		);
+
+		$insertId = $this->product_model->addData('lz_user_follow', $data);
+		if(empty($insertId)) {
+
+			echo json_encode(array('code'=>-2004,'msg'=>'关注失败'));
+			return false;
+
+		}
+
+		//该用户的关注数增加1
+		$where = array('userid'=>$own);//当前session的用户
+		// $fieldArr = array('followcount' => '+1');
+		// $row = $this->product_model->field_change('lz_user', $where, 'followcount');
+		$fieldArr = array('followcount'=>' + 1','contactscount'=>' + 1');
+		$row = $this->product_model->changeField('lz_user', $fieldArr, $where);
+		if(empty($row)){
+
+			$this->db->trans_rollback();
+			echo json_encode(array('code'=>-2005,'msg'=>'关注失败'));
+			return;
+
+		}
+
+		//被关在的人粉丝数加1
+		$where = array('userid'=>$userid);
+		// $row = $this->product_model->field_change('lz_user', $where, 'fanscount');
+		$fieldArr = array('fanscount'=>' + 1','contactscount'=>' + 1');
+		$row = $this->product_model->changeField('lz_user', $fieldArr, $where);
+		if(empty($row)){
+
+			$this->db->trans_rollback();
+			echo json_encode(array('code'=>-2006,'msg'=>'关注失败'));
+			return;
+
+		}else {
+
+			$this->db->trans_commit();
+
+		}
+
+		//操作redis
+		$row = $this->redis_model->set_user($own);
+		if(empty($row)) {
+
+			echo json_encode(array('code'=>-2007,'msg'=>'操作redis失败,请联系管理员'));
+			return false;
+
+		}
+
+		//操作redis
+		$row = $this->redis_model->set_user($userid);
+		if(empty($row)) {
+
+			echo json_encode(array('code'=>-2008,'msg'=>'操作redis失败,请联系管理员'));
+			return false;
+
+		}
+
+		echo json_encode(array('code'=>200,'msg'=>'关注成功'));
+
+	}
+
+	//调整产品上浮
+	public function adjustProductFloat() {
+
+		$val = $this->input->post('val', true);
+		$proid = $this->input->post('proid', true);
+		$sidStr = implode(',', $proid);
+		$res = $this->product_model->setProductFloat($val,$sidStr);
+
+		if(empty($res)) {
+			echo json_encode(array('code'=>2001,'msg'=>'调整失败'));
+			return false;
+		}
+		echo json_encode(array('code'=>200,'msg'=>'调整成功'));
+
+	}
+
+
+}

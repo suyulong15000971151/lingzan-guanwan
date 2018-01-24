@@ -1,0 +1,1250 @@
+{{{include file="general/general.header.html"}}}
+		<link rel="stylesheet" href="{{{$static_url}}}/css/transform-c.css" />
+		<link rel="stylesheet" href="{{{$static_url}}}/css/component.css" />
+		<script src="{{{$static_url}}}/js/jquery.jqprint-0.3.js"></script>
+		<script src="{{{$static_url}}}/js/common.js"></script>
+		<script src="{{{$static_url}}}/js/procoll.js"></script>
+		<script src="{{{$static_url}}}/js/myajax.js"></script>
+		<script src="{{{$static_url}}}/js/transform.js"></script>
+		<script src="{{{$static_url}}}/js/jquery.slider.min.js"></script>
+		<script>
+			function a() {
+				$("#ddd").jqprint();
+			}
+			(function(e, t, n) {
+				var r = e.querySelectorAll("html")[0];
+				r.className = r.className.replace(/(^|\s)no-js(\s|$)/, "$1js$2")
+			})(document, window, 0);
+		</script>
+		
+		<!--这里是上传项目文档-->
+		<form action="/library/uploadDoc" method="post" enctype="multipart/form-data">
+		<input name="frames" type="hidden" value="yes"/>
+		<input type="hidden" name="proid" value="{{{$project.proid}}}" />
+		<div id="file">
+			<div class="file-box">
+				<div class="content">
+					<div class="title">
+						<span>上传项目文档</span><i></i>
+					</div>
+					<div class="file-con">
+						<div class="up-file">
+							<h2><input type="file" name="pic" id="file-1" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" multiple />
+							<label for="file-1"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Choose a file&hellip;</span></label></h2>
+						</div>
+						<p>仅支持10M以内的WORD、JPEG、PNG及压缩包文件</p>
+						<em>提示：请严格遵守保密法律法规，严禁在互联网上储存、处理、传输、发布泄密信息</em>
+						<button>确定</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		</form>
+        <!--这里是确认弹窗-->
+        <div id="config">
+        	<div  class="config-box">
+        		<div class="content">
+        			<button type="submit">确认上传</button>
+        			<span>取消</span>
+        		</div>
+        	</div>
+        </div>
+		<!--这里是下载弹窗-->
+		<div id="load">
+			<div class="load-box">
+				<div class="content">
+					<div class="title">
+					<span>下载项目文档</span><i></i>
+				</div>
+				<div class="load-con">
+					<table border="0" cellspacing="10" cellpadding="5">
+						<tbody>
+						<tr><th>文件</th><th>更新时间</th><th>大小</th><th>上传</th></tr>
+						{{{foreach from=$project_doc item=item}}}
+						<tr><td class="y">{{{$item.docname}}}</td><td>{{{$item.addtime}}}</td><td>{{{$item.docsize}}}MB</td><td class="u" onclick="window.location.href='{{{$item.docpath}}}'">{{{$item.nickname}}}</td></tr>
+						{{{/foreach}}}
+						</tbody>
+					</table>
+				</div>
+				</div>
+				
+			</div>
+		</div>
+
+		<!--这里是移动至-->
+		<div id="move">
+			<div class="move-box">
+				<div class="content">
+					<div class="title">
+						<span>移动至</span>
+						<i></i>
+					</div>
+					<div class="move-content">
+						<div class="crea-box">
+							<div class="output">
+								<input type="text" placeholder="搜索或创建新的材思库" />
+							</div>
+							<div class="select">
+								<div class="select-show">
+									<p>选择已创建的项目</p>
+									<div class="select-box">
+										<div class="item addselect">卧房</div>
+										<div class="item">沙发家具</div>
+										<div class="item">厨房卫浴</div>
+									</div>
+								</div>
+							</div>
+							<div class="creat">
+								<div class="creat-box">
+									<span>创建项目</span>
+									<i></i>
+								</div>
+							</div>
+							<!--<div class="label">
+								<input type="text" value="输入文字按空格或回撤以生成标签" />
+							</div>-->
+						</div>
+						<div class="tijiao">
+							<button>确认移动</button>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--这里是修改后的移动窗口-->
+		<div id="caiji">
+			<div class="caiji-box">
+				<div class="caiji-content" style="width:450px;">
+					<div class="caiji-title">
+						<span>拷贝至</span>
+						<i></i>
+					</div>
+					<div class="caiji-show">
+						<!-- <div class="caiji-left">
+							<img src="{{{$static_url}}}/image/cai1.jpg" alt="" />
+							<h2>星期天沙发</h2>
+							<p>2014年到2016年，造作用两年时间了解中国城市中产阶级用户，通过获取新知，2017年起，我们开始挑选已有产品进行设计改造，让其保持高品质和高性价比，融入日常生活。与Z-Inhouse设计不同，Zelect更强调材质、功能性与日用需求，如材料舒适度、空间尺寸、清洁保养等。</p>
+						</div> -->
+						<div class="caiji-right">
+							<form id="colPro1" class="form-one" method="post" action="../../member/copyProductS">
+							<div class="output">
+								<input type="text" placeholder="搜索或创建新的材思库" class="libname" name="libname"/>
+							</div>
+							<div class="select">
+								<div class="select-show">
+									<p>选择已创建的项目</p>
+									<div class="select-box">
+										<!-- <div class="item"><p>卧房</p><i></i>
+											<div class="sub-item">
+												<div class="sub-icon">F10酒店大堂</div>
+												<div class="sub-add">添加区域</div>
+											</div>
+										</div>
+										<div class="item"><p>沙发家具</p><i></i>
+											<div class="sub-item">
+												<div class="sub-icon">F10酒店大堂</div>
+												<div class="sub-icon">F10酒店大堂</div>
+												<div class="sub-icon">F10酒店大堂</div>
+												<div class="sub-add">添加区域</div>
+											</div>
+										</div>
+										<div class="item"><p>厨房卫浴</p><i></i>
+											<div class="sub-item">
+												<div class="sub-icon">F10酒店大堂</div>
+												<div class="sub-add">添加区域</div>
+											</div>
+										</div> -->
+									</div>
+								</div>
+							</div>
+							<div class="creat">
+								<div class="gaile" onClick="addProjectProduct()" style="display: none;">
+									<span>创建项目</span>
+									<i></i>
+								</div>
+
+							</div>
+							<div class="label">
+								<input type="hidden" name="productS" id="productS"/>
+								<input type="hidden" name="libid" id="libid"/>
+								<input type="hidden" name="proid" id="proid"/>
+								<!-- <input type="text" placeholder="输入文字按空格或回撤以生成标签" name="tag"/> -->
+							</div>
+							</form>
+							<div class="submit">
+								<button onClick="copyImageS()"> 确认拷贝</button>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--这里是更多留言弹窗-->
+		<div id="moveleave">
+			<div class="moveleave-box">
+				<div class="content">
+					<div class="title">
+						<span>更多留言</span>
+						<i></i>
+					</div>
+					<div class="moveleave">
+						<div class="publi">
+							<img src="{{{$user.avatar}}}" alt="" />
+							<input type="hidden" id="sourcetype" value="2" />
+							<input type="hidden" id="sourceid" value="{{{$project.proid}}}" />
+							<input type="text" id="comment" /><br />
+							<label>验证：</label> <div id="slider1" class="slider"></div>
+			
+							<button class="winleave" id="send_comment">留言</button>
+						</div>
+						<div class="mess">
+							<div class="mess-title"><span>评论留言</span><i>{{{$project.commentcount}}}个</i></div>
+							<ul>
+								{{{foreach from=$commentall item=item}}}
+								<li>
+									<div class="liimg">
+										<img src="{{{$item.avatar}}}" alt="" />
+									</div>
+									<div class="litext">
+										<span>{{{$item.nickname}}}</span>
+										<p>{{{$item.comment}}}</p>
+										<i>{{{$item.addtime}}}</i>
+									</div>
+								</li>
+								{{{/foreach}}}
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--这里是添加成员-->
+		<div id="custom">
+			<div class="custom-box">
+				<div class="content">
+					<div class="title">
+						<span>添加成员</span><i></i>
+					</div>
+					<div class="container">
+						<div class="caption">
+							<a href="javascript:void(0)" class="mid cutv">快速添加好友</a>
+							<a href="javascript:void(0)" class="mid">添加关注成员</a>
+							<a href="javascript:void(0)" class="mid">添加站外成员</a>
+							<a href="javascript:void(0)" class="mid">通过邮件邀请</a>
+							<a href="javascript:void(0)">通过连接注册</a>
+						</div>
+
+						<div class="package">
+							<!--这是第一个-->
+							<div class="first-befor mode">
+								<div class="select-pso">
+									<ul>
+										{{{foreach from=$friend item=item}}}
+										<li class="friends" data-uid="{{{$item.userid2}}}">
+											<div class="choics">
+												<i></i>
+											</div>
+											<img src="{{{$item.avatar}}}" alt="" />
+											<div class="text">
+												<h3>{{{$item.nickname}}}</h3>
+												<p>软装设计师</p>
+											</div>
+										</li>
+										{{{/foreach}}}
+									</ul>
+									</div>
+									<div class="Invitation">
+										<button>发送邀请</button>
+									</div>
+								
+							</div>
+							<!--这是第二个-->
+							<div class="first-befor tow mode">
+								<div class="select-pso">
+									<ul>
+										{{{foreach from=$friend item=item}}}
+										<li class="friends" data-uid="{{{$item.userid2}}}">
+											<div class="choics">
+												<i></i>
+											</div>
+											<img src="{{{$item.avatar}}}" alt="" />
+											<div class="text">
+												<h3>{{{$item.nickname}}}</h3>
+												<p>软装设计师</p>
+											</div>
+										</li>
+										{{{/foreach}}}
+									</ul>
+									</div>
+									<div class="Invitation">
+										<button>发送邀请</button>
+									</div>
+								
+							</div>
+							<!--这里是第二个内容-->
+							<div class="first mode">
+								<div class="first-box">
+									<div class="firstput">
+										<p>* 快速添加成员账户，设置默认密码，首次登陆时需要修改默认密码</p>
+										<div class="item">
+											<label for="">姓名</label> <input type="text" />
+										</div>
+										<div class="item">
+											<label for="">登录用户名</label> <input type="text" />
+										</div>
+										<div class="item">
+											<label for="">邮箱或手机号</label> <input type="text" />
+										</div>
+										<div class="item">
+											<label for="">默认密码</label> <input type="text" />
+										</div>
+										<div class="item">
+											<label for="">项目角色</label> <input type="text" />
+										</div>
+										<div class="item">
+											<label for="">所属公司</label> <input type="text" />
+										</div>
+									</div>
+									<div class="sub">
+										<button>添加成员</button>
+									</div>
+								</div>
+							</div>
+							<!--这是第三个内容-->
+							<div class="second mode">
+								<div class="second-box">
+									<p>* 通过邮箱给项目成员发送注册当前项目的邀请链接。</p>
+									<div class="item">
+										<label for="">邮箱</label><input type="text" />
+									</div>
+									<button>增加一行</button>
+								</div>
+								<div class="sub">
+									<button>添加成员</button>
+								</div>
+							</div>
+							<!--这里是第四个内容-->
+							<div class="third mode">
+								<div class="third-box">
+									<p>* 发送网站注册链接地址给你需要邀请的项目组成员，他们可通过该地址直接注册账号。</p>
+									<div class="item">
+										<label for="">邮箱</label><input type="text" value="{{{$invite_url}}}" />
+									</div>
+									<button>点击复制该链接</button>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--这里是移除弹窗-->
+		<div class="member-dele">
+			<div class="dele-box">
+				<div class="content">
+					<div class="title">
+						<span>移除成员</span>
+						<i></i>
+					</div>
+					<div class="containers">
+						<div class="dele-boxs">
+							<img id="yc_avatar" src="{{{$static_url}}}/image/cai1.jpg" alt="" />
+							<p id="yc_uname">造物社</p>
+						</div>
+					</div>
+					<div class="sub">
+						<input type="hidden" id="yc_proid" />
+						<input type="hidden" id="yc_uid" />
+						<button id="yc_btn">确认移除</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--这里是转换成我的项目弹窗-->
+		<div id="pick">
+			<div class="pick-box">
+				<div class="pick-content" style="height:610px;">
+					<div class="pick-title">
+						<span>转换成我的项目</span>
+						<i></i>
+					</div>
+					<div class="pick-show">
+						<div class="pick-left">
+							<img src="{{{$static_url}}}/image/images/addcai_03.jpg" alt="" />
+							<p>星期天沙发</p>
+						</div>
+						<div class="pick-right"  style="height:550px;">
+							<input type="hidden" class="proid" name="proid" value="" />
+							<input type="hidden" class="selectLib" name="selectLib" value="" />
+							<div class="output">
+								<input type="text" value="搜索或创建新的材思库" id="libname" name="libname"/>
+							</div>
+							<div class="select">
+								<div class="select-show">
+									<p>选择已创建的材思库</p>
+									<div class="select-box">
+										<div class="item addselect">卧房</div>
+										<div class="item">沙发家具</div>
+										<div class="item">厨房卫浴</div>
+									</div>
+								</div>
+							</div>
+							<div class="creat">
+								<div class="creat-box" onClick="addLibraryProduct()">
+									<span>创建材思库</span>
+									<i></i>
+								</div>
+
+							</div>
+							<div class="label">
+								<input type="text" value="项目标题" class="libtitle" name="libtitle" style="margin-bottom:10px;"/>
+								<input type="text" value="输入文字按空格或回撤以生成标签" class="tag" name="tag" />
+							</div>
+							<div class="submit">
+								<button  onClick="changeMyProject()"> 确认采集</button>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--这里是分享-->
+		<div id="share">
+			<div class="play-share">
+				<div class="share-content">
+					<div class="share-title">
+						<span>分享</span><i></i>
+					</div>
+					<div class="share-item">
+						<div class="bdsharebuttonbox">
+							<ul class="gb_resItms">
+								<li><a title="分享到微信" href="#" class="bds_weixin" data-cmd="weixin"></a>微信好友 </li>
+								<li><a title="分享到QQ好友" href="#" class="bds_sqq" data-cmd="sqq"></a>QQ好友 </li>
+								<li><a title="分享到QQ空间" href="#" class="bds_qzone" data-cmd="qzone"></a>QQ空间 </li>
+								<li><a title="分享到腾讯微博" href="#" class="bds_tqq" data-cmd="tqq"></a>腾讯微博 </li>
+								<li><a title="分享到新浪微博" href="#" class="bds_tsina" data-cmd="tsina"></a>新浪微博 </li>
+								<li><a title="分享到人人网" href="#" class="bds_renren" data-cmd="renren"></a>人人网 </li>
+							</ul>
+						</div>
+					</div>
+					<button>确认分享</button>
+				</div>
+			</div>
+		</div>
+
+		<!--这里是订单记录弹窗-->
+		<div id="record">
+			<div class="record-box">
+				<div class="content">
+					<div class="title"><span>订单记录</span><i></i></div>
+					<div class="record-con">
+						<div class="order-th">
+							<div class="name">订单名称</div>
+							<div class="time">生成时间</div>
+							<div class="author">操作者</div>
+						</div>
+						<div class="order-con">
+							{{{foreach from=$order item=item}}}
+							<div class="order-item">
+								<div class="name">{{{$item.ordername}}}</div>
+								<div class="time">{{{$item.addtime}}}</div>
+								<div class="author">{{{$item.nickname}}}</div>
+								<div class="look"><a href="/library/project_order/{{{$project.proid}}}/{{{$item.orderid}}}">查看</a></div>
+								<div class="Remark">备注 ：{{{$item.desc}}}</div>
+							</div>
+							{{{/foreach}}}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--这里是帮他调整弹窗-->
+		<div id="help">
+			<div class="help-box">
+				<div class="title">
+					<span>帮他调整</span><i></i>
+				</div>
+				<div class="con">
+					<div class="help-item">
+						<div class="plan" data-tyid="1" data-proid="">一· 方案替换</div>
+						<p>如果你有更好的产品，可以添加至该方案对比投标</p>
+					</div>
+					<div class="help-item">
+						<div class="plan" data-tyid="2" data-proid="">二· 补充调整</div>
+						<p>如果你有该产品更好的材质、面料之类，可以补充投标</p>
+					</div>
+				</div>
+				<div class="sub">
+					<button>确认</button>
+				</div>
+			</div>
+		</div>
+
+		<!--这是项目标题-->
+		<div class="sub-nav">
+			<div class="sub-box">
+				<h1>{{{$project.libname}}}</h1>
+			<select id="proarea" name="" value="">
+				{{{foreach from=$proarea item=item}}}
+				<option value="{{{$item.proid}}}" {{{if $item.proid == $project.proid}}}selected="selected"{{{/if}}}>{{{$item.proname}}}</option>
+				{{{/foreach}}}
+			</select>
+			<i onclick="javascript:history.go(-1)" title="返回"></i>
+			<span title="分享"></span>
+			<div class="files"><a href="javascript:;" class="add"><img src="{{{$static_url}}}/image/up.png" title="上传文件" alt="" /></a><p><a href="javascript:;" title="项目文件"></a> <em title="项目文件">2</em></p><a href="javascript:;" class="load"><img src="{{{$static_url}}}/image/lo.png" title="下载文件" alt="" /></a></div>
+			</div>
+			
+		</div>
+
+		<!--这是下面的产品-->
+		<div class="product">
+			<input type="hidden" id="proid1" value="{{{$project.proid}}}" />
+			<div class="left">
+				<div class="item">
+					<form action="/library/uploadCover" method="post" enctype="multipart/form-data">
+					<input name="frames" type="hidden" value="yes"/>
+					<input type="hidden" name="proid" value="{{{$project.proid}}}" />
+					<ul>
+						<li class="increase" id="upload"><input type="file" class="upcov" name="cover_0" onchange="uploads(this)"></li>
+						{{{foreach from=$cover key=key item=item}}}
+						<li><div class="bg" style="background:url({{{$item}}}) no-repeat center center;background-size: cover;"></div><i></i></li>
+						{{{/foreach}}}
+					</ul>
+					<!--<button type="submit">确认上传</button>-->
+					</form>
+				</div>
+				<div class="show" style="background:url({{{$cover.0}}}) no-repeat center center;background-size: contain;">
+				
+				<!--<a href="" class="arror-l"></a>
+				<a href="" class="arror-r"></a>-->
+			</div>
+			</div>
+			<div class="right rights">
+				<div class="title">
+					<h1>{{{$project.proname}}}</h1>
+					<span>分享</span>
+					<p>{{{$project.desc}}}</p>
+					<div class="pso"><img src="{{{$project.avatar}}}" alt="" /><em>{{{$project.nickname}}}</em></div>
+				</div>
+				<!--关注-->
+				<div class="follow">
+					<div class="follow-l">
+						<img src="{{{$project.avatar}}}" alt="" />
+						<span>{{{$project.nickname}}}</span>
+					</div>
+					<!--<div class="follow-r">
+						<strong>+</strong>
+						<i>关注</i>
+					</div>-->
+				</div>
+				<!--留言-->
+				<div class="message">
+					<div class="leave">
+						<span>项目留言</span><i>{{{$project.commentcount}}}个</i>
+						<a href="javascript:void(0)">我要留言</a>
+					</div>
+					<!--<div class="ping">
+						<input type="text" />
+						<button></button>
+					</div>-->
+					<div class="person">
+						<ul>
+							{{{foreach from=$comment item=item}}}
+							<li>
+								<div class="pson">
+									<img src="{{{$item.avatar}}}" alt="" />
+								</div>
+								<div class="text">
+									<h3>{{{$item.nickname}}}</h3>
+									<p>{{{$item.comment}}}</p>
+									<span>{{{$item.addtime}}}</span>
+								</div>
+							</li>
+							{{{/foreach}}}
+						</ul>
+						<strong>更多留言</strong>
+					</div>
+				</div>
+			</div>
+			<!--这里是项目成员-->
+			<div class="members">
+				<div class="member">
+					<!--<h4>项目成员 {{{$project_member|@count-1}}}位</h4>-->
+					<div class="member-add">
+						{{{if $permissions.4 != 0}}}<img src="{{{$static_url}}}/image/memberadd.png" alt=""  title="添加项目成员"/>{{{/if}}}
+						{{{foreach from=$project_member item=item}}}
+						{{{if $item.userid != $project.userid}}}
+						<div class="peon-item">
+							<img src="{{{$item.avatar}}}" alt="" />
+							<div class="people-id">
+								<div class="rol">
+									<div class="left">
+										<img src="{{{$item.avatar}}}" alt="" />
+										<p>{{{$item.nickname}}}</p>
+									</div>
+									<div class="right">
+										<label for="">角色</label> <input class="group_{{{$item.userid}}}" type="text" value='{{{$item.group}}}' disabled='disabled' /><br />
+										<label for="">手机</label> <span>{{{$item.mobile}}}</span><br />
+										<label for="">邮箱</label> <span>{{{$item.email}}}</span><br />
+										<div class="Jurisdiction">
+											<div class="explain">
+												<label>权限</label>
+											</div>
+											<div class="rules rules_{{{$item.userid}}}">
+												<p class="judje"><i {{{if $item.permissions.0 == 1}}}class="gou"{{{/if}}}></i><em>新增产品</em></p>
+												<p><i {{{if $item.permissions.1 == 1}}}class="gou"{{{/if}}}></i><em>添加文档</em></p>
+												<p><i {{{if $item.permissions.2 == 1}}}class="gou"{{{/if}}}></i><em>生成订单</em></p>
+												<p><i {{{if $item.permissions.3 == 1}}}class="gou"{{{/if}}}></i><em>批量编辑</em></p>
+												<p><i {{{if $item.permissions.4 == 1}}}class="gou"{{{/if}}}></i><em>邀请成员</em></p>
+											</div>
+										</div>
+										<div class="set" data-uid="{{{$item.userid}}}" data-uname="{{{$item.nickname}}}" data-avatar="{{{$item.avatar}}}">
+											{{{if $userid == $project.userid}}}<i class="tg">移除</i>{{{/if}}}
+											{{{if $userid == $project.userid}}}<span class="tg">编辑</span>{{{/if}}}
+											<em class="tg">私信</em>
+											{{{if $userid == $project.userid}}}
+											<a href="javascript:void(0)" class="cancle">取消</a>
+											<a href="javascript:void(0)" class="confirm">确认</a>
+											{{{/if}}}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						{{{/if}}}
+						{{{/foreach}}}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="detail">
+			<div class="detail-box">
+				<div class="detail-title">
+					<div class="pro">
+						<h1>项目产品清单</h1>
+						<span>{{{$total.numb}}}类产品 / 共{{{$total.count}}}件</span>
+					</div>
+					<!--这里是初始值-->
+					<div id="right-edit">
+						<div class="change">
+							<i title="切换"></i>
+							{{{if $permissions.3 != 0}}}<div class="batch" title="批量编辑"></div>{{{/if}}}
+							{{{if $permissions.0 != 0}}}<span onclick="window.location.href='/library/project_product_add/{{{$project.proid}}}'" title="添加产品"></span>{{{/if}}}
+							<!--{{{if $permissions.1 != 0}}}<em>添加文档</em>{{{/if}}}-->
+							
+							
+						</div>
+						<div class="notes" title="订单记录"></div>
+						<div class="print" onClick=" a()" title="打印"></div>
+						<div class="export" title="导出"></div>
+					</div>
+					<!--这里是改变样式-->
+					<div class="change-edit">
+						<a href="javascript:void(0)" class="win">完成</a>
+						<a href="javascript:void(0)" onClick="getProjectData()">拷贝至</a>
+						<a href="javascript:void(0)" onClick="getProjectData()">移除至</a>
+						<a href="javascript:void(0)" class="dt">删除</a>
+					</div>
+				</div>
+				<!--这里是展示内容以-->
+				<div class="detail-item" id='ddd'>
+					<div class="thead">
+						<div class="all-select">全选</div>
+						<div class="number">项目编号名称</div>
+						<!--<div class="name">名称</div>-->
+						<div class="pros">产品编号名称</div>
+						<div class="parameter">规格参数</div>
+						<div class="unit">单价</div>
+						<div class="adjust">单价修改</div>
+						<div class="offer">单价调整</div>
+						<div class="count">数量</div>
+						<div class="subtotal">金额</div>
+						<div class="operation">操作</div>
+					</div>
+					<ul>
+						{{{foreach from=$prolist key=key item=item}}}
+						<li data-proid="{{{$item.sp1.sid}}}">
+							<div class="author">
+								<div class="all-select"><i></i></div>
+								<div class="remark">
+									<input type="text" class="number" value="{{{$item.sp1.ppcode}}}" />
+									<input type="text" class="name" value="{{{$item.sp1.ppname}}}" />
+									<input type="text" class="notes" value="{{{$item.sp1.ppdesc}}}" />
+								</div>
+								<div class="pros">
+									<img src="{{{$item.sp1.smallpic}}}" alt="" />
+									<p>{{{$item.sp1.proname}}}</p>
+								</div>
+								<div class="param">
+									<p>选择规格:W:740 D: 660 H:720</p>
+									<p>涂装:天然木油 </p>
+									<p>选择材质:北美胡桃木</p>
+									<p>选择面料:进口亚麻布</p>
+								</div>
+								<div class="unpric">
+									<p>￥{{{$item.sp1.price}}}</p>
+								</div>
+								<div class="adjust jia">
+									<input type="text" value="￥{{{$item.sp1.ppprice}}}" />
+								</div>
+								<div class="adjust flo">
+									<input type="text" value="{{{$item.sp1.ppfloat}}}" /><span>%</span>
+								</div>
+								<div class="count">
+									{{{$item.sp1.count}}}
+								</div>
+								<div class="substro">
+									￥{{{$item.sp1.totalprice2}}}
+								</div>
+								<div class="set">
+									{{{if $userid != $project.userid}}}<div class="aid set-help">帮他调整</div>{{{/if}}}
+									{{{if $permissions.0 != 0}}}
+									<div class="set-sect" {{{if $item.sp1.status == 1}}}style="background: #777"{{{/if}}}>
+										{{{if $item.sp1.status == 0}}}
+										<p>可修改</p><i></i>
+										{{{else if $item.sp1.status == 1}}}
+										<p>锁定方案</p><i></i>
+										{{{/if}}}
+									</div>
+									{{{/if}}}
+									{{{if $permissions.0 != 0}}}
+									<div class="selct-box" data-proid="{{{$item.sp1.sid}}}">
+										<a href="javascript:void(0)" data-status="0">可修改</a>
+										<a href="javascript:void(0)" data-status="1">锁定方案</a>
+										<a href="javascript:void(0)">修改</a>
+										<a href="javascript:void(0)" data-status="2">删除</a>
+									</div>
+									{{{/if}}}
+								</div>
+								<div class="sure">确认</div>
+							</div>
+							<!--这里是替换的内容-->
+							{{{if isset($item.sp2.tyid_1)}}}
+							<div class="replace">
+								<div class="replace-title">
+									<p>方案替换</p><em></em>
+								</div>
+								{{{foreach from=$item.sp2.tyid_1 key=key2 item=item2}}}
+								<div class="replace-item" data-sid="{{{$item2.sid}}}">
+									<div class="replace-check">
+										<i></i>
+									</div>
+
+									<div class="head">
+										<img src="{{{$item2.avatar}}}" alt="" />
+									</div>
+									<div class="pros">
+										<img src="{{{$item2.smallpic}}}" alt="" />
+										<p>{{{$item2.proname}}}</p>
+									</div>
+									<div class="param">
+										<p>选择规格:W:740 D: 660 H:720</p>
+										<p>涂装:天然木油 </p>
+										<p>选择材质:北美胡桃木</p>
+										<p>选择面料:进口亚麻布</p>
+									</div>
+									<div class="unpric">
+										<p>￥{{{$item2.price}}}</p>
+									</div>
+									<div class="adjust jia">
+										<input type="text" value="￥{{{if $item2.userid == $userid}}}{{{$item2.ppprice}}}{{{else}}}****.**{{{/if}}}" />
+									</div>
+									<div class="adjust flo">
+										<input type="text" value="{{{if $item2.userid == $userid}}}{{{$item2.ppfloat}}}{{{else}}}**{{{/if}}}" /><span>%</span>
+									</div>
+									<div class="count">
+										{{{$item2.count}}}
+									</div>
+									<div class="substro">
+										￥{{{$item2.totalprice2}}}
+									</div>
+
+									<div class="cre">
+										<div class="cre-box">
+											<p>编辑</p>
+											<div class="cre-sub">
+												<a href="javascript:;">修改</a>
+												<a href="javascript:;">删除</a>
+											</div>
+										</div>
+									</div>
+									<div class="sure">确认</div>
+									{{{if $permissions.0 == 1}}}<div class="use">使用该方案</div>{{{/if}}}
+
+								</div>
+								{{{/foreach}}}
+							</div>
+							{{{/if}}}
+							
+							<!--这里是补充调整的内容-->
+							{{{if isset($item.sp2.tyid_2)}}}
+							<div class="replace">
+								<div class="replace-title">
+									<p>补充调整</p><em></em>
+								</div>
+								{{{foreach from=$item.sp2.tyid_2 key=key2 item=item2}}}
+								<div class="replace-item" data-sid="{{{$item2.sid}}}">
+									<div class="replace-check">
+										<i></i>
+									</div>
+
+									<div class="head">
+										<img src="{{{$item2.avatar}}}" alt="" />
+									</div>
+									<div class="pros">
+										<img src="{{{$item2.smallpic}}}" alt="" />
+										<p>{{{$item2.proname}}}</p>
+									</div>
+									<div class="param">
+										<p>选择规格:W:740 D: 660 H:720</p>
+										<p>涂装:天然木油 </p>
+										<p>选择材质:北美胡桃木</p>
+										<p>选择面料:进口亚麻布</p>
+									</div>
+									<div class="unpric">
+										<p>￥{{{$item2.price}}}</p>
+									</div>
+									<div class="adjust jia">
+										<input type="text" value="￥{{{$item2.ppprice}}}" />
+									</div>
+									<div class="adjust flo">
+										<input type="text" value="{{{$item2.ppfloat}}}" /><span>%</span>
+									</div>
+									<div class="count">
+										{{{$item2.count}}}
+									</div>
+									<div class="substro">
+										￥{{{$item2.totalprice2}}}
+									</div>
+
+									<div class="cre">
+										<div class="cre-box">
+											<p>编辑</p>
+											<div class="cre-sub">
+												<a href="javascript:;">修改</a>
+												<a href="javascript:;">删除</a>
+											</div>
+										</div>
+									</div>
+									<div class="sure">确认</div>
+									{{{if $permissions.0 == 1}}}<div class="use">使用该方案</div>{{{/if}}}
+
+								</div>
+								{{{/foreach}}}
+							</div>
+							{{{/if}}}
+
+						</li>
+						{{{/foreach}}}
+					</ul>
+					<div class="bottom-total">
+						<div class="all">
+							<i></i><span>全选</span>
+						</div>
+						<div class="float" style="width:300px;">
+							<span>选中的产品上浮</span>
+							<input id="allfloat" type="text" value="0" />
+							<span>%</span>
+							<button onClick="confirmFloat();" style=" width: 70px; height: 25px; margin-left:10px; line-height: 25px; text-align: center; background: #055cfc; color: #fff; outline: none; border: none; border-radius: 5px;">确定</button>
+						</div>
+						<div class="remak">
+							<span>备注 </span> <input type="text" id="orderdesc" />
+						</div>
+						<div class="money">
+							<span>合计{{{$total.count}}}件产品  合计：</span> <em>￥{{{$total.price1}}}</em>
+							{{{if $permissions.2 != 0}}}<button id="checkorder">生成订单</button>{{{/if}}}
+						</div>
+					</div>
+				</div>
+				<!--这里是展示的内容二-->
+				<div class="containerp" id="containerp">
+					{{{foreach from=$prolist key=key item=item}}}
+					<div class="box" id="1">
+						<a href="javascript:void(0)">
+							<div class="boximg">
+								<img src="{{{$item.sp1.smallpic}}}" alt="" style="height:220px">
+								<label class="checked"></label>
+								<p>{{{$item.sp1.proname}}}</p>
+							</div>
+							<div class="behavior">
+								<div class="peson">
+									<img src="{{{$item.sp1.avatar}}}" alt="" />
+									<span>{{{$item.sp1.nickname}}}</span>
+								</div>
+								<div class="praise">
+									<span></span>
+									<i>{{{$item.sp1.zancount}}}</i>
+								</div>
+							</div>
+						</a>
+					</div>
+					{{{/foreach}}}
+				</div>
+
+			</div>
+		</div>
+
+		<!--<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.4.4/jquery.min.js"></script>-->
+		<!--这里是图片处理-->
+        <script>
+//      $(function(){
+//      	
+//      
+//         function imgsize(){
+//         	imgwidth=$('.product .left .show img').get(0).offsetWidth;
+//         	imgheight=$('.product .left .show img').get(0).offsetHeight;
+//         	console.log(imgwidth)
+//         	console.log(imgheight)
+//
+////,marginTop:((435-(580*imgheight/imgwidth))/2)+'px'
+//          
+//         	if(imgwidth>imgheight){
+//         		$('.product .left .show img').css({width:'580px',height:(580*imgheight/imgwidth)+'px'})
+//         		console.log('width')
+//         	}else{
+//         		$('.product .left .show img').css({height:'435px',width:435*imgwidth/imgheight})
+//         		console.log('height')
+//         	}
+//         }
+//          window.onload = function() {
+//			imgsize()
+//		
+//		};
+//      		
+//      	})	
+        	
+        </script>
+		<script type="text/javascript">
+			//全局变量，动态的文章ID
+			
+			var ShareURL = "";
+			//绑定所有分享按钮所在A标签的鼠标移入事件，从而获取动态ID
+			$(function() {
+				$("bdsharebuttonbox a").mouseover(function() {
+					ShareURL = $(this).attr("data-url");
+
+				});
+			});
+
+			/* 
+			 * 动态设置百度分享URL的函数,具体参数
+			 * cmd为分享目标id,此id指的是插件中分析按钮的ID
+			 *，我们自己的文章ID要通过全局变量获取
+			 * config为当前设置，返回值为更新后的设置。
+			 */
+			function SetShareUrl(cmd, config) {
+				if(ShareURL) {
+					config.bdUrl = ShareURL;
+				}
+				return config;
+			}
+
+			//插件的配置部分，注意要记得设置onBeforeClick事件，主要用于获取动态的文章ID
+			window._bd_share_config = {
+				"common": {
+					onBeforeClick: SetShareUrl,
+					"bdSnsKey": {},
+					"bdText": "",
+					"bdMini": "2",
+					"bdMiniList": false,
+					"bdPic": "http://assets.jq22.com/plugin/2017-05-24-18-14-49.png",
+					"bdStyle": "0",
+					"bdSize": "24"
+				},
+				"share": {}
+			};
+			//插件的JS加载部分
+			with(document) 0[(getElementsByTagName('head')[0] || body)
+				.appendChild(createElement('script'))
+				.src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' +
+				~(-new Date() / 36e5)];
+
+			$("#share .bds_weixin").click(function() {
+				$(".bd_weixin_popup").css({
+					"top": "300px",
+					"left": "600px"
+				})
+				console.log(0)
+			})
+		</script>
+		<script>
+			var n = 0;
+
+			function uploads(obj) {
+				//alert(obj.files.length);
+				if(!obj.value.match(/.jpg|.gif|.png|.bmp/i)) {
+					alert("请选择图片文件！");
+				} else {
+					n = obj.files.length;
+					k = $(".upcov").length;
+					var html = "";
+					for(var i = 0; i < n; i++) {
+						var url = window.URL.createObjectURL(obj.files[i]);
+						var txt = obj.files[i].name.split(judge(obj.files[i]));
+						//txt = txt.split("")
+//						console.log(url);
+						html += '<li class="tu"><div class="bg" style="background:url(' + url + ') no-repeat center;background-size:cover"></div><i></i><em></em></li>';
+					}
+					
+					$('#config').addClass('big')
+					$('#config .config-box .content span').click(function(){
+						$('#config').removeClass('big');
+						obj.outerHTML = obj.outerHTML;
+//						obj.parentNode.outerHTML = obj.parentNode.outerHTML;
+//						$(obj).parent().find('input').remove()
+//                       $('.product .left .item ul li').eq(0).append("<input type='file' class='upcov' name='cover_"+(k+1)+"' onchange='uploads(this)'>")
+					})
+					$('#config .config-box .content button').click(function(){
+						var lengs=$('.product .left .item ul li.increase').size()
+						if(lengs>1){
+							$('.product .left .item ul li.increase').eq(0).remove()
+							$('#config').removeClass('big');
+						$(obj).parent().hide();
+					   $(".product .left .item ul li:first").before("<li class='increase' id='upload'><input type='file' class='upcov' name='cover_"+k+"' onchange='uploads(this)'></li>")
+					   $(".product .left .item ul").append(html);
+					   $(".product .left .item ul li").eq(-2).remove()
+					   $('.product .left .item ul li em').animate({width:'100%'},1000)
+					   $('.product .left .item form').submit()
+						}else{
+							$('#config').removeClass('big');
+						$(obj).parent().hide();
+					   $(".product .left .item ul li:first").before("<li class='increase' id='upload'><input type='file' class='upcov' name='cover_"+k+"' onchange='uploads(this)'></li>")
+					   $(".product .left .item ul").append(html);
+					   $('.product .left .item ul li em').animate({width:'100%'},1000)
+					   $('.product .left .item form').submit()
+						}
+						
+					   
+					})
+					
+				}
+				
+				$('.product .left .item ul li .bg').click(function(){
+					var url=$(this).get(0).style.background
+//					console.log(url);
+					$('.product .left .show').css('background',url)
+					$('.product .left .show').css('backgroundSize','contain')
+				})
+				//这里是删除图片
+				$('.product .left .item ul li i').click(function(){
+					var index=$(this).parent().index()
+					var total=$('.product .left .item ul li').size()
+					var length=$('.product .left .item ul li.increase').size()
+//					console.log(index)
+					if(length>1){
+						if(total==(index+1)){	
+						$(this).parent().remove();
+					$('.product .left .item ul li.increase').eq(total-index).remove()
+					$('.product .left .item ul li.increase').eq(0).css('display','block')
+						}else{
+						$(this).parent().remove();
+					    $('.product .left .item ul li.increase').eq(total-index).remove()
+						}
+						
+					}else{
+						$(this).parent().remove();
+					}
+					
+				})
+				
+				$('.product .left .item button').click(function(){
+					  $('.product .left .item ul li em').animate({width:'100%'},1000)
+				})
+				
+				
+			}
+			
+			
+			$('.product .left .item ul li .bg').click(function(){
+					var url=$(this).get(0).style.background
+//					console.log(url);
+					$('.product .left .show').css('background',url)
+					$('.product .left .show').css('backgroundSize','contain')
+				})
+				//这里是删除图片
+				$('.product .left .item ul li i').click(function(){
+					var index=$(this).parent().index()
+					var total=$('.product .left .item ul li').size()
+					var length=$('.product .left .item ul li.increase').size()
+//					console.log(index)
+
+					var proid = $('#proid1').val();
+					$.ajax({
+						url: '/ajax/del_project_cover',
+						type: 'POST',
+						async: true,
+						data: {
+							proid: proid,
+							index: index
+						},
+						timeout: 5000,
+						dataType: 'json',
+						success: function(data){
+							//console.log(data);
+							//location.reload();
+						}
+					});
+
+					if(length>1){
+						
+						if(total==(index+1)){	
+						$(this).parent().remove();
+					$('.product .left .item ul li.increase').eq(total-index).remove()
+					$('.product .left .item ul li.increase').eq(0).css('display','block')
+						}else{
+						$(this).parent().remove();
+					$('.product .left .item ul li.increase').eq(total-index).remove()
+						}
+						
+					}else{
+						$(this).parent().remove();
+					}
+					
+				})
+				
+
+//				$('.product .left .item ul li .bg').click(function(){
+//					var url=$(this).get(0).style.background.split('"')[1]
+//					console.log(url);
+//					$('.product .left .show img').attr('src',url)
+//				})
+			function judge(obj) {
+				var str = '';
+				if(obj.name.match(/.jpg/i)) {
+					str = ".jpg";
+				} else if(obj.name.match(/.png/i)) {
+					str = ".png";
+				} else if(obj.name.match(/.gif/i)) {
+					str = ".gif";
+				} else if(obj.name.match(/.bmp/i)) {
+					str = ".bmp";
+				}
+				return str;
+			}
+		</script>
+		<script>
+			//这是留言滑动验证 
+			$('.winleave').attr('disabled', true)
+			$('.winleave').css({
+				cursor: "not-allowed"
+			})
+
+			$("#slider1").slider({
+				callback: function(result) {
+					var vale = $('.moveleave .publi input').val()
+					$("#result1").text(result);
+					$(".moveleave .publi span").text(result);
+					if(vale != '') {
+						$('.winleave').attr('disabled', false)
+						$('.winleave').css({
+							cursor: "default"
+						})
+					} else {
+						alert('输入框不能为空')
+					}
+				}
+			});
+			//			$(".winleave").click(function() {
+			//				$("#slider1").slider("restore");
+			//			})
+
+			$('.moveleave .publi input').on('keyup', function() {
+				var text = $(".moveleave .publi span").text();
+				var vale = $('.moveleave .publi input').val()
+
+				if(text != '' && vale != '') {
+					$('.winleave').attr('disabled', false)
+					$('.winleave').css({
+						cursor: "default"
+					})
+				}
+			})
+		</script>
+		<script>
+			/*
+			 * 瀑布流的原理：
+			 *   寻找到一排中高度最小的图片，然后排放在高度最小的图片的下面
+			 *
+			 * */
+			var container = document.getElementById("containerp");
+			var btn = document.getElementsByClassName("add-btn").item(0);
+			var index = 0;
+			window.onload = function() {
+				waterfull();
+			};
+
+			function waterfull() {
+				var box = document.getElementsByClassName("box");
+
+				//计算一排中的能排放的数量
+				var containerWidth = $('#containerp').width();
+				if(containerWidth >= 1600) {
+					containerWidth = 1600;
+				}
+				var boxWidth = box[0].offsetWidth;
+				var num = Math.floor(containerWidth / boxWidth);
+				//居中操作
+				container.style.width = num * (boxWidth + 20) + "px";
+				//摆放位置
+				var boxheight = [];
+				for(var i = 0; i < box.length; i++) {
+					if(i < num) { // 第一排中的元素
+						boxheight.push(box[i].offsetHeight);
+					} else {
+						//非第一排中的内容
+						box[i].style.position = "absolute";
+						//设置位置之前。必须知道当前要放在哪个盒子下面
+						var minBoxHeight = Math.min.apply(null, boxheight);
+						//根据最小值得到位置
+						//               var index = boxheight.indexOf(minBoxHeight);
+						var index = getIndex(boxheight, minBoxHeight);
+						box[i].style.top = (minBoxHeight + 20) + "px";
+						box[i].style.left = (box[index].offsetLeft - 10) + "px";
+						//把盒子的高度加回去
+						boxheight[index] = boxheight[index] + box[i].offsetHeight + 20;
+					}
+				}
+
+				btn.style.top=(box[box.length - 1].offsetTop + box[box.length - 1].offsetHeight + 20)+"px";
+
+			}
+
+			//过滤的形式
+			function getIndex(boxArr, minIndex) {
+				for(var i = 0; i < boxArr.length; i++) {
+					if(boxArr[i] == minIndex) {
+						return i;
+					}
+				}
+			}
+
+			function loadFlag() {
+				//获取页面高度
+				var pageHeight = document.documentElement.clientHeight;
+				//滚动的高度
+				var scrollHeight = document.documentElement.scrollTop || document.body.scrollTop;
+				//最后一张图片距离顶部的高度
+				var boxs = document.getElementsByClassName("box");
+				//var boxHeight = boxs[boxs.length - 1].offsetTop;
+				var btn = document.getElementsByClassName("add-btn").item(0);
+				var boxHeight = btn.offsetTop + 49;
+				/* console.log("页面高度:"+pageHeight);
+				 console.log("滚动高度:"+scrollHeight);
+				 console.log("元素高度:"+boxHeight);*/
+				return pageHeight + scrollHeight > boxHeight ? true : false;
+			}
+		</script>
+	</body>
+
+</html>

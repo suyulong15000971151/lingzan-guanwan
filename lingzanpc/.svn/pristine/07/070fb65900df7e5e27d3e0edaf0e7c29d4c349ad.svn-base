@@ -1,0 +1,84 @@
+{{{include file="general/general.header.html"}}}
+		<link rel="stylesheet" href="{{{$static_url}}}/css/order.css" />
+		
+		
+		<div class="man-title">
+			<span>{{{$project.libname}}}  /  {{{$project.area}}}{{{$project.proname}}}  /   {{{$order.addtime}}}</span>
+			<div class="make">
+				<p>该订单生成者</p>
+				<img src="{{{$order.avatar}}}"/>
+			</div>
+		</div>
+		<div class="order-box">
+			<div class="order-title">
+				<div class="pro"><h3>产品清单</h3><span></span>总计{{{$order.count}}}件</div>
+				<div class="change"></div>
+			</div>
+
+			<div class="detail-item" id='ddd'>
+				<div class="thead">
+					<div class="all-select">全选</div>
+					<div class="number">编号</div>
+					<div class="name">名称</div>
+					<div class="pros">产品</div>
+					<div class="parameter">参数</div>
+					<div class="unit">产品单价</div>
+					<div class="count">数量</div>
+					<div class="subtotal">小计</div>
+					<div class="operation">备注</div>
+				</div>
+				<ul>
+					{{{foreach from=$list key=key item=item}}}
+					<li>
+						<div class="author">
+							<div class="all-select">{{{$key + 1}}}</div>
+							<div class="remark">
+								<input type="text" class="number" placeholder="{{{$item.ppcode}}}" />
+								<input type="text" class="name" placeholder="{{{$item.ppname}}}" />
+							</div>
+							<div class="pros">
+								<img src="{{{$item.smallpic}}}" alt="" />
+								<p>{{{$item.proname}}}</p>
+							</div>
+							<div class="param">
+								<p>选择规格:W:740 D: 660 H:720</p>
+								<p>涂装:天然木油 </p>
+								<p>选择材质:北美胡桃木</p>
+								<p>选择面料:进口亚麻布</p>
+							</div>
+							<div class="unpric">
+								<p>￥{{{$item.realprice}}}</p>
+							</div>
+							<div class="count">
+								{{{$item.count}}}
+							</div>
+							<div class="substro">
+								￥{{{$item.realprice * $item.count}}}
+							</div>
+							<div class="notes">{{{$item.ppdesc}}}</div>
+						</div>
+					</li>
+					{{{/foreach}}}
+				</ul>
+				<div class="bottom-total">
+					<!--<div class="all">
+						<i></i><span>全选</span>
+					</div>-->
+					<!--<div class="float">
+						<span>选中的产品上浮</span>
+						<input type="text" />
+						<span>%</span>
+					</div>-->
+					<div class="remak">
+						<span>备注 </span> <input type="text" placeholder="{{{$order.desc}}}"/>
+					</div>
+					<div class="money">
+						<span>合计七件产品  合计：</span> <em>￥{{{$totalprice}}}</em>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</body>
+
+</html>

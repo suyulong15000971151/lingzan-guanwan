@@ -1,0 +1,1010 @@
+{{{include file="general/general.header.html"}}}
+<link rel="stylesheet" href="{{{$static_url}}}/css/librarythree.css" />
+<style>
+#edit .edit-box .edit-content .edit-container .form-one .img-load i{display: inline-block; width: 12px; height: 12px; position: absolute; right: 5px; top: 5px; background: url({{{$static_url}}}/image/delete_03.png) no-repeat; background-size: 100% 100%;}
+</style>
+	<body>
+		<!--这里是创建项目弹窗-->
+		<div id="pick">
+			<div class="pick-box">
+				<div class="pick-content" style="height:600px;">
+					<div class="pick-title">
+						<span>创建区域</span>
+						<i></i>
+					</div>
+					<div class="pick-show">
+						<form class="form-one" id="addPro" enctype="multipart/form-data" method="post" action="/member/addProject">
+						<input type="hidden" name="libid" id="libid" value="{{{$data.libid}}}"/>
+						<input type="hidden" name="tag" id="tag"/>
+						<div class="pick-left">
+							<div class="img-load">
+								<input type="file" multiple="true" id="btn" name="cover" onchange="uploads(this)">
+								<p>本地上传</p>
+							</div>
+							<div class="title-item">
+								<span>*</span>
+								<input type="text" placeholder="名称" name="proname" id="proname"/>
+							</div>
+							<div class="title-item">
+								<span>*</span>
+								<i></i>
+								<div class="classif">
+									<input type="hidden" name="type1" class="type1"/>
+									<p>分类</p>
+									<div class="class-item fenLeiBox">
+										<a href="javascript:void(0)">会所</a>
+										<a href="javascript:void(0)">餐饮</a>
+										<a href="javascript:void(0)">宾馆</a>
+										<a href="javascript:void(0)">公共</a>
+										<a href="javascript:void(0)">商业</a>
+										<a href="javascript:void(0)">私宅</a>
+									</div>
+								</div>
+							</div>
+							<div class="title-item">
+								<span>*</span>
+								<i></i>
+								<div class="classif">
+									<input type="hidden" name="type3" class="type3"/>
+									<p>功能</p>
+									<div class="class-item gongNengBox">
+									</div>
+								</div>
+							</div>
+							<div class="title-item">
+								<span>*</span>
+								<i></i>
+								<div class="classif">
+									<input type="hidden" name="type2" class="type2"/>
+									<p>风格</p>
+									<div class="class-item">
+										<a href="javascript:void(0)">斯堪地纳</a>
+										<a href="javascript:void(0)">新中式</a>
+										<a href="javascript:void(0)">简洁大气</a>
+										<a href="javascript:void(0)">地中海</a>
+										<a href="javascript:void(0)">殖民地</a>
+										<a href="javascript:void(0)">伊斯兰</a>
+										<a href="javascript:void(0)">日式禅意</a>
+										<a href="javascript:void(0)">明式风雅</a>
+										<a href="javascript:void(0)">实用舒适</a>
+										<a href="javascript:void(0)">典雅主义</a>
+										<a href="javascript:void(0)">维多利亚</a>
+										<a href="javascript:void(0)">波斯</a>
+										<a href="javascript:void(0)">意大利</a>
+										<a href="javascript:void(0)">包豪斯</a>
+										<a href="javascript:void(0)">温暖家</a>
+										<a href="javascript:void(0)">新古典</a>
+										<a href="javascript:void(0)">罗马风</a>
+										<a href="javascript:void(0)">巴洛克</a>
+										<a href="javascript:void(0)">极简主义</a>
+										<a href="javascript:void(0)">后现代</a>
+										<a href="javascript:void(0)">高大上</a>
+										<a href="javascript:void(0)">现代主义</a>
+										<a href="javascript:void(0)">国际风</a>
+										<a href="javascript:void(0)">哥特</a>
+										<a href="javascript:void(0)">德国工业</a>
+										<a href="javascript:void(0)">LOFT</a>
+										<a href="javascript:void(0)">小清馨</a>
+										<a href="javascript:void(0)">新艺术</a>
+										<a href="javascript:void(0)">法式浪漫</a>
+										<a href="javascript:void(0)">洛可可</a>
+									</div>
+								</div>
+							</div>
+							<textarea name="desc" rows="" cols="" placeholder="描述" class="desc" style="width:180px; height:80px; margin-left:35px;"></textarea>
+							
+						</div>
+						</form>
+						<div class="pick-right">
+							<div class="select">
+								<div class="select-show child">
+									<p>区域所属项目</p>
+									<div class="select-box">
+										<div class="item addselect">{{{$data.libname}}}</div>
+										
+									</div>
+								</div>
+							</div>
+							<div class="creat">
+								<div class="creat-box">
+									<span>创建材思库</span>
+									<i></i>
+								</div>
+							</div>
+							<div class="label">
+								<input type="text" placeholder="输入文字按空格或回撤以生成标签" name="tag" class="tag1"/>
+							</div>
+							<div class="submit">
+								<button> 确认上传</button>
+							</div>
+							<div class="anima-lo">
+	                         	<div class="k-ball-holder3">
+				                	<div class="k-ball7a" ></div>
+				                	<div class="k-ball7b" ></div>
+				                	<div class="k-ball7c" ></div>
+				                	<div class="k-ball7d" ></div>
+				                	<p>正在上传中。。。</p>
+			                	</div>
+                         	</div>
+						</div>
+					</div>
+				</div>
+			</div>      
+		</div>
+		
+		<!--这里是编辑项目弹窗-->
+		<div id="edit">
+			<div class="edit-box">
+				<div class="edit-content" style="height:850px;position: absolute; top: 40%; left: 50%;">
+					<div class="title">
+						<span>编辑区域</span>
+						<i></i>
+					</div>
+					<div class="edit-container">
+						<form class="form-one"  method="post" action="/member/editProject" id="editProject">
+						<input type="hidden"  class="proid" name="proid" value=""/>
+						<div class="img-load" style=" width: 100%; height: 150px; margin: 5px auto 5px; overflow: hidden; box-sizing: border-box;border:1px solid #ccc; position: relative;">
+							<p style=" width: 100px; color: #fff; text-indent: 0; height: 40px; background: #055cfc; line-height: 40px; text-align: center; margin: 50px auto 0; font-size: 15px; font-weight: 400;">本地上传</p>
+							<input type="file" multiple="true" id="btn" name="pic" onchange="uploadss(this)" style="width: 100%; height: 40px; outline: none; border: none; position: absolute; display: block; top: 50px; opacity: 0;">
+						</div>
+						<div class="edit-item">
+							<div class="item-con"><input type="text" placeholder="项目名称" name="proname" class="proname"/></div>
+						</div>
+						<div class="edit-item">
+							<input type="hidden" id="type1" name="type1" placeholder="项目分类" />
+							<div class="item-con"><span>*</span><i></i><div class="sort type1">项目分类</div>
+								<div class="sele-edit fenLeiBox1">
+									<a href="javascript:void(0)">会所</a>
+									<a href="javascript:void(0)">餐饮</a>
+									<a href="javascript:void(0)">宾馆</a>
+									<a href="javascript:void(0)">公共</a>
+									<a href="javascript:void(0)">商业</a>
+									<a href="javascript:void(0)">私宅</a>
+								</div>
+							</div>
+						</div>
+						<div class="edit-item">
+							<input type="hidden" id="type3" name="type3" placeholder="项目功能" />
+							<div class="item-con"><span>*</span><i></i><div class="sort type3">项目功能</div>
+								<div class="sele-edit gongNengBox1">
+								</div>
+							</div>
+						</div>
+						<div class="edit-item">
+							<input type="hidden" id="status" name="status" placeholder="项目状态"/>
+							<div class="item-con"><span>*</span><i></i><div class="sort status">项目状态</div>
+							<div class="sele-edit">
+								        <a href="javascript:void(0)">设计中</a>
+										<a href="javascript:void(0)">生产中</a>
+										<a href="javascript:void(0)">已完成</a>
+							</div>
+							</div>
+						</div>
+						<div style="margin-top:10px;">
+							<textarea name="desc" rows="" cols="" placeholder="项目简介" id="desc" style="width:100%;color:#a2a2a2;font-size: 14px; height:120px; float:left;text-align: center; margin-bottom:10px;line-height: 30px;"></textarea>
+						</div>
+						<div class="edit-item power">
+							<div class="item-con"><input type="radio" class="isshow" name="isshow" value="1" /> 项目发布到公告栏 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="isshow" class="isshow" value="0"/> 不发布 </div>
+						</div>
+						</form>
+						<div class="edit-item delete">
+							<div class="item-con deletePro"><em>删除项目</em></div>
+						</div>
+						<button class="saves">编辑保存</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--成功弹窗-->
+		<div id="win" class="">
+			<div class="win-box">
+				<div class="com">
+					<img src="{{{$static_url}}}/image/laught_03.png" alt="" style="position:relative;"/>
+					<span></span>
+					<i></i>
+				</div>
+			</div>
+		</div>
+		<!--这里是确认弹窗-->
+	    <div id="config">
+	    	<div  class="config-box">
+	    		<div class="content">
+	    			<div class="title">删除该区域，会把它的产品一并删除，您确定要删除吗?</div>
+	    			<span>取消</span>
+	    			<button type="submit">确定</button>
+	    		</div>
+	    	</div>
+	    </div>
+		<!--这里是个人简介-->
+		<div class="manpeople">
+			<div class="man-box">
+				<!--{{{if $userInfo.userid == $user.userid}}}
+				<a href="/member/library"><i>返回</i></a>
+				{{{else}}}
+				<a href="/member/library/{{{$userInfo.userid}}}"><i>返回</i></a>
+				{{{/if}}}-->
+				
+				<!--<h1>{{{$data.libname}}}</h1>-->
+				<!--<p>{{{$library.count}}}个区域</p>-->
+				
+		<div class="sub-nav">
+			<div class="sub-box">
+				<!--<div class="sub-box-title" style="position: absolute;line-height: 80px;font-size: 15px;"><b style="font-size: 17px;">{{{$project.libname}}}</b>({{{$project.x_index}}},{{{$project.y_index}}})</div>-->
+				
+				<!--<select id="proarea" name="" value="">
+					{{{foreach from=$proarea item=item}}}
+					<option value="{{{$item.proid}}}" {{{if $item.proid == $project.proid}}}selected="selected"{{{/if}}}>{{{$item.proname}}}</option>
+					{{{/foreach}}}
+				</select>-->
+				<h1>{{{$data.libname}}}</h1>
+				<div class="pro-explain">
+					<p>这栋精品酒店是由三栋明清风格的老建筑改造而成，相传这三栋老建筑分别属于王世一家三兄弟，各</p>
+					<em>全文》</em>
+				</div>
+				
+				
+				<i onclick="javascript:history.go(-1)" title="返回"></i>
+				<span title="分享"></span>
+				
+				<div class="files">
+					<a href="javascript:;" class="add"><img src="{{{$static_url}}}/image/up.png" title="上传文件" alt="" /></a><p><a href="javascript:;" title="项目文件"></a> <em title="项目文件">2</em></p>
+					<a href="javascript:;" class="load"><img src="{{{$static_url}}}/image/lo.png" title="下载文件" alt="" /></a>
+				</div>
+			
+			</div>
+		</div>
+		
+		
+		
+			</div>
+		</div>
+         <div id="man-box"></div>
+         <div id="man-show"></div>
+        <div class="containers" id="containers">
+        	<input type="hidden" id="p" value="{{{$p}}}" />
+        	{{{if $userInfo.userid == $userid}}}
+			<div class="box man-item create" onClick="createWindowOpen()">
+				<p>创建区域</p>
+			</div>
+			{{{/if}}}
+
+			{{{if $library.list != ''}}}
+			{{{foreach from=$library.list item=item}}}
+			<div class="box man-item project_{{{$item.id}}}">
+				<div class="item-box">
+					<a href="/library/project/{{{$item.id}}}">
+						<h4>{{{$item.area}}}{{{$item.name}}}</h4>
+						<div class="big-img">
+							{{{if $item.pic != ''}}} <img src="{{{$item.pic}}}" alt="{{{$item.name}}}" /> {{{else}}}  <img src="{{{$static_url}}}/image/li_image.jpg" alt="" /> {{{/if}}}
+						</div>
+						<div class="small">
+							{{{if $item.list != []}}}
+							{{{foreach from=$item.list item=item1}}}
+							<img src="{{{$item1.smallpic}}}" alt="{{{$item1.proname}}}" />
+							{{{/foreach}}}
+							{{{/if}}}
+						</div>
+					</a>
+
+					{{{if $userInfo.userid == $userid}}}
+					<div class="edits" onClick="editProject({{{$item.id}}})">编辑</div>
+					<!-- <div class="edidele" onClick="deleteProject({{{$item.id}}})">删除</div> -->
+					<div class="edidele" onClick="copyProject({{{$item.id}}})">复制成新区域</div>
+
+					{{{/if}}}
+				</div>
+			</div>
+			{{{/foreach}}}
+			{{{/if}}}
+        </div>
+		<script src="{{{$static_url}}}/js/selflibrary.js"></script>
+		<script src="{{{$static_url}}}/js/color-thief.js"></script>
+		<script src="{{{$static_url}}}/js/selfcoll.js"></script>
+		<script src="{{{$static_url}}}/js/librarythree.js"></script>
+		<script type="text/javascript" src='{{{$static_url}}}/js/jquery-form.js'></script>
+		<script>
+		
+		
+		
+		 var textword=$(".pro-explain p").text()
+  var slicetext=textword.substr(0,30)
+  $(".pro-explain p").text(slicetext+"...")
+	
+	$(".sub-box .pro-explain em").click(function(){
+		var emtext=$(this).text()
+		if(emtext=='全文》'){
+			$(".pro-explain p").text(textword)
+			$(".pro-explain").css({"height":"auto"})
+			$(this).text("收起》")
+		}else{
+			$(".pro-explain p").text(slicetext+"...")
+			$(".pro-explain").css({"height":"40px"})
+			$(this).text("全文》")
+		}
+	})
+
+		//创建子项目弹窗
+		function createWindowOpen() {
+
+			$('.submit').prev('p').remove();
+			$('.imgBox').remove();
+			$('.img-load p').attr('style','display:block;');
+			$('.img-load i').remove();
+			$('#proname').val('');
+			$('.type1').next('p').text('分类');
+			$('.type1').val('');
+			$('.type2').next('p').text('风格');
+			$('.type2').val('');
+			$('.type3').next('p').text('功能');
+			$('.type3').val('');
+			$('.desc').val('');
+			$('.tag1').val('');
+			$('.gongNengBox').html('');
+
+		}
+
+		$('.fenLeiBox a').click(function(){
+			var type = $(this).text();
+			$('.gongNengBox').prev().text('功能');
+			$('.gongNengBox').prev().prev().val('');
+			changeFenLei(type);
+
+		})
+
+		function changeFenLei(type) {
+
+			var html = '';
+			$.ajax({
+              url:'/member/projectFunctionTag',
+              type:"post",
+              data:{type:type},
+              success:function(ret){
+
+                  if(ret != ''){
+
+                      var jsonarray = eval('('+ret+')');
+			           $.each(jsonarray, function(i, n) {
+
+			           		html += '<a href="javascript:void(0)" class="gn_'+i+'" onClick="checkedGongNeng('+i+')">'+n+'</a>';
+			           	});
+
+                   }
+                   $('.gongNengBox').html(html);
+
+              },   
+              error:function(){
+                  alert('网络异常，请稍后再试');
+                  return false;
+              }
+
+          	})
+
+		}
+
+		function checkedGongNeng(i){
+
+			var type3 = $('.gn_'+i).text();
+			$('.gn_'+i).parent().prev().prev().val(type3);
+			$('.gn_'+i).parent().prev().text(type3);
+			$('.gn_'+i).parent().slideUp();
+
+		}
+
+
+		$('.fenLeiBox1 a').click(function(){
+			var type = $(this).text();
+			$('.gongNengBox1').prev().text('项目功能');
+			$('.gongNengBox1').parent().prev().val('');
+			changeFenLei1(type);
+
+		})
+
+		function changeFenLei1(type) {
+
+			var html = '';
+			$.ajax({
+              url:'/member/projectFunctionTag',
+              type:"post",
+              data:{type:type},
+              success:function(ret){
+
+                  if(ret != ''){
+
+                      var jsonarray = eval('('+ret+')');
+                      if(jsonarray != null) {
+							$.each(jsonarray, function(i, n) {
+				           	// alert(i)
+				           	html += '<a href="javascript:void(0)" class="gp_'+i+'" onClick="checkedGongNeng1('+i+')">'+n+'</a>';
+
+			           		});
+
+                      }
+
+                   }
+                   $('.gongNengBox1').html(html);
+
+              },   
+              error:function(){
+                  alert('网络异常，请稍后再试');
+                  return false;
+              }
+
+          	})
+
+		}
+
+		function checkedGongNeng1(i){
+
+			var type3 = $('.gp_'+i).text();
+			$('.gp_'+i).parent().prev().text(type3);
+			$('.gp_'+i).parent('.gongNengBox1').parent('.item-con').prev().val(type3);
+			$('.gp_'+i).parent().slideUp();
+
+		}
+
+		function copyProject(projectId) {
+
+			$('#config .config-box .content .title').text('确定复制该区域吗？');
+			$('#config').addClass('big');
+		 	$('#config .config-box .content button').remove();
+			$("#config .config-box .content span").after('<button type="submit">确定</button>');
+
+			$('#config .config-box .content span').click(function(){
+				$('#config').removeClass('big');
+				$('#config .config-box .content button').remove();
+			})
+			$('#config .config-box .content button').click(function(){
+				$('#config').removeClass('big');
+				$(this).remove();
+				cpProject(projectId);
+
+			})
+
+		}
+
+		function cpProject(projectId) {
+
+			var libid = {{{$data.libid}}};
+			var projectName = $.trim($('.project_'+projectId).find('h4').text());
+
+			$.ajax({
+              url:'/member/copyProject',
+              type:"post",
+              data:{projectId:projectId,libid:libid,projectName:projectName},
+              success:function(ret){
+
+                  if(ret != ''){
+
+                      var jsonarray = eval('('+ret+')');
+                      var msg = jsonarray.msg;
+                      var code = jsonarray.code;
+                      if(code != 200) {
+                      	// alert(msg);
+                      	$('#win .win-box .com span').html(msg).attr('style',"position:absolute; top:73px; left:50%;transform:translateX(-50%)");
+						$('#win').css('display',"block").addClass('anima');
+                      	window.location.reload();
+
+                      }else{
+
+                        $('#win .win-box .com span').html('复制成功').attr('style',"position:absolute; top:73px; left:50%;transform:translateX(-50%)");
+						$('#win').css('display',"block").addClass('anima');
+			            window.location.reload();
+
+                      }
+
+                   }
+
+              },   
+              error:function(){  
+
+                $('#win .win-box .com span').html('网络异常，请稍后再试').attr('style',"position:absolute; top:73px; left:50%;transform:translateX(-50%)");
+				$('#win').css('display',"block").addClass('anima');
+                 // window.location.reload();
+              }
+
+          	})
+
+		}
+
+		var n = 0;
+
+		function uploads(obj) {
+
+			if(!obj.value.match(/.jpg|.gif|.png|.bmp/i)) {
+				alert("请选择图片文件！");
+			} else {
+				n = obj.files.length;
+				var html = "";
+				for(var i = 0; i < n; i++) {
+					var url = window.URL.createObjectURL(obj.files[i]);
+					var txt = obj.files[i].name.split(judge(obj.files[i]));
+
+					console.log(url);
+					html += `<div class='imgBox'>
+				<div class='bg' style='background:url(` + url + `) no-repeat center;background-size:cover'>
+				</div>
+				</div><i></i>`;
+				}
+				$("#pick .pick-left .img-load .imgBox").remove()
+			   $("#pick .img-load p").hide();
+				$("#pick .pick-left .img-load").append(html);
+			}
+
+			$("#pick .pick-left .img-load i").click(function(event){
+
+			$(".imgBox").remove();
+			$("#pick .img-load p").show();
+			$(this).remove()
+
+		})
+		}
+
+		function judge(obj) {
+			var str = '';
+			if(obj.name.match(/.jpg/i)) {
+				str = ".jpg";
+			} else if(obj.name.match(/.png/i)) {
+				str = ".png";
+			} else if(obj.name.match(/.gif/i)) {
+				str = ".gif";
+			} else if(obj.name.match(/.bmp/i)) {
+				str = ".bmp";
+			}
+			return str;
+		}
+	
+
+		</script>
+		<script>
+			$("#pick .pick-box .class-item a").click(function() {
+				var text = $(this).text();
+				$(this).parent().prev().prev().val(text)
+			});
+
+			$('#editProject .edit-item .sele-edit a').click(function(){
+				var text = $(this).text();
+				$(this).parent('.sele-edit').parent('.item-con').prev().val(text);
+			})
+
+			//添加项目，提交表单
+			$("#pick .pick-box .pick-content .pick-show .pick-right .submit button").click(function() {
+
+				var tag = $('.tag1').val();
+				$('#tag').val(tag);
+
+				$(this).attr("disabled","true"); //设置变灰按钮
+				$('.submit').prev('p').remove();
+				$('#addPro').ajaxSubmit({
+
+		        success:function(ret){
+
+		            setTimeout("$('.submit button').removeAttr('disabled')",3000);
+		            
+		            var jsonarray = eval('('+ret+')');
+		            var msg = jsonarray.msg;
+		            var code = jsonarray.code;
+		            if(code != 200){
+		            	$('.submit').prev('p').remove();
+		            	$('.submit').before(msg);
+		              	return false;
+
+		            }
+
+		            $('#pick .pick-box .pick-right .anima-lo').css('display','block');
+		            $('#pick .pick-right .select').css('visibility','hidden');
+		            $('#pick').hide();
+		            $('#win').css('display',"block").addClass('anima');
+	                $('#win').find('span').text('添加成功').css({position:'absolute',top:'75px',left:'90px'});
+		            window.location.reload();
+
+		        },   
+		        error:function(){  
+		          // alert('网络异常，请稍后再试');
+		          setTimeout("$('.submit button').removeAttr('disabled')",3000);
+		          $('.submit').prev('p').remove();
+		          $('.submit').before('<p>网络异常，请稍后再试</p>');
+		          return false;
+		        }
+
+		      })
+
+			})
+
+				//瀑布流编辑弹出框
+				function editProWinOpen(proid) {
+					$(window).scrollTop(0);
+					$('body').css("overflow", 'hidden')
+					var parent = $(this).offsetParent()
+					$("body").css("overflow", "hidden")
+					$("#edit").show(500);
+					var flat = true;
+					$("#edit .edit-box .edit-content .edit-container .delete .item-con em").click(function() {
+						if(flat) {
+							flat = false;
+							$(this).css("background", "red")
+						} else {
+							flat = true;
+							$(this).css("background", "#999")
+						}
+					});
+					$("#edit .edit-box .edit-content .edit-container button").click(function() {
+						if(flat == false) {
+							parent.remove()
+						}
+					})
+					editProject(proid);
+				}
+
+				//编辑项目赋值
+				function editProject(proid) {
+
+					$('.saves').text('编辑保存');
+					$('.saves').prev('p').remove();
+					$.ajax({
+		              url:'/member/getProjectInfo',
+		              type:"post",
+		              data:{proid:proid},
+		              success:function(ret){
+
+		                  if(ret != ''){
+
+		                      var jsonarray = eval('('+ret+')');
+		                      var msg = jsonarray.msg;
+		                      var code = jsonarray.code;
+		                      if(code != 200) {
+		                      	alert(msg);
+		                      	return false;
+		                      }
+
+			                  $("#edit .edit-box .edit-content .edit-container .form-one .img-load .imgBox").remove();
+		                      $("#edit .edit-box .edit-content .edit-container .form-one .img-load i").remove();
+		                      $("#edit .edit-box .edit-content .edit-container .form-one .img-load p").show();
+		                      if(msg.cover != '') {
+
+		                      var html = `<div class='imgBox'>
+							  <div class='bg' style='background:url(` + msg.cover + `) no-repeat center;background-size:cover'>
+							  </div>
+							  </div><i></i>`;
+							  
+							  $("#edit .edit-box .edit-content .edit-container .form-one .img-load p").hide();
+							  $("#edit .edit-box .edit-content .edit-container .form-one .img-load").append(html);
+							  $("#edit .edit-box .edit-content .edit-container .form-one .img-load i").click(function(event) {
+
+									$("#edit .edit-box .edit-content .edit-container .form-one .img-load .imgBox").remove();
+									$("#edit .edit-box .edit-content .edit-container .form-one .img-load p").show();
+									$(this).remove()
+
+								})
+
+		                      }else{
+		                      	 $("#edit .edit-box .edit-content .edit-container .form-one .img-load p").attr('style',' width: 100px; color: #fff; text-indent: 0; height: 40px; background: #055cfc; line-height: 40px; text-align: center; margin: 50px auto 0; font-size: 15px; font-weight: 400;');
+		                      }
+
+		                      $('#edit .edit-box .edit-content .title em').text(msg.proname);
+		                      $('.proid').val(proid);
+		                      $('.proname').val(msg.proname);
+		                      $('.type1').text(msg.type1);
+		                      $('.type2').text(msg.type2);
+		                      $('.type3').text(msg.type3);
+		                      $('#type1').val(msg.type1);
+		                      $('#type2').val(msg.type2);
+		                      $('#type3').val(msg.type3);
+		                      if(msg.type1 == '') {
+		                      	 $('.type1').text('项目分类');
+		                      }
+
+		                      if(msg.type3 == '') {
+		                      	$('.type3').text('项目功能');
+		                      }
+		                     
+		                      $('#status').val(msg.status);
+		                      $('.deletePro').attr('onClick','deleteProject('+proid+')');
+		                      $('.isshow').prop('checked',false);
+		                      $('#desc').text(msg.desc);
+		                      if(msg.isshow == 1) {
+		                      	 $('.isshow[value="1"]').prop('checked',true);
+		                      }else{
+		                      	 $('.isshow[value="0"]').prop('checked',true);
+		                      }
+		                     
+		                     if(msg.status == 1) {
+		                      	 $('.status').text('设计中');
+		                      }
+		                      if(msg.status == 2) {
+		                      	 $('.status').text('生产中');
+		                      }
+		                      if(msg.status == 3) {
+		                      	$('.status').text('已完成');
+		                      }
+
+		                      changeFenLei1(msg.type1);
+
+		                   }
+
+		              },   
+		              error:function(){  
+		                  // alert('网络异常，请稍后再试');
+		                  $('.saves').prev('p').remove();
+			          	  $('.saves').before('<p>网络异常，请稍后再试</p>');
+		                  return false;
+		              }
+
+		          	})
+
+				}
+
+				//编辑项目提交
+				$('.saves').click(function(){
+
+					$(this).text('正在上传中。。。').attr("disabled","true"); //设置变灰按钮
+					$('.saves').prev('p').remove();
+					$('#editProject').ajaxSubmit({
+
+			        success:function(ret){
+
+			            setTimeout("$('.saves').removeAttr('disabled').text('编辑保存')",3000);
+			            var jsonarray = eval('('+ret+')');
+			            var msg = jsonarray.msg;
+			            var code = jsonarray.code;
+			            if(code != 200){
+
+			            	$('.saves').prev('p').remove();
+		            		$('.saves').before(msg);
+			              	return false;
+
+			            }
+
+			             // window.location.href = "/member/selflibrarytow/"+{{{$data.libid}}}; 
+			            $('#win .win-box .com span').html('编辑成功').attr('style',"position:absolute; top:73px; left:50%;transform:translateX(-50%)");
+						$('#win').css('display',"block").addClass('anima');
+			            window.location.reload();
+
+			        },   
+			        error:function(){  
+			          // alert('网络异常，请稍后再试');
+			          setTimeout("$('.saves').removeAttr('disabled').text('编辑保存')",3000);
+			          $('.saves').prev('p').remove();
+			          $('.saves').before('<p>网络异常，请稍后再试</p>');
+			          return false;
+			        }
+
+			      })
+
+				})
+
+				//删除子项目
+				function deleteProject(proid) {
+
+					$('#config .config-box .content .title').text('删除该区域，会把它的产品一并删除，您确定要删除吗?');
+				 	$('#config').addClass('big');
+
+				 	$('#config .config-box .content button').remove();
+					$("#config .config-box .content span").after('<button type="submit">确定</button>');
+
+					$('#config .config-box .content span').click(function(){
+						$('#config').removeClass('big');
+						$('#config .config-box .content button').remove();
+					})
+					$('#config .config-box .content button').click(function(){
+						$('#config').removeClass('big');
+						$(this).remove();
+						delProject(proid);
+
+					})
+
+				}
+
+				function delProject(proid){
+
+					var libid = {{{$data.libid}}};
+					$.ajax({
+		              url:'/member/delProject',
+		              type:"post",
+		              data:{proid:proid,libid:libid},
+		              success:function(ret){
+
+		                  if(ret != ''){
+
+		                      var jsonarray = eval('('+ret+')');
+		                      var msg = jsonarray.msg;
+		                      var code = jsonarray.code;
+		                      if(code != 200) {
+		                      	// alert(msg);
+		                      	$('#win .win-box .com span').html(msg).attr('style',"position:absolute; top:73px; left:50%;transform:translateX(-50%)");
+								$('#win').css('display',"block").addClass('anima');
+		                      	window.location.reload();
+
+		                      }else{
+
+		                      	// window.location.href = "/member/selflibrarytow/"+{{{$data.libid}}}; 
+		                        $('#win .win-box .com span').html('删除成功').attr('style',"position:absolute; top:73px; left:50%;transform:translateX(-50%)");
+								$('#win').css('display',"block").addClass('anima');
+					            window.location.reload();
+
+		                      }
+
+		                   }
+
+		              },   
+		              error:function(){  
+		                  // alert('网络异常，请稍后再试');
+		                $('#win .win-box .com span').html('网络异常，请稍后再试').attr('style',"position:absolute; top:73px; left:50%;transform:translateX(-50%)");
+						$('#win').css('display',"block").addClass('anima');
+		                 window.location.reload();
+		              }
+
+		          	})
+
+				}
+
+			//这里是上传照片		
+			var n = 0;
+			function uploadss(obj) {
+				//alert(obj.files.length);
+				if(!obj.value.match(/.jpg|.gif|.png|.bmp/i)) {
+					alert("请选择图片文件！");
+				} else {
+					n = obj.files.length;
+					var html = "";
+					for(var i = 0; i < n; i++) {
+						var url = window.URL.createObjectURL(obj.files[i]);
+						var txt = obj.files[i].name.split(judge(obj.files[i]));
+						//txt = txt.split("")
+						console.log(url);
+						html += "<div class='imgBox'><div class='bg' style='background:url(" + url + ") no-repeat center;background-size:cover'></div></div><i></i>";
+					}
+					// $("#pick .pick-left .img-load .imgBox").remove()
+					$("#edit .edit-box .edit-content .edit-container .form-one .img-load .imgBox").remove()
+					$("#edit .edit-box .edit-content .edit-container .form-one .img-load p").hide();
+					$("#edit .edit-box .edit-content .edit-container .form-one .img-load").append(html);
+				}
+
+				$("#edit .edit-box .edit-content .edit-container .form-one .img-load i").click(function(event) {
+					//		event.stopPropagation()
+					//		alert(0)
+					$("#edit .edit-box .edit-content .edit-container .form-one .img-load .imgBox").remove();
+					$("#edit .edit-box .edit-content .edit-container .form-one .img-load p").show();
+					$(this).remove()
+
+				})
+			}
+
+			function judge(obj) {
+				var str = '';
+				if(obj.name.match(/.jpg/i)) {
+					str = ".jpg";
+				} else if(obj.name.match(/.png/i)) {
+					str = ".png";
+				} else if(obj.name.match(/.gif/i)) {
+					str = ".gif";
+				} else if(obj.name.match(/.bmp/i)) {
+					str = ".bmp";
+				}
+				return str;
+			}
+
+
+		/*
+		 * 瀑布流的原理：
+		 *   寻找到一排中高度最小的图片，然后排放在高度最小的图片的下面
+		 *
+		 * */
+	
+		function imgsize(){
+
+			$('img').css('opacity','1')
+
+		}
+
+		var container = document.getElementById("containers");
+		// var btn = document.getElementsByClassName("add-btn").item(0);
+		var index = 0;
+		window.onload = function() {
+			imgsize()
+
+		};
+
+		//过滤的形式
+		function getIndex(boxArr, minIndex) {
+			for(var i = 0; i < boxArr.length; i++) {
+				if(boxArr[i] == minIndex) {
+					return i;
+				}
+			}
+		}
+
+		function isEmptyObject(e) {
+			var t;
+			for (t in e)
+				return !1;
+			return !0;
+		}
+
+		$(function(){
+				$(document).scroll(function(){
+
+					imgsize()
+
+					//滚动条滑动的时候获取滚动条距离顶部的距离
+					var scroll=$(document).scrollTop();
+					//屏幕的高度
+					var client=$(window).height();
+					var h=$(document).height();
+					var flag=true;
+					if (h<=scroll+client) { // 到达底部时,加载新内容
+						if(flag==false){
+							return;
+						}
+						var p = $('#p').val();
+						var str = '';
+						$.ajax({
+							// url: '/member/getProjectContent',
+							url: '/member/getDataList',
+							type: 'POST',
+							async: true,
+							data: {
+								sign: 2,//表示获取类型为用户创建项目的区域
+								libid: "{{{$data.libid}}}",
+								p: p,
+								userid:"{{{$userInfo.userid}}}"
+							},
+							timeout: 3000,
+							dataType: 'json',
+							success: function(data){
+								//console.log(data);
+								//location.reload();
+								if(!isEmptyObject(data.errmsg)) {
+									$.each(data.errmsg.list, function(i, n) {
+
+										if(data.errmsg.list != '') {
+
+											str += '<div class="box man-item project_'+n.id+'"><div class="item-box"><a href="/library/project/'+n.id+'">';
+											str += '<h4>'+n.name+'</h4><div class="big-img">';
+												if(n.pic != ''){ 
+													str += '<img src="'+n.pic+'" alt="'+n.name+'" />';
+												}else{
+													str += '<img src="{{{$static_url}}}/image/li_image.jpg" alt="" />';
+												}
+											str += '</div><div class="small">';
+
+											if(n.list != []){
+
+												var list = n.list;
+												var count  = list.length;
+
+												for (var i = 0; i < count; i++) {
+													str += '<img src="'+list[i].smallpic+'" alt="'+list[i].proname+'" />';
+
+												};
+
+											}
+											str += '</div></a>';
+													if({{{$userInfo.userid}}} == {{{$userid}}}){
+													str += '<div class="edits" onClick="editProWinOpen('+n.id+')">编辑</div>';
+													// str += '<div class="edidele" onClick="deleteProject('+n.id+')">删除</div>';
+													str += '<div class="edidele" onClick="copyProject('+n.id+')">复制成新区域</div>';
+
+													}
+											str += '</div></div>';
+
+										}
+
+									});
+
+									$('#containers').append(str);
+
+									imgsize()
+
+									$('#p').val(Number(p)+1);
+
+								}
+							}
+						});
+					}
+				});
+			});
+		</script>
+	</body>
+
+</html>

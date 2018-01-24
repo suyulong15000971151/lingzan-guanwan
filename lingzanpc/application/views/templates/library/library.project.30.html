@@ -1,0 +1,323 @@
+{{{include file="general/general.header.html"}}}
+		<link rel="stylesheet" href="{{{$static_url}}}/css/transform.css" />
+		<!--这里是添加成员-->
+		<div id="custom">
+			<div class="custom-box">
+				<div class="content">
+					<div class="title">
+						<span>添加成员</span><i></i>
+					</div>
+					<div class="container">
+						<div class="caption">
+							<a href="javascript:void(0)" class="cutv">快速添加成员</a>
+							<a href="javascript:void(0)" class="mid">通过邮件邀请</a>
+							<a href="javascript:void(0)">通过连接注册</a>
+						</div>
+
+						<div class="package">
+						<!--这里是第一个内容-->
+						<div class="first mode">
+						<form method="post" action="/library/project_member_add">
+						<input name="frames" type="hidden" value="yes" />
+						<input type="hidden" name="proid" value="{{{$project.proid}}}" />
+							<div class="first-box">
+								<div class="firstput">
+									<p>* 快速添加成员账户，设置默认密码，首次登陆时需要修改默认密码</p>
+									<div class="item">
+										<label for="">姓名</label> <input type="text" name="nickname" />
+									</div>
+									<div class="item">
+										<label for="">手机号</label> <input type="text" name="mobile" />
+									</div>
+									<div class="item">
+										<label for="">默认密码</label> <input type="text" name="password" />
+									</div>
+									<div class="item">
+										<label for="">项目角色</label> <input type="text" name="group" />
+									</div>
+									<div class="item">
+										<label for="">所属公司</label> <input type="text" name="company" />
+									</div>
+								</div>
+								<div class="sub">
+									<button type="submit">添加成员</button>
+								</div>
+							</div>
+						</form>
+						</div>
+						<!--这是第二个内容-->
+						<div class="second mode">
+						<form method="post" action="/library/project_member_add2">
+						<input name="frames" type="hidden" value="yes" />
+						<input type="hidden" name="proid" value="{{{$project.proid}}}" />
+							<div class="second-box">
+								<p>* 通过邮箱给项目成员发送注册当前项目的邀请链接。</p>
+								<div class="item">
+									<label for="">邮箱</label><input type="text" name="email" />
+								</div>
+								<button>增加一行</button>
+							</div>
+							<div class="sub">
+									<button type="submit">添加成员</button>
+							</div>
+						</form>
+						</div>
+						<!--这里是第三个内容-->
+						<div class="third mode">
+							<div class="third-box">
+								<p>* 发送网站注册链接地址给你需要邀请的项目组成员，他们可通过该地址直接注册账号。</p>
+								<div class="item">
+									<label for="">邮箱</label><input type="text" value="{{{$invite_url}}}" />
+								</div>
+								<button>点击复制该链接</button>
+							</div>
+						</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--这里是移除弹窗-->
+		<div class="member-dele">
+			<div class="dele-box">
+				<div class="content">
+					<div class="title">
+						<span>移除成员</span>
+						<i></i>
+					</div>
+					<div class="containers">
+						<div class="dele-boxs">
+							<img src="img/cai1.jpg" alt="" />
+							<p>造物社</p>
+						</div>
+					</div>
+					<div class="sub">
+						<button>确认已出</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--这里是分享-->
+		<div id="share">
+			<div class="play-share">
+				<div class="share-content">
+					<div class="share-title">
+						<span>分享</span><i></i>
+					</div>
+					<div class="share-item">
+						<a href=""><span></span>
+							<p>新浪微博</p>
+						</a>
+						<a href=""><span></span>
+							<p>腾讯微博</p>
+						</a>
+						<a href=""><span></span>
+							<p>QQ好友</p>
+						</a>
+						<a href=""><span></span>
+							<p>微信</p>
+						</a>
+						<a href=""><span></span>
+							<p>百度</p>
+						</a>
+						<a href=""><span></span>
+							<p>豆瓣</p>
+						</a>
+						<a href=""><span></span>
+							<p>人人网</p>
+						</a>
+						<a href=""><span></span>
+							<p>人人网</p>
+						</a>
+					</div>
+					<button>确认分享</button>
+				</div>
+			</div>
+		</div>
+
+		<!--这是项目标题-->
+		<div class="sub-nav">
+			<h1>西溪见习酒店</h1>
+			<select name="" value="">
+				<option value="">全部区域</option>
+				<option value="">IF01 酒店大堂</option>
+				<option value="">IF02 普通客房</option>
+				<option value="">IF03 商务套房</option>
+				<option value="">IF04 咖啡吧</option>
+				<option value="">IF05 中餐厅</option>
+				<option value="">IF06 健身房</option>
+			</select>
+			<i>返回</i>
+		</div>
+
+		<!--这是下面的产品-->
+		<div class="product">
+			<div class="left">
+				<div class="item">
+					<ul>
+						{{{foreach from=$prolist key=key item=item}}}
+						<li><img src="{{{$item.sp1.smallpic}}}" alt="" /></li>
+						{{{/foreach}}}
+					</ul>
+				</div>
+				<div class="show">
+					<img src="{{{if isset($prolist.0.sp1.smallpic)}}}{{{$prolist.0.sp1.smallpic}}}{{{/if}}}" alt="" />
+				</div>
+				<!--<a href="" class="arror-l"></a>
+				<a href="" class="arror-r"></a>-->
+			</div>
+			<div class="right">
+				<div class="title">
+					<h1>{{{$project.proname}}}</h1>
+					<span>分享</span>
+					<p>{{{$project.desc}}}</p>
+				</div>
+				<!--关注-->
+				<div class="follow">
+					<div class="follow-l">
+						<img src="{{{$project.avatar}}}" alt="" />
+						<span>{{{$project.nickname}}}</span>
+					</div>
+					<!--<div class="follow-r">
+						<strong>+</strong>
+						<i>关注</i>
+					</div>-->
+				</div>
+				<!--这里是项目成员-->
+				<div class="members">
+					<div class="member">
+						<h4>项目成员 0位</h4>
+						<div class="member-add">
+							{{{foreach from=$project_member item=item}}}
+							<div class="peon-item">
+								<img src="{{{$item.avatar}}}" alt="" />
+								<div class="people-id">
+									<div class="rol">
+										<div class="left">
+											<img src="{{{$item.avatar}}}" alt="" />
+											<p>{{{$item.nickname}}}</p>
+										</div>
+										<div class="right">
+											<label for="">角色</label> <span>{{{$project_group[$item.groupid]}}}</span><br />
+											<label for="">手机</label> <span>{{{$item.mobile}}}</span><br />
+											<label for="">邮箱</label> <span>{{{$item.email}}}</span><br />
+
+											<div class="set">
+												<i>移除</i> <span>编辑</span> <em>私信</em>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							{{{/foreach}}}
+						</div>
+					</div>
+				</div>
+				<!--留言-->
+				<div class="message">
+					<div class="leave">
+						<span>评论留言</span><i>{{{$project.commentcount}}}个</i>
+					</div>
+					<div class="ping">
+						<input type="hidden" id="sourcetype" value="2" />
+						<input type="hidden" id="sourceid" value="{{{$project.proid}}}" />
+						<input type="text"  id="comment" />
+						<button id="send_comment"></button>
+					</div>
+					<div class="person">
+						<ul>
+							{{{foreach from=$comment item=item}}}
+							<li>
+								<div class="pson">
+									<img src="{{{$item.avatar}}}" alt="" />
+								</div>
+
+								<div class="text">
+									<h3>{{{$item.nickname}}}</h3>
+									<p>{{{$item.comment}}}</p>
+									<span>{{{$item.addtime}}}</span>
+								</div>
+							</li>
+							{{{/foreach}}}
+						</ul>
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>
+		<div class="detail">
+			<div class="detail-box">
+				<div class="detail-title">
+					<div class="pro">
+						<h1>产品清单</h1>
+						<span>{{{$total.numb}}}类产品 / 共{{{$total.count}}}件</span>
+					</div>
+					<div class="change">
+						<i>切换</i>
+					</div>
+					<div class="print">打印</div>
+					<div class="export">导出</div>
+				</div>
+				<div class="detail-item">
+					<ul>
+						{{{foreach from=$prolist key=key item=item}}}
+						<li>
+							<div class="brand">
+								<span>{{{$key + 1}}}</span>
+								<img src="{{{$item.sp1.smallpic}}}" alt="" />
+								<em>{{{$item.sp1.proname}}}</em>
+							</div>
+							<div class="Trait">
+								<label for="">颜色：</label><span style="background:#447286"></span>
+								<label for="">面料：</label><span style="background:#918e8a"></span>
+								<label for="">材质：</label><span style="background:#584c4f"></span>
+								<label for="">款式：</label><span style="background:#fff;width:70px;height:40px;text-align: center;line-height: 40px;">三人座</span>
+								<label for="">数量：</label><span style="font-weight: 600;font-size: 18px;line-height: 40px;">{{{$item.sp1.count}}} 件</span>
+							</div>
+							<div class="money">
+								<span>价格：</span>
+								<i>￥{{{$item.sp1.price}}}</i>
+							</div>
+							<div class="state">
+								<span>产品状态：</span>
+								<div class="state-select">
+									<p onclick="window.location.href='/library/project_product_add2/{{{$project.proid}}}/{{{$item.sp1.sid}}}'">帮他调整</p>
+								</div>
+							</div>
+						</li>
+						{{{foreach from=$item.sp2 key=key2 item=item2}}}
+						<li>
+							<div class="brand">
+								<span>{{{$key + 1}}}_{{{$key2 + 1}}}</span>
+								<img src="{{{$item2.smallpic}}}" alt="" />
+								<em>{{{$item2.proname}}}</em>
+							</div>
+							<div class="Trait">
+								<label for="">颜色：</label><span style="background:#447286"></span>
+								<label for="">面料：</label><span style="background:#918e8a"></span>
+								<label for="">材质：</label><span style="background:#584c4f"></span>
+								<label for="">款式：</label><span style="background:#fff;width:70px;height:40px;text-align: center;line-height: 40px;">三人座</span>
+								<label for="">数量：</label><span style="font-weight: 600;font-size: 18px;line-height: 40px;">{{{$item2.count}}} 件</span>
+	
+							</div>
+							<div class="money">
+								<span>价格：</span>
+								<i>￥{{{$item2.price}}}</i>
+							</div>
+						</li>
+						{{{/foreach}}}
+						{{{/foreach}}}
+					</ul>
+					<div class="total">
+						<span>￥{{{$total.price}}}</span>
+						<i>{{{$total.count}}}件 共计</i>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="{{{$static_url}}}/js/transform.js"></script>
+	</body>
+
+</html>

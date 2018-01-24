@@ -1,0 +1,23 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Nim extends MY_controller {
+
+	public function __construct() {
+
+		parent::__construct();
+
+	}
+
+	public function server_test() {
+
+		echo "server_test"; die;
+
+	}
+
+	public function web_test() {
+
+		$this->display('nim/nim.web_test.html');
+
+	}
+}

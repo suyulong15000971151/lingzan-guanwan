@@ -1,0 +1,724 @@
+{{{include file="general/general.header.html"}}}
+<link rel="stylesheet" href="{{{$static_url}}}/css/selflibrary.css" />
+<style>
+#edit .edit-box .edit-content .edit-container .form-one .img-load i{display: inline-block; width: 12px; height: 12px; position: absolute; right: 5px; top: 5px; background: url({{{$static_url}}}/image/delete_03.png) no-repeat; background-size: 100% 100%;}
+.man-sub{width:100%;height:60px;overflow: hidden;text-align: center;line-height: 60px;font-size: 16px;}
+.man-sub a{display: inline-block;padding:0 10px;color:#afafaf}
+.man-sub a.actv{color:#000}
+#man-box{margin:0 auto 0}
+</style>
+
+	<body>
+		<!--这里是创建项目弹窗-->
+		<div id="pick">
+			<div class="pick-box">
+				<div class="pick-content">
+					<div class="pick-title">
+						<span>创建项目</span>
+						<i></i>
+					</div>
+					<div class="pick-show">
+						<form class="form-one" id="addLib" enctype="multipart/form-data" method="post" action="/member/addLibrary">
+							<input type="hidden" name="tag" id="tag"/>
+							<div class="pick-left">
+								<div class="img-load">
+									<p>本地上传</p>
+									<input type="file" multiple="true" id="btn" name="pic" onchange="uploads(this)">
+								</div>
+								<div class="title-item">
+									<span>*</span>
+									<!-- <input type="text" placeholder="名称" style="width:100%;opacity: 1;" /> -->
+									<input type="text" placeholder="名称" id="libname" name="libname" style="width:100%;opacity: 1;" />
+								</div>
+								<div class="title-item">
+									<span>*</span>
+									<i></i>
+									<div class="classif">
+										<!-- <input type="text" /> -->
+										<input type="hidden" id="type1" name="type1" />
+										<p>分类</p>
+										<div class="class-item">
+											<a href="javascript:void(0)">房产公司</a>
+											<a href="javascript:void(0)">酒店宾馆</a>
+											<a href="javascript:void(0)">公共设施</a>
+											<a href="javascript:void(0)">餐饮会所</a>
+											<a href="javascript:void(0)">商业办公</a>
+											<a href="javascript:void(0)">私人业主</a>
+											<!--<a href="javascript:void(0)">其他</a>-->
+										</div>
+									</div>
+								</div>
+								<textarea name="desc" rows="" cols="" placeholder="描述" class="desc" style="width:180px; height:120px; margin-left:35px;"></textarea>
+							</div>
+						</form>
+						<div class="pick-right">
+							<div class="label">
+								<input type="text" placeholder="输入文字按空格或回撤以生成标签" name="tag" class="tag1"/>
+							</div>
+							<div class="submit">
+								<button> 确认上传</button>
+							</div>
+							<div class="anima-lo">
+	                         	<div class="k-ball-holder3">
+				                	<div class="k-ball7a" ></div>
+				                	<div class="k-ball7b" ></div>
+				                	<div class="k-ball7c" ></div>
+				                	<div class="k-ball7d" ></div>
+				                	<p>正在上传中。。。</p>
+			                	</div>
+                         	</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--这里是编辑项目弹窗-->
+		<div id="edit">
+			<div class="edit-box">
+				<div class="edit-content" style="height:750px;">
+					<div class="title">
+						<span>编辑项目</span>
+						<i></i>
+					</div>
+					<div class="edit-container">
+						<form class="form-one"  method="post" action="/member/editLibrary" id="editLib">
+						<input name="frames" type="hidden" value="yes" />
+						<input type="hidden"  class="libid" name="libid" value=""/>
+						<div class="img-load" style=" width: 100%; height: 180px; margin: 5px auto 5px; overflow: hidden; position: relative;box-sizing: border-box;border:1px solid #ccc">
+							<p style=" width: 100px; color: #fff; text-indent: 0; height: 40px; background: #055cfc; line-height: 40px; text-align: center; margin: 50px auto 0; font-size: 15px; font-weight: 400;">本地上传</p>
+							<input type="file" multiple="true" id="btn" name="pic" onchange="uploadss(this)" style="width: 100%; height: 40px; outline: none; border: none; position: absolute; display: block; top: 50px; opacity: 0;">
+						</div>
+						<div class="edit-item">
+							<!--<label for="">名称：</label>-->
+							<div class="item-con"><input type="text"  class="libname" name="libname" placeholder="项目名称"/></div>
+						</div>
+						<div class="edit-item">
+							<input type="hidden" name="type1" class="type1"/ placeholder="项目分类">
+							<!--<label for="">分类：</label>-->
+							<div class="item-con"><span>*</span><i></i>
+								<div class="sort type1Selected">项目分类</div>
+								<div class="sele-edit editType1">
+									<a href="javascript:void(0)">房产公司</a>
+									<a href="javascript:void(0)">酒店宾馆</a>
+									<a href="javascript:void(0)">公共设施</a>
+									<a href="javascript:void(0)">餐饮会所</a>
+									<a href="javascript:void(0)">商业办公</a>
+									<a href="javascript:void(0)">私人业主</a>
+									<!--<a href="javascript:void(0)">其他</a>-->
+								</div>
+							</div>
+						</div>
+						
+						<div class="edit-item">
+							<input type="hidden" name="status" id="status" placeholder="项目状态"/>
+							<!--<label for="">状态：</label>-->
+							<div class="item-con"><span>*</span><i></i>
+								<div class="sort status">项目状态</div>
+								<div class="sele-edit editStatus">
+									<a href="javascript:void(0)">设计中</a>
+									<a href="javascript:void(0)">生产中</a>
+									<a href="javascript:void(0)">已完成</a>
+								</div>
+							</div>
+						</div>
+						<div style="margin-top:10px;margin-bottom:10px">
+							<!--<label for="" style="display:block;float:left;">描述：</label>-->
+							<textarea name="desc" rows="" cols="" placeholder="项目简介" id="desc" style="width:100%; height:120px; float:left; margin-bottom:10px;"></textarea>
+						</div>
+						<div class="edit-item power">
+							<!--<label for="">权限：</label>-->
+							<div class="item-con"><input type="radio" class="isshow" name="isshow" value="1" /> 项目发布到公告栏 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="isshow" class="isshow" value="0"/> 不发布 </div>
+						</div>
+						</form>
+						<div class="edit-item delete">
+							<!--<label for="">操作：</label>-->
+							<div class="item-con deleteLib"><em>删除项目</em></div>
+						</div>
+
+						<button class="saves">编辑保存</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--这里是个人简介-->
+		<div class="manpeople">
+			<div class="man-box">
+				<div class="potato">
+					<img src="{{{$userInfo.avatar}}}" alt="{{{$userInfo.nickname}}}" />
+				</div>
+				<div class="explain">
+					<h2>{{{$userInfo.nickname}}}</h2>
+					<p>{{{if $userInfo.groupid == 10 || $userInfo.groupid == 20}}}<i></i>{{{/if}}}<span>{{{if $userInfo.sex == 1}}} 男 {{{else if $userInfo.sex == 2}}} 女 {{{else if $userInfo.sex == 0}}} 保密 {{{/if}}} {{{$address}}} {{{if $userInfo.groupid == 0}}} 普通用户 {{{else if $userInfo.groupid == 10}}} 设计师 {{{else if $userInfo.groupid == 20}}} 品牌 {{{/if}}}</span></p>
+					<strong>{{{$userInfo.signature}}}</strong>
+				</div>
+			</div>
+		</div>
+		<!--这里是个人内容导航-->
+		<div class="man-nav">
+			<div class="navigation">
+
+				<a href="/member/library/{{{$userInfo.userid}}}" class="man-act">
+					<span>{{{$userInfo.librarycount+$partInCount+$followCount}}}</span>
+					<p>项目</p>
+				</a>
+				<a href="/member/collection/{{{$userInfo.userid}}}">
+					<span>{{{$userInfo.productcount}}}</span>
+					<p>产品</p>
+				</a>
+				<a href="/member/note/{{{$userInfo.userid}}}">
+					<span>{{{$userInfo.notecount + $collectionCount}}}</span>
+					<p>笔记</p>
+				</a>
+				<a href="/member/friend/{{{$userInfo.userid}}}" >
+					<span>{{{$userInfo.followcount+$userInfo.fanscount+$userInfo.friendcount}}}</span>
+					<p>人脉</p>
+				</a>
+			</div>
+		</div>
+		<div class="man-sub">
+			{{{if $userInfo.userid == $userid}}}
+			<a href="/member/library/{{{$userInfo.userid}}}" class="actv">我的项目</a>
+			{{{else}}}
+			<a href="/member/library/{{{$userInfo.userid}}}" class="actv">他的项目</a>
+			{{{/if}}}
+			<a href="/member/partInProject/{{{$userInfo.userid}}}">参与项目</a>
+			<a href="/member/follproject/{{{$userInfo.userid}}}">关注项目</a>
+		</div>
+		<div id="man-box">
+		<div class="man-show" id="man-show">
+			<input type="hidden" id="p" value="{{{$p}}}" />
+			{{{if $userInfo.userid == $userid}}}
+			<div class="man-item create" onClick="createWindowOpen()">
+				<p>创建项目</p>
+			</div>
+			{{{/if}}}
+
+			{{{if $userInfo.userid == $userid}}}
+			{{{foreach from=$library item=item}}}
+			<div class="man-item">
+				<div class="item-box">
+					<a href="/member/selflibrarytow/{{{$item.libid}}}/{{{$userInfo.userid}}}">
+						<h4>{{{$item.libname}}}</h4>
+						<div class="big-img">{{{if $item.cover != ''}}} <img src="{{{$item.cover}}}" alt="" />{{{else}}} <img src="{{{$static_url}}}/image/li_image.jpg" alt="" /> {{{/if}}}</div>
+						<!-- <div class="small">
+							{{{if isset($item.pic.0)}}}<img src="{{{$item.pic.0}}}" alt="" />{{{/if}}}
+							{{{if isset($item.pic.1)}}}<img src="{{{$item.pic.1}}}" alt="" />{{{/if}}}
+							{{{if isset($item.pic.2)}}}<img src="{{{$item.pic.2}}}" alt="" />{{{/if}}}
+						</div> -->
+					</a>
+					{{{if $userInfo.userid == $userid}}}
+					<div class="edit" onClick="editLibrary({{{$item.libid}}})">编辑</div>
+					{{{/if}}}
+				</div>
+				{{{if $item.status == 1}}}
+				<div class="state design">设计中</div>
+				{{{elseif $item.status == 2}}}
+				<div class="state production">生产中</div>
+				{{{elseif $item.status == 3}}}
+				<div class="state win">已完成</div>
+				{{{/if}}}
+			</div>
+			{{{/foreach}}}
+
+			{{{else}}}
+
+			{{{foreach from=$library item=item}}}
+			{{{if $item.status == 3 && $item.isshow == 1}}}
+			<div class="man-item">
+				<div class="item-box">
+					<a href="/member/selflibrarytow/{{{$item.libid}}}/{{{$userInfo.userid}}}">
+						<h4>{{{$item.libname}}}</h4>
+						<div class="big-img">{{{if $item.cover != ''}}} <img src="{{{$item.cover}}}" alt="" />{{{else}}} <img src="{{{$static_url}}}/image/li_image.jpg" alt="" /> {{{/if}}}</div>
+						<!-- <div class="small">
+							{{{if isset($item.pic.0)}}}<img src="{{{$item.pic.0}}}" alt="" />{{{/if}}}
+							{{{if isset($item.pic.1)}}}<img src="{{{$item.pic.1}}}" alt="" />{{{/if}}}
+							{{{if isset($item.pic.2)}}}<img src="{{{$item.pic.2}}}" alt="" />{{{/if}}}
+						</div> -->
+					</a>
+				</div>
+				<div class="state win">已完成</div>
+			</div>
+			{{{/if}}}
+			{{{/foreach}}}
+
+			{{{/if}}}
+		</div>
+		</div>
+
+		<script src="{{{$static_url}}}/js/selflibrary.js"></script>
+		<script type="text/javascript" src='{{{$static_url}}}/js/jquery-form.js'></script>
+		<script>
+
+			//创建项目弹窗
+			function createWindowOpen() {
+
+				$('.submit').prev('p').remove();
+				$('.img-load p').attr('style','display:block;');
+				$('.img-load .imgBox').remove();
+				$('.img-load i').remove();
+				$('#libname').val('');
+				$('#type1').val('');
+				$('#type1').next('p').text('分类');
+				$('.desc').val('');
+				$('.tag1').val('');
+
+			}
+
+			//瀑布流点击编辑项目弹框
+			function editLibWinOpen(libid) {
+				$(window).scrollTop(0);
+				$('body').css("overflow", 'hidden')
+				var parent = $(this).offsetParent()
+				$("body").css("overflow", "hidden")
+				$("#edit").show(500);
+				var flat = true;
+				$("#edit .edit-box .edit-content .edit-container .delete .item-con em").click(function() {
+					if(flat) {
+						flat = false;
+						$(this).css("background", "red")
+					} else {
+						flat = true;
+						$(this).css("background", "#999")
+					}
+				});
+				$("#edit .edit-box .edit-content .edit-container button").click(function() {
+					if(flat == false) {
+						parent.remove()
+					}
+				})
+				editLibrary(libid);
+			}
+
+			//点击编辑材思库赋值
+			function editLibrary(libid) {
+
+				$('.saves').text('编辑保存');
+				$('.saves').prev('p').remove();
+				$.ajax({
+	              url:'/member/getlibraryInfo',
+	              type:"post",
+	              data:{libid:libid},
+	              success:function(ret){
+
+	                  if(ret != ''){
+
+	                      var jsonarray = eval('('+ret+')');
+	                      var msg = jsonarray.msg;
+	                      var code = jsonarray.code;
+	                      if(code != 200) {
+	                      	alert(msg);
+	                      	return false;
+	                      }
+
+	                      $("#edit .edit-box .edit-content .edit-container .form-one .img-load .imgBox").remove();
+	                      $("#edit .edit-box .edit-content .edit-container .form-one .img-load i").remove();
+	                      $("#edit .edit-box .edit-content .edit-container .form-one .img-load p").show().attr('style',' width: 100px; color: #fff; text-indent: 0; height: 40px; background: #055cfc; line-height: 40px; text-align: center; margin: 50px auto 0; font-size: 15px; font-weight: 400;');
+	                      if(msg.cover != '') {
+
+	                      var html = `<div class='imgBox'>
+						  <div class='bg' style='background:url(` + msg.cover + `) no-repeat center;background-size:cover'>
+						  </div>
+						  </div><i></i>`;
+						  
+						  $("#edit .edit-box .edit-content .edit-container .form-one .img-load p").hide();
+						  $("#edit .edit-box .edit-content .edit-container .form-one .img-load").append(html);
+						  $("#edit .edit-box .edit-content .edit-container .form-one .img-load i").click(function(event) {
+								//		event.stopPropagation()
+								//		alert(0)
+								$("#edit .edit-box .edit-content .edit-container .form-one .img-load .imgBox").remove();
+								$("#edit .edit-box .edit-content .edit-container .form-one .img-load p").show();
+								$(this).remove()
+
+							})
+
+	                      }
+
+	                      $('#edit .edit-box .edit-content .title em').text(msg.libname);
+	                      $('.libid').val(libid);
+	                      $('.libname').val(msg.libname);
+	                      $('.type1Selected').text(msg.type1);
+	                      $('.type1').val(msg.type1);
+	                      $('#status').val(msg.status);
+	                      $('#desc').val(msg.desc);
+	                      $('.deleteLib').attr('onClick','deleteLib('+libid+')');
+
+	                     if(msg.isshow == 1) {
+	                      	 $('.isshow[value="1"]').prop('checked',true);
+	                      }else{
+	                      	 $('.isshow[value="0"]').prop('checked',true);
+	                      }
+	                      $('.status').text('');
+	                     if(msg.status == 1) {
+	                      	 $('.status').text('设计中');
+	                      }
+	                      if(msg.status == 2) {
+	                      	 $('.status').text('生产中');
+	                      }
+	                      if(msg.status == 3) {
+	                      	$('.status').text('已完成');
+	                      }
+
+	                   }
+
+	              },   
+	              error:function(){  
+	                  alert('网络异常，请稍后再试');
+	                  return false;
+	              }
+
+	          	})
+
+			}
+
+			//添加材思库，选择空间风格
+			$("#pick .pick-box .class-item a").click(function() {
+				var text = $(this).text();
+				$(this).parent().prev().prev().val(text)
+			});
+
+
+			//添加材思库，提交表单
+			$("#pick .pick-box .pick-content .pick-show .pick-right .submit button").click(function() {
+
+				var tag = $('.tag1').val();
+				$('#tag').val(tag);
+
+				$(this).attr("disabled","true"); //设置变灰按钮
+				$('#addLib').ajaxSubmit({
+
+		        success:function(ret){
+
+		            setTimeout("$('.submit button').removeAttr('disabled')",3000);
+		            $('.submit').prev('p').remove();
+		            var jsonarray = eval('('+ret+')');
+		            var msg = jsonarray.msg;
+		            var code = jsonarray.code;
+		            if(code != 200){
+
+		            	$('.submit').before(msg);
+		              	return false;
+
+		            }
+
+		            $('#pick .pick-box .pick-right .anima-lo').css('display','block')
+		            window.location.reload();
+
+		        },   
+		        error:function(){  
+		          alert('网络异常，请稍后再试');
+		          return false;
+		        }
+
+		      })
+
+			})
+
+			//编辑材思库
+			$('.saves').click(function(){
+
+				$(this).text("正在上传中。。。").attr("disabled","true"); //设置变灰按钮
+				$('.saves').prev('p').remove();
+				$('#editLib').ajaxSubmit({
+
+		        success:function(ret){
+
+		            setTimeout("$('.saves').removeAttr('disabled')",3000);
+		            var jsonarray = eval('('+ret+')');
+		            var msg = jsonarray.msg;
+		            var code = jsonarray.code;
+		            if(code != 200){
+
+		            	$('.saves').before(msg);
+		              	return false;
+
+		            }
+
+		            window.location.reload();
+
+		        },   
+		        error:function(){  
+		          alert('网络异常，请稍后再试');
+		          return false;
+		        }
+
+		      })
+
+			})
+
+			//选择风格
+			$('.editType1 a').click(function(){
+				var type1 = $(this).text();
+				$('.type1').val(type1);
+			})
+
+			//选择权限
+			// $('.editType2 a').click(function(){
+			// 	var type2 = $(this).text();
+			// 	$('#type2').val(type2);
+			// })
+
+			//选择状态
+			$('.editStatus a').click(function(){
+				var status = $(this).text();
+				$('#status').val(status);
+			})
+
+			//这里是上传照片		
+			var n = 0;
+			function uploads(obj) {
+				//alert(obj.files.length);
+				if(!obj.value.match(/.jpg|.gif|.png|.bmp/i)) {
+					alert("请选择图片文件！");
+				} else {
+					n = obj.files.length;
+					var html = "";
+					for(var i = 0; i < n; i++) {
+						var url = window.URL.createObjectURL(obj.files[i]);
+						var txt = obj.files[i].name.split(judge(obj.files[i]));
+						//txt = txt.split("")
+						console.log(url);
+						html += `<div class='imgBox'>
+			<div class='bg' style='background:url(` + url + `) no-repeat center;background-size:cover'>
+			</div>
+			</div><i></i>`;
+					}
+					$("#pick .pick-left .img-load .imgBox").remove()
+					$("#pick .img-load p").hide();
+					$("#pick .pick-left .img-load").append(html);
+				}
+
+				$("#pick .pick-left .img-load i").click(function(event) {
+					//		event.stopPropagation()
+					//		alert(0)
+					$(".imgBox").remove();
+					$("#pick .img-load p").show();
+					$(this).remove()
+
+				})
+			}
+
+			//这里是上传照片		
+			var n = 0;
+			function uploadss(obj) {
+				//alert(obj.files.length);
+				if(!obj.value.match(/.jpg|.gif|.png|.bmp/i)) {
+					alert("请选择图片文件！");
+				} else {
+					n = obj.files.length;
+					var html = "";
+					for(var i = 0; i < n; i++) {
+						var url = window.URL.createObjectURL(obj.files[i]);
+						var txt = obj.files[i].name.split(judge(obj.files[i]));
+						//txt = txt.split("")
+						console.log(url);
+						html += "<div class='imgBox'><div class='bg' style='background:url(" + url + ") no-repeat center;background-size:cover'></div></div><i></i>";
+					}
+					// $("#pick .pick-left .img-load .imgBox").remove()
+					$("#edit .edit-box .edit-content .edit-container .form-one .img-load .imgBox").remove()
+					$("#edit .edit-box .edit-content .edit-container .form-one .img-load p").hide();
+					$("#edit .edit-box .edit-content .edit-container .form-one .img-load").append(html);
+				}
+
+				$("#edit .edit-box .edit-content .edit-container .form-one .img-load i").click(function(event) {
+					//		event.stopPropagation()
+					//		alert(0)
+					$("#edit .edit-box .edit-content .edit-container .form-one .img-load .imgBox").remove();
+					$("#edit .edit-box .edit-content .edit-container .form-one .img-load p").show();
+					$(this).remove()
+
+				})
+			}
+
+			function judge(obj) {
+				var str = '';
+				if(obj.name.match(/.jpg/i)) {
+					str = ".jpg";
+				} else if(obj.name.match(/.png/i)) {
+					str = ".png";
+				} else if(obj.name.match(/.gif/i)) {
+					str = ".gif";
+				} else if(obj.name.match(/.bmp/i)) {
+					str = ".bmp";
+				}
+				return str;
+			}
+
+			//删除材思库
+			function deleteLib(libid) {
+				var r = confirm("删除该项目，会把它下面的子项目一起删除，您确定要删除吗?");
+			    if(r == false){
+			       return false;
+			    }
+				$.ajax({
+	              url:'/member/delLibrary',
+	              type:"post",
+	              data:{libid:libid},
+	              success:function(ret){
+
+	                  if(ret != ''){
+
+	                      var jsonarray = eval('('+ret+')');
+	                      var msg = jsonarray.msg;
+	                      var code = jsonarray.code;
+	                      if(code != 200) {
+	                      	alert(msg);
+	                      	return false;
+	                      }
+
+	                      window.location.reload();
+
+	                   }
+
+	              },   
+	              error:function(){  
+	                  alert('网络异常，请稍后再试');
+	                  return false;
+	              }
+
+	          	})
+			}
+		</script>
+		<script type="text/javascript">
+		/*
+		 * 瀑布流的原理：
+		 *   寻找到一排中高度最小的图片，然后排放在高度最小的图片的下面
+		 *
+		 * */
+	
+		function imgsize(){
+
+			$('img').css('opacity','1')
+
+		}
+
+		var container = document.getElementById("man-show");
+		// var btn = document.getElementsByClassName("add-btn").item(0);
+		var index = 0;
+		window.onload = function() {
+			imgsize()
+
+		};
+
+		//过滤的形式
+		function getIndex(boxArr, minIndex) {
+			for(var i = 0; i < boxArr.length; i++) {
+				if(boxArr[i] == minIndex) {
+					return i;
+				}
+			}
+		}
+
+		function isEmptyObject(e) {
+			var t;
+			for (t in e)
+				return !1;
+			return !0;
+		}
+
+		$(function(){
+				$(document).scroll(function(){
+					// heightsize()
+					imgsize()
+					// waterfull();
+					//滚动条滑动的时候获取滚动条距离顶部的距离
+					var scroll=$(document).scrollTop();
+					//屏幕的高度
+					var client=$(window).height();
+					var h=$(document).height();
+					var flag=true;
+					if (h<=scroll+client) { // 到达底部时,加载新内容
+						if(flag==false){
+							return;
+						}
+						var p = $('#p').val();
+						var str = '';
+						$.ajax({
+							url: '/member/getLibraryContent',
+							type: 'POST',
+							async: true,
+							data: {
+								p: p,
+								userid:"{{{$userInfo.userid}}}"
+							},
+							timeout: 3000,
+							dataType: 'json',
+							success: function(data){
+								//console.log(data);
+								//location.reload();
+								if(!isEmptyObject(data.errmsg)) {
+									$.each(data.errmsg, function(i, n) {
+
+										if({{{$userInfo.userid}}} == {{{$userid}}}) {
+
+											str += '<div class="man-item"><div class="item-box"><a href="/member/selflibrarytow/'+n.libid+'/{{{$userInfo.userid}}}"><h4>'+n.libname+'</h4><div class="big-img">';
+
+											if (n.cover != ''){ 
+												str += '<img src="'+n.cover+'" alt="" />';
+											}else{ 
+												str += '<img src="{{{$static_url}}}/image/li_image.jpg" alt="" />';
+											}
+
+											str += '</div></a>';
+
+											if({{{$userInfo.userid}}} == {{{$userid}}}) {
+												str += '<div class="edit" onClick="editLibWinOpen('+n.libid+')">编辑</div>';
+											}
+											str += '</div>';
+											if(n.status == 1){
+
+											str += '<div class="state design">设计中</div>';
+
+											}else if(n.status == 2){
+
+											str += '<div class="state production">生产中</div>';
+
+											}else if(n.status == 3){
+
+											str += '<div class="state win">已完成</div>';
+
+											}
+
+											str += '</div>';
+
+										}else{
+
+											if(n.status == 3 && n.isshow == 1){
+
+												str += '<div class="man-item"><div class="item-box"><a href="/member/selflibrarytow/'+n.libid+'/{{{$userInfo.userid}}}">';
+
+												str += '<h4>'+n.libname+'</h4><div class="big-img">';
+
+												if(n.cover != ''){ 
+													str += '<img src="'+n.cover+'" alt="" />';
+												}else{ 
+
+													str += '<img src="{{{$static_url}}}/image/li_image.jpg" alt="" />';
+												}
+
+												str += '</div></a></div>';
+												str += '<div class="state win">已完成</div></div>';
+
+											}
+
+										}
+
+									});
+									$('#man-show').append(str);
+
+									imgsize()
+
+									$('#p').val(Number(p)+1);
+
+								}
+							}
+						});
+					}
+				});
+			});
+	</script>
+
+	</body>
+
+</html>

@@ -1,0 +1,16 @@
+body{padding:0}
+.log{width:100%;height:100%;background: url(../image/logbanner.jpg) no-repeat center center;position: absolute;}
+.log .log-box{width:100%;height:100%;position: relative;}
+.log .log-box .content{width:600px;height:530px;background: #fff;transform: translate(-50%,-50%);position: absolute;top:50%;left:50%;box-sizing: border-box;}
+.log .log-box .content .log-img{overflow: hidden;margin:0 auto 0;width:100%;height:80px;box-sizing: border-box;padding-top:10px;background:#000}
+.log .log-box .content .log-img img{width:300px;height:60px;display: block;margin:0 auto 0}
+.log .log-box .content p{width:300px;display: block;height:50px;text-align: center;line-height: 50px;font-size:18px;color:#919191;margin:10px auto 10px;}
+.log .log-box .content .select{width:441px;overflow: hidden;margin:10px auto 10px;padding-bottom: 20px;}
+.log .log-box .content .select ul{overflow: hidden;width:500px}
+.log .log-box .content .select ul li{width:80px;height:80px;float:left;margin-right:10px;margin-bottom: 10px;position:relative;}
+.log .log-box .content .select ul li p{margin:0;width:100%;height:30px;text-align: center;line-height: 30px;color:#fff;font-size: 15px;position: absolute;bottom:0}
+.log .log-box .content .select ul li img{width:80px;height:80px;border-radius: 5px;}
+.log .log-box .content .select ul li span{width:30px;height:30px;display: inline-block;position: absolute;left:50%;top:50%;transform: translate(-50%,-50%);background:url(../image/gouselect.png) no-repeat;background-size: 100% 100%;}
+.log .log-box .content .set{width:100%;height:80px;background:#f3f3f3}
+.log .log-box .content .set .back{display: inline-block;background:#e2e2e2;text-align: center;line-height: 40px;height:40px;border:1px solid #c1c1c1;box-sizing: border-box;width:200px;float:left;margin:20px 10px 0 80px}
+.log .log-box .content .set .next{display: inline-block;background:#055cfc;text-align: center;line-height: 40px;height:40px;color:#fff;width:200px;float:right;margin:20px 80px 0 10px}

@@ -1,0 +1,90 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Auth {
+
+	private $_user = array();
+	private $_hasLogin = NULL;
+	private $_CI;
+
+	public function __construct() {
+		$this->_CI =& get_instance();
+		$this->_user = unserialize($this->_CI->session->userdata('user'));
+	}
+
+	/**
+	 * @name 判断用户是否已经登录
+	 */
+	public function hasLogin() {
+		if (NULL !== $this->_hasLogin) {
+			return $this->_hasLogin;
+		} else {
+			if(!empty($this->_user) && NULL !== $this->_user['userid']) {
+				$user = $this->_CI->user_model->get_user(array('userid' => $this->_user['userid']));
+				if($user) {
+					return ($this->_hasLogin = TRUE);
+				}
+			}
+			return ($this->_hasLogin = FALSE);
+		}
+	}
+
+	/**
+	 * @name 判断用户权限
+	 */
+	public function exceed() {
+		
+	}
+
+	/**
+	 * @name 处理用户登出
+	 */
+	public function process_logout() {
+		$this->_CI->session->sess_destroy();
+		$this->_del_cookie();
+		$this->_hasLogin = NULL;
+		redirect('login');
+	}
+
+	/**
+	 * @name 处理用户登录
+	 */
+	public function process_login($user) {
+		$this->_user = $user;
+		$this->_hasLogin = TRUE;
+		$this->_set_session();
+		$this->_set_cookie();
+		return TRUE;
+	}
+
+	/**
+	 * @name 设置session
+	 */
+	public function _set_session() {
+		$session_data = array('user' => serialize($this->_user));
+		$this->_CI->session->set_userdata($session_data);
+	}
+
+	/**
+	 * @name 设置cookie
+	 */
+	public function _set_cookie() {
+		set_cookie('mobile', $this->_user['mobile'], 3600*24*7);
+		set_cookie('password', $this->_user['password'], 3600*24*7);
+	}
+
+	/**
+	 * @name 删除cookie
+	 */
+	public function _del_cookie() {
+		delete_cookie('mobile');
+		delete_cookie('password');
+	}
+
+	/**
+	 * @name 记录日志
+	 */
+	public function log($action, $detail) {
+		return $this->_CI->user_model->log_save($this->_user['userid'], $this->_user['username'], $this->_user['realname'], $action, $detail);
+	}
+}

@@ -1,0 +1,218 @@
+{{{include file="general/general.header.html"}}}
+	<link rel="stylesheet" href="{{{$static_url}}}/css/service.css" />
+        <!--意见反馈弹窗-->
+        <div id="opinion">
+        	<div class="opinion-box">
+        		<div class="content">
+        			<h5>意见反馈</h5>
+        			<div class="email">
+        				<span>联系方式</span>
+        				<input type="text" placeholder="QQ或者email" name="way" id="way"/>
+        			</div>
+        			<div class="titles">
+        				<span>标题</span>
+        				<input type="text"  placeholder="(6-20字)" name="title" id="title"/>
+        			</div>
+        			<div class="context">
+        				<span>内容</span>
+        				<textarea name="" rows="5" cols="5" maxlength='401' name="content" id="content"></textarea>
+        			</div>
+        			
+        			<div class="set">
+        				<button>发送意见</button>
+        				<span>取消</span>
+        			</div>
+        		</div>
+        	</div>
+        </div>
+        <!--成功弹窗-->
+		<div id="win" class="">
+			<div class="win-box">
+				<div class="com">
+					<img src="{{{$static_url}}}/image/laught_03.png" alt="" style="position:relative;"/>
+					<span></span>
+					<i></i>
+				</div>
+			</div>
+		</div>
+        
+        <div class="service">
+        	<div class="service-left">
+        		<div class="title">
+        			<h3>服务中心</h3>
+        		</div>
+        		<div class="search">
+        			<div class="enter">
+        				<i></i>
+        				<form action="/service/index" method="get">
+        				<input type="text" placeholder="搜索问题" name="searchWord" value="{{{$searchWord}}}"/>
+        				</form>
+        			</div>
+        			<div class="introduce">
+        				<div class="guide">
+        					<h4>新手快速入门</h4>
+        					{{{foreach from=$data.list item=item}}}
+        					{{{if $item.type == 1}}}
+        					<a href="/service/solve/{{{$item.id}}}"><i></i>{{{$item.title}}}</a>
+        					{{{/if}}}
+        					{{{/foreach}}}
+        				</div>
+        				
+        				<div class="guide">
+        					<h4>权限设置</h4>
+        					{{{foreach from=$data.list item=item}}}
+        					{{{if $item.type == 2}}}
+        					<a href="/service/solve/{{{$item.id}}}"><i></i>{{{$item.title}}}</a>
+        					{{{/if}}}
+        					{{{/foreach}}}
+        				</div>
+        				<div class="guide">
+        					<h4>项目</h4>
+        					{{{foreach from=$data.list item=item}}}
+        					{{{if $item.type == 3}}}
+        					<a href="/service/solve/{{{$item.id}}}"><i></i>{{{$item.title}}}</a>
+        					{{{/if}}}
+        					{{{/foreach}}}
+        				</div>
+        			</div>
+        			
+        			<div class="search-end">
+        				{{{foreach from=$data.list item=item}}}
+        				<div class="item">
+        					<h5><a href="/service/solve/{{{$item.id}}}">{{{$item.title}}}</a></h5>
+        					<!-- <a href="/service/solve/{{{$item.id}}}"><p>{{{substr(htmlspecialchars_decode($item.content),0,50)}}}</p></a> -->
+        				</div>
+        				{{{/foreach}}}
+        			</div>
+        		</div>
+        	</div>
+        	<div class="service-right">
+        		<div class="fade-back">
+        			<div class="fade-box"><i></i>意见反馈</div>
+        		</div>
+        		<div class="recomed">
+        			<div class="recomed-box">
+        				<h4>推荐阅读</h4>
+        				{{{foreach from=$data.recommend item=item}}}
+    					{{{if $item.isrecommend == 1}}}
+    					<a href="/service/solve/{{{$item.id}}}"><i></i>{{{$item.title}}}</a>
+    					{{{/if}}}
+    					{{{/foreach}}}
+        				<!-- <a href="">账户基本设置</a>
+        				<a href="">应用管理</a>
+        				<a href="">创建一个材思库</a>
+        				<a href="">创建一个区域</a>
+        				<a href="">如何更改面料？</a>
+        				<a href="">怎么邀请成员？</a>
+        				<a href="">管理我的任务</a>
+        				<a href="">安全如何保证？</a>
+        				<a href="">服务管理</a>
+        				<a href="">权限说明文档</a> -->
+        			</div>
+        		</div>
+        	</div>
+        </div>
+
+		<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script src="{{{$static_url}}}/js/common.js"></script>
+		<script type="text/javascript">
+			var searchWord = "{{{$searchWord}}}";
+			if(searchWord != '') {
+				$('.service .service-left .search .introduce').css("display",'none');
+				$('.service .service-left .search .search-end').css("display",'block');
+			}else{
+				$('.service .service-left .search .introduce').css("display",'block')
+				$('.service .service-left .search .search-end').css("display",'none')
+			}
+			// $(".service .service-left .search .enter input").keyup(function(evt){
+				// if($(this).val()!=''){
+				// 	$('.service .service-left .search .introduce').css("display",'none')
+				// 	$('.service .service-left .search .search-end').css("display",'block')
+				// }else{
+					// $('.service .service-left .search .introduce').css("display",'block')
+					// $('.service .service-left .search .search-end').css("display",'none')
+				// }
+			// })
+			
+			$('.service .service-right .fade-back .fade-box').click(function(){
+				$('#opinion').css("display","block")
+			})
+			
+			$("#opinion").click(function(evt){
+				evt.stopPropagation();
+				$('#opinion').css("display","none")
+			})
+			$("#opinion .opinion-box .content").click(function(evt){
+				evt.stopPropagation();
+				$('#opinion').css("display","block")
+			})
+			$("#opinion .opinion-box .content .set span").click(function(evt){
+				evt.stopPropagation();
+				$('#opinion').css("display","none")
+			})
+
+			//发送意见反馈
+			$("#opinion .opinion-box .content .set button").click(function(evt){
+
+	        $('.error').remove();
+	        var way = $('#way').val();
+	        var title = $('#title').val();
+	        var content = $('#content').val();
+	        if(way == '' || title == '' || content == '') {
+	          $("#opinion .opinion-box .content .set").before('<p class="error" style="margin-left:40px;height:35px; line-height:35px;">请填写完成信息</p>');
+	          return false;
+	        }
+
+	        $.ajax({
+	        url: '/service/addFeedback',
+	        type: "post",
+	        data: {
+	          way: way, 
+	          title:title,
+	          content:content
+	        },
+	        success: function(ret) {
+
+	          if(ret != '') {
+
+	            var jsonarray = eval('(' + ret + ')');
+	            var msg = jsonarray.msg;
+	            var code = jsonarray.code;
+	            if(code != 200) {
+	              $("#opinion .opinion-box .content .set").before('<p class="error" style="margin-left:40px;height:35px; line-height:35px;">'+msg+'</p>');
+	              return false;
+	            }
+
+	            evt.stopPropagation();
+	            $('#opinion').css("display","none")
+	            win(msg);
+
+	          }
+
+	        },
+	        error: function() {
+
+	          $("#opinion .opinion-box .content .set").before('<p class="error" style="margin-left:40px;height:35px; line-height:35px;">网络异常，请稍后再试</p>');
+	          return false;
+
+	        }
+	      })
+
+	       })
+
+		//弹出提示框并关闭
+		function win(msg){
+
+		    $('#win').css('display',"block").addClass('anima');
+		    $('#win').find('span').text(msg).css({position:'absolute',top:'75px',left:'90px'});
+		    setTimeout(function () {
+		        $('#win').css('display','none');
+		 
+		    }, 1000);
+		}
+
+		</script>
+
+	</body>
+
+</html>

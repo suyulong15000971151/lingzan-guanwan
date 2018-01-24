@@ -1,0 +1,30 @@
+body{padding:0}
+.log{width:100%;height:100%;background: url(../image/logbanner.jpg) no-repeat center center;position: absolute;}
+.log .log-box{width:100%;height:100%;position: relative;}
+.log .log-box .content{width:450px;height:490px;background: #000;transform: translate(-50%,-50%);position: absolute;top:50%;left:50%;box-sizing: border-box;padding-top:30px}
+.log .log-box .content .log-img{overflow: hidden;margin:0 auto 0;width:300px}
+.log .log-box .content .log-img img{width:300px;height:60px}
+.log .log-box .content p{width:200px;display: block;height:70px;text-align: center;line-height: 100px;font-size:18px;color:#fff;margin:20px auto 5px;}
+.log .log-box .content .user{width:300px;overflow: hidden;margin:0px auto 0}
+.log .log-box .content .user .user-phone{width:100%;height:40px;background:#fff;position: relative;border-radius: 5px;}
+.log .log-box .content .user .user-phone input{text-indent: 40px;width:100%;height:100%;outline: none;border:none;border-radius: 5px;font-size: 16px;}
+.log .log-box .content .user .user-phone i{display: inline-block;width:18px;height:25px;position: absolute;left:10px;top:7.5px;background:url(../image/logmobile_03.png) no-repeat;background-size: 100% 100%;}
+.log .log-box .content .user .user-psd{margin:20px auto 20px}
+.log .log-box .content .user .user-psd i{display: inline-block;width:20px;height:22px;position: absolute;left:10px;top:9px;background:url(../image/logpassword_03.png) no-repeat;background-size: 100% 100%;}
+.log .log-box .content .user .expain{width:100%;overflow: hidden;line-height: 25px;}
+.log .log-box .content .user .expain a{color:#fff;line-height: 25px;font-size: 16px;}
+.log .log-box .content .user .expain a.forget{float:left}
+.log .log-box .content .user .expain a.resigin{float:right}
+.log .log-box .content .user button{border-radius: 5px;margin:20px auto 0;width:100%;height:40px;background:#055cfc;text-align: center;line-height: 40px;color:#fff;outline: none;border: none;font-size: 20px;}
+
+.log .log-box .content .user .third-log{width:100%;overflow: hidden;text-align: center;margin:20px auto 0}
+.log .log-box .content .user .third-log a{display: inline-block;width:30px;height:30px;padding:0 20px}
+.log .log-box .content .user .third-log a img{width:100%;height:100%}
+.log .log-box .content .user .error{width:300px;margin:5px auto 5px;text-align: center;color:red;height:20px;font-size: 14px;line-height: 20px;}
+.WB_praise .praise_btn{margin-left:60px !important;margin-top:10px !important}
+.WB_praise .praise_data{margin-top:10px}
+
+
+@media only screen and (min-width: 1700px) and (max-width: 3000px) {
+	.log{width:100%;height:100%;background: url(../image/logbanner.jpg) no-repeat;position: absolute;background-size: 100% 100%;}
+}

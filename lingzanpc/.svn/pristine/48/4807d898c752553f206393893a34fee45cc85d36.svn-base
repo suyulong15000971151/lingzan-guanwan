@@ -1,0 +1,122 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Search extends MY_controller {
+
+	public function __construct() {
+
+		$this->_class = 'search';
+		parent::__construct();
+
+		$this->load->model('search_model');
+
+	}
+
+	public function index() {
+
+		$p1 = 0;
+		$p2 = 0;
+		$seachWord = $this->input->get('seachWord');
+		$type = $this->input->get('type') ? $this->input->get('type') : '项目';
+		$data = array('row'=>'0','list'=>'');
+		$user1 = array('row'=>'0','list'=>'');
+		//type = 1是项目，2是采集，3是个人，4是品牌
+		if($type == '项目') { //搜索lz_library的单品与项目
+
+			$data = $this->search_model->getProjectData($seachWord, $p1);
+
+		}
+
+		if($type == '产品') { //搜索lz_product
+
+			$data = $this->search_model->getCollectionData($seachWord, $p1);
+
+		}
+
+		if($type == '个人' || $type == '品牌'){//搜索lz_user
+
+			$whereOr = array();
+			if($type == '个人'){ //搜索普通用户、设计师
+				$whereOr = array(0,10);
+			}
+			if($type == '品牌'){ //搜索品牌商
+				$whereOr = array(20);
+			}
+			$user1 = $this->search_model->getUserData($seachWord, $whereOr,$p2);
+
+		}
+
+
+		$myInfo = $this->search_model->getData('lz_user', 'groupid,userid', array('userid'=>$this->user->userid));
+
+		$p1++;
+		$p2++;
+		$this->assign('p1', $p1);
+		$this->assign('p2', $p2);
+		$this->assign('myInfo', $myInfo);
+		$this->assign('data', $data);
+		$this->assign('user1', $user1);
+		$this->assign('seachWord', $seachWord);
+		$this->assign('type', $type);
+		$this->display('search/search.index.html');
+
+	}
+
+	public function getData() {
+
+		// $seachWord = $this->input->get('seachWord');
+		// $type = $this->input->get('type') ? $this->input->get('type') : '项目';
+		$seachWord = $this->input->post('seachWord');
+		$type = $this->input->post('type') ? $this->input->post('type') : '项目';
+		$p1 = $this->input->post('p1');
+		$p2 = $this->input->post('p2');
+
+		if(!$p1 && !$p2) {
+
+			$res['errcode'] = 301;
+			$res['errmsg'] = "参数为空.";
+			echo json_encode($res);
+			return false;
+
+		}
+		// echo $seachWord;
+		$data = array('row'=>'0','list'=>'');
+		$user1 = array('row'=>'0','list'=>'');
+		//type = 1是项目，2是采集，3是个人，4是品牌
+		if($type == '项目') { //搜索lz_library的单品与项目
+			// echo 111;
+			$data = $this->search_model->getProjectData($seachWord, $p1);
+			$res['errmsg'] = $data;
+
+		}
+
+		if($type == '产品') { //搜索lz_product
+			// echo 222;
+			$data = $this->search_model->getCollectionData($seachWord, $p1);
+			$res['errmsg'] = $data;
+
+		}
+
+		if($type == '个人' || $type == '品牌'){//搜索lz_user
+
+			$whereOr = array();
+			if($type == '个人'){ //搜索普通用户、设计师
+				$whereOr = array(0,10);
+			}
+			if($type == '品牌'){ //搜索品牌商
+				$whereOr = array(20);
+			}
+
+			$user1 = $this->search_model->getUserData($seachWord, $whereOr,$p2);
+			$res['errmsg'] = $user1;
+
+		}
+
+		$res['errcode'] = 200;
+
+		echo json_encode($res);
+
+	}
+
+
+}

@@ -1,0 +1,75 @@
+$(function() {
+	$('#send_verifical_mobile').click(function() {
+		var mobile = $('.mobile').val();
+		$.ajax({
+			url: '/ajax/login_send_verifical_mobile',
+			type: 'POST',
+			async: true,
+			data: {
+				mobile: mobile
+			},
+			timeout: 5000,
+			dataType: 'json',
+			success: function(data){
+				console.log(data);
+			}
+		});
+		return false;
+	});
+
+	$('#send_comment').click(function() {
+		var sourcetype = $('#sourcetype').val();
+		var sourceid = $('#sourceid').val();
+		var comment = $('#comment').val();
+		$.ajax({
+			url: '/ajax/source_comment',
+			type: 'POST',
+			async: true,
+			data: {
+				sourcetype: sourcetype,
+				sourceid: sourceid,
+				comment: comment
+			},
+			timeout: 5000,
+			dataType: 'json',
+			success: function(data){
+				//console.log(data);
+				location.reload();
+			}
+		});
+	});
+
+	$('#add_pro').click(function() {
+		var proid = $('#proid').val();
+		var proid2 = $('#proid2').val();
+		var sid = $('#sid').val();
+		$.ajax({
+			url: '/ajax/add_pro_pro',
+			type: 'POST',
+			async: true,
+			data: {
+				proid: proid,
+				proid2: proid2,
+				sid: sid
+			},
+			timeout: 5000,
+			dataType: 'json',
+			success: function(data){
+				//console.log(data);
+				//location.reload();
+				window.location.href = '/library/project/'+proid2;
+			}
+		});
+	});
+
+	$('#proarea').change(function() {
+		var id = $(this).val();
+		window.location.href = '/library/project/'+id;
+	});
+
+	// 项目导出
+	$('.export').click(function() {
+		var id = $('#proid1').val();
+		window.location.href = '/library/export/'+id;
+	});
+});

@@ -1,0 +1,24 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Wechat {
+
+	private $_CI;
+	private $config;
+
+	public function __construct() {
+
+		$this->_CI =& get_instance();
+		$this->_CI->load->config('wechat');
+		$this->config = $this->_CI->config->item('wechat');
+
+	}
+
+	public function redirect_to_login() {
+
+		$redirect_uri = "http://test2.lingzan.net/login/login_wechat";
+		$redirect = "https://open.weixin.qq.com/connect/qrconnect?appid={$this->config['appid']}&redirect_uri={$redirect_uri}&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect";
+		redirect($redirect);
+
+	}
+}

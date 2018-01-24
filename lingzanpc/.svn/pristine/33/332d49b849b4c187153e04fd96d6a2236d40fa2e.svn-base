@@ -1,0 +1,20 @@
+// $(function(){
+	// $('#caiji .caiji-box .submit button').click(function(){	
+	// 	$('#caiji').hide();
+	// 	$('#win').css('display',"block").addClass('anima');
+	    
+	//     })
+	 
+	 // $('#interset .interset-box .interset-content .confirm button').click(function(){	
+		// $('#interset').hide();
+		// $('#win').css('display',"block").addClass('anima');
+	    
+	 //    })
+	
+	    // $('#win .win-box .com i').click(function(){
+	    // 	$('#win').css('display','none');
+	    //  	$('body').css('overflow','scroll')
+	    	
+	    // })
+	
+	// })

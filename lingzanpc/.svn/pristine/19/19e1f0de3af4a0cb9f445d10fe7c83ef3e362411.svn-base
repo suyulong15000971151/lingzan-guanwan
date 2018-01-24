@@ -1,0 +1,243 @@
+{{{include file="general/general.header.html"}}}
+<link rel="stylesheet" href="{{{$static_url}}}/css/selflibrary.css" />
+<style>
+#edit .edit-box .edit-content .edit-container .form-one .img-load i{display: inline-block; width: 12px; height: 12px; position: absolute; right: 5px; top: 5px; background: url({{{$static_url}}}/image/delete_03.png) no-repeat; background-size: 100% 100%;}
+.man-sub{width:100%;height:60px;overflow: hidden;text-align: center;line-height: 60px;font-size: 16px;}
+.man-sub a{display: inline-block;padding:0 10px;color:#afafaf}
+.man-sub a.actv{color:#000}
+.man-show .man-item{height:320px}
+.man-show .man-item .cancel{height:30px;background:#f4f4f4;line-height: 30px;text-align: center;font-size: 14px;box-sizing: border-box;border:1px solid #dcdcdc;margin-top:10px}
+#man-box{margin:0 auto 0}
+</style>
+	<body>
+		<!--这里是个人简介-->
+		<div class="manpeople">
+			<div class="man-box">
+				<div class="potato">
+					<img src="{{{$userInfo.avatar}}}" alt="{{{$userInfo.nickname}}}" />
+				</div>
+				<div class="explain">
+					<h2>{{{$userInfo.nickname}}}</h2>
+					<p>{{{if $userInfo.groupid == 10 || $userInfo.groupid == 20}}}<i></i>{{{/if}}}<span>{{{if $userInfo.sex == 1}}} 男 {{{else if $userInfo.sex == 2}}} 女 {{{else if $userInfo.sex == 0}}} 保密 {{{/if}}} {{{$address}}} {{{if $userInfo.groupid == 0}}} 普通用户 {{{else if $userInfo.groupid == 10}}} 设计师 {{{else if $userInfo.groupid == 20}}} 品牌 {{{/if}}}</span></p>
+					<strong>{{{$userInfo.signature}}}</strong>
+				</div>
+			</div>
+		</div>
+		<!--这里是个人内容导航-->
+		<div class="man-nav">
+			<div class="navigation">
+				{{{if $userInfo.userid == $userid}}}
+				<a href="/member/library" class="man-act">
+				{{{else}}}
+				<a href="/member/library/{{{$userInfo.userid}}}" class="man-act">
+				{{{/if}}}
+					<span>{{{$count.sLibCount+$count.pLibCount+$count.fLibCount}}}</span>
+					<p>项目</p>
+				</a>
+				{{{if $userInfo.userid == $userid}}}
+				<a href="/member/collection">
+				{{{else}}}
+				<a href="/member/collection/{{{$userInfo.userid}}}">
+				{{{/if}}}
+					<span>{{{$userInfo.productcount}}}</span>
+					<p>产品</p>
+				</a>
+				{{{if $userInfo.userid == $userid}}}
+				<a href="/member/note">
+				{{{else}}}
+				<a href="/member/note/{{{$userInfo.userid}}}">
+				{{{/if}}}
+					<span>{{{$userInfo.notecount + $count.fNotCount}}}</span>
+					<p>笔记</p>
+				</a>
+				<a href="/member/friend/{{{$userInfo.userid}}}" >
+					<span>{{{$userInfo.followcount+$userInfo.fanscount+$userInfo.friendcount}}}</span>
+					<p>人脉</p>
+				</a>
+			</div>
+		</div>
+		<div class="man-sub">
+			{{{if $userInfo.userid == $userid}}}
+			<a href="/member/library">我的项目</a>
+			{{{else}}}
+			<a href="/member/library/{{{$userInfo.userid}}}">他的项目</a>
+			{{{/if}}}
+			<a href="/member/partInProject/{{{$userInfo.userid}}}">参与项目</a>
+			<a href="/member/follproject/{{{$userInfo.userid}}}" class="actv">关注项目</a>
+		</div>
+		<div id="man-box">
+		<div class="man-show" id="man-show">
+			<input type="hidden" id="p" value="{{{$p}}}"/>
+			{{{foreach from=$project item=item}}}
+				<div class="man-item">
+				<div class="item-box">
+					<a href="/library/project/{{{$item.id}}}">
+						<h4>{{{$item.name}}}</h4>
+						<div class="big-img">{{{if $item.pic != ''}}} <img src="{{{$item.pic}}}" alt="" />{{{else}}} <img src="{{{$static_url}}}/image/li_image.jpg" alt="" /> {{{/if}}}</div>
+						<div class="small">
+							{{{if $item.list != []}}}
+							{{{foreach from=$item.list item=item1}}}
+							<img src="{{{$item1.smallpic}}}" alt="{{{$item1.proname}}}" />
+							{{{/foreach}}}
+							{{{/if}}}
+						</div>
+					</a>
+					<div class="cancel" onClick="cancelFollow({{{$item.id}}})">取消关注</div>
+				</div>
+
+			</div>
+			{{{/foreach}}}
+
+		</div>
+		</div>
+
+		<script src="{{{$static_url}}}/js/selflibrary.js"></script>
+		<script>
+
+			//删除收藏（也就是取消关注）
+			function cancelFollow(proid) {
+
+				var r = confirm("确定取消该关注吗");
+			    if(r == false){
+			       return false;
+			    }
+				$.ajax({
+		          url:'/member/cancelFollowProject',
+		          type:"post",
+		          data:{proid:proid},
+		          success:function(ret){
+
+		              if(ret != ''){
+
+		                  var jsonarray = eval('('+ret+')');
+		                  var msg = jsonarray.msg;
+		                  var code = jsonarray.code;
+		                  alert(msg);
+		                  if(code == 200) {
+		                 	 // window.location.href = "/member/follow"; 
+		                 	 window.location.reload();
+		              	  }
+		               }
+
+		          },   
+		          error:function(){  
+		              alert('网络异常，请稍后再试');
+		              return false;
+		          }
+
+		      	})
+
+			}
+		</script>
+		<script>
+		/*
+		 * 瀑布流的原理：
+		 *   寻找到一排中高度最小的图片，然后排放在高度最小的图片的下面
+		 *
+		 * */
+	
+		function imgsize(){
+
+			$('img').css('opacity','1')
+
+		}
+
+		var container = document.getElementById("man-show");
+		// var btn = document.getElementsByClassName("add-btn").item(0);
+		var index = 0;
+		window.onload = function() {
+			imgsize()
+
+		};
+
+		//过滤的形式
+		function getIndex(boxArr, minIndex) {
+			for(var i = 0; i < boxArr.length; i++) {
+				if(boxArr[i] == minIndex) {
+					return i;
+				}
+			}
+		}
+
+		function isEmptyObject(e) {
+			var t;
+			for (t in e)
+				return !1;
+			return !0;
+		}
+
+		$(function(){
+			$(document).scroll(function(){
+
+				imgsize()
+
+				//滚动条滑动的时候获取滚动条距离顶部的距离
+				var scroll=$(document).scrollTop();
+				//屏幕的高度
+				var client=$(window).height();
+				var h=$(document).height();
+				var flag=true;
+				if (h<=scroll+client) { // 到达底部时,加载新内容
+					if(flag==false){
+						return;
+					}
+					var p = $('#p').val();
+					var str = '';
+					$.ajax({
+						// url: '/member/getFollowProjectContent',
+						url: '/member/getDataList',
+						type: 'POST',
+						async: true,
+						data: {
+							sign: 4,//表示获取类型为用户关注的项目
+							p: p,
+							userid:"{{{$userInfo.userid}}}"
+						},
+						timeout: 3000,
+						dataType: 'json',
+						success: function(data){
+							//console.log(data);
+							//location.reload();
+							if(!isEmptyObject(data.errmsg)) {
+								$.each(data.errmsg, function(i, n) {
+
+									str += '<div class="man-item"><div class="item-box"><a href="/library/project/'+n.id+'"><h4>'+n.name+'</h4><div class="big-img">';
+									
+									if(n.pic != ''){ 
+										str += '<img src="'+n.pic+'" alt="" />';
+									}else{ 
+										str += '<img src="{{{$static_url}}}/image/li_image.jpg" alt="" />';
+									}
+									str += '</div><div class="small">';
+
+									if(n.list != []){
+										var list = n.list;
+										var count = list.length;
+
+										for (var i = 0; i < count; i++) {
+											str += '<img src="'+list[i].smallpic+'" alt="'+list[i].proname+'" />';
+										};
+
+									}
+									str += '</div></a><div class="cancel" onClick="cancelFollow('+n.id+')">取消关注</div></div></div>';
+
+								});
+
+								$('#man-show').append(str);
+
+								imgsize()
+
+								$('#p').val(Number(p)+1);
+
+							}
+						}
+					});
+				}
+			});
+		});
+
+		</script>
+
+	</body>
+
+</html>

@@ -1,0 +1,440 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Login extends MY_controller {
+
+	public function __construct() {
+
+		$this->_class = 'login';
+		parent::__construct();
+
+	}
+
+	/**
+	 * 登录页
+	 */
+	public function index() {
+
+		$error_msg = "";
+
+		if($this->auth->hasLogin()) {
+
+			redirect('/home');
+
+		}
+
+		$proid = $this->input->get('proid', true) ? $this->input->get('proid', true) : 0;  // 通过项目注册
+
+		if($this->input->post('frames') == 'yes' || get_cookie("mobile")) {
+
+			if($this->input->post('frames') == 'yes') {
+
+				$this->form_validation->set_rules('mobile', '账号', 'trim|required');
+				$this->form_validation->set_rules('password', '密码', 'trim|required');
+	
+				if ($this->form_validation->run() === false) {
+	
+					$error_msg = validation_errors();
+					goto end;
+	
+				}
+
+			}
+
+			$mobile = get_cookie("mobile") ? get_cookie("mobile") : $this->input->post('mobile', true);
+			$data['mobile'] = $mobile;
+
+			$password = get_cookie("password") ? get_cookie("password") : md5(md5($this->input->post('password', true).'lingzan2017'));
+			$data['password'] = $password;
+
+			$user = $this->user_model->get_user($data);
+
+			if(empty($user)) {
+
+				$error_msg = "账户密码错误.";
+				goto end;
+
+			}
+
+			$this->auth->process_login($user);
+
+			// 自动签到
+
+			// 添加到项目成员表
+			$proid = $this->input->post('proid', true);
+			if($proid) {
+
+				$this->load->model('library_model');
+				$proid = $this->user_model->decode($proid);
+
+				$data = array('proid' => $proid, 'userid' => $user['userid'], 'groupid' => 30, 'permissions' => '0,0,0,0,0', 'addtime' => date('Y-m-d H:i:s'));
+				$res = $this->library_model->add_project_member($data);
+
+			}
+
+			if(!$user['tag1'] || !$user['tag2']) {
+
+				redirect('/member/settag1');
+
+			}
+
+			redirect('/home');
+
+		}
+
+		end:
+
+		$this->assign('proid', $proid);
+		$this->assign('error_msg', $error_msg);
+		$this->display('login/login.index.html');
+
+	}
+
+	/**
+	 * 注册页
+	 */
+	public function register() {
+
+		$error_msg = "";
+
+		// 通过项目注册
+		$proid = $this->input->get('proid', true) ? $this->input->get('proid', true) : 0;  
+
+		// 第三方登录
+		$rtype = $this->input->get('rtype', true) ? $this->input->get('rtype', true) : 0;
+		$ruid = $this->input->get('ruid', true) ? $this->input->get('ruid', true) : 0;
+		$rname = $this->input->get('rname', true) ? $this->input->get('rname', true) : "";
+		$rimg = $this->input->get('rimg', true) ? $this->input->get('rimg', true) : 0;
+
+		if($this->input->post('frames') == 'yes') {
+
+			$this->form_validation->set_rules('nickname', '手机号', 'trim|required');
+			$this->form_validation->set_rules('password', '手机号', 'trim|required');
+			$this->form_validation->set_rules('mobile', '验证码', 'trim|required');
+			$this->form_validation->set_rules('verifical', '密码', 'trim|required');
+
+			if ($this->form_validation->run() === false) {
+
+				$error_msg = validation_errors();
+				goto end;
+
+			}
+
+			$nickname = $this->input->post('nickname', true);
+			$password = $this->input->post('password', true);
+			$mobile = $this->input->post('mobile', true);
+			$verifical = $this->input->post('verifical', true);
+
+			// 检查密码位数
+			if(strlen($password) < 6) {
+
+				$error_msg = "密码小于6位.";
+				goto end;
+
+			}
+
+			// 检查验证码
+			$redis_key = 'ver_'.$mobile;
+			$vercode = $this->ci_redis->getinstance(5)->get($redis_key);
+			if($verifical != $vercode) {
+
+				$error_msg = "验证码不正确.";
+				goto end;
+
+			}
+
+			// 检查手机号重复
+			$check = $this->user_model->get_user(array('mobile' => $mobile));
+			if(!empty($check)) {
+
+				$error_msg = "该手机号已被注册.";
+				goto end;
+
+			}
+
+			// 检查昵称重复
+			$check = $this->user_model->get_user(array('nickname' => $nickname));
+			if(!empty($check)) {
+
+//				$error_msg = "该昵称已被注册.";
+//				goto end;
+				$nickname = $nickname.'2';
+
+			}
+
+			$password = md5(md5($password.'lingzan2017'));
+
+			// 通过第三方注册
+			$rtype = $this->input->post('rtype', true);
+			if($rtype == 'qq') {
+
+				$ruid = $this->input->post('ruid', true);
+				$rname = $this->input->post('rname', true);
+				$rimg = $this->input->post('rimg', true);
+
+				$data = array( 'mobile' => $mobile, 'password' => $password, 'nickname' => $nickname, 'avatar' => $rimg, 'point' => 500, 'oauth_qq' => $ruid, 'regtime' => date('Y-m-d H:i:s'), 'lastacttime' => date('Y-m-d H:i:s') );
+
+			} elseif($rtype == 'wechat') {
+
+				
+
+			} elseif($rtype == 'sina') {
+
+				$ruid = $this->input->post('ruid', true);
+				$rname = $this->input->post('rname', true);
+				$rimg = $this->input->post('rimg', true);
+
+				$data = array( 'mobile' => $mobile, 'password' => $password, 'nickname' => $nickname, 'avatar' => $rimg, 'point' => 500, 'oauth_sina' => $ruid, 'regtime' => date('Y-m-d H:i:s'), 'lastacttime' => date('Y-m-d H:i:s') );
+
+			} else {
+
+				$user_default = $this->config->item('user_default');
+				$data = array( 'mobile' => $mobile, 'password' => $password, 'nickname' => $nickname, 'avatar' => $user_default['avatar'], 'point' => 500, 'regtime' => date('Y-m-d H:i:s'), 'lastacttime' => date('Y-m-d H:i:s') );
+
+			}
+
+			$userid = $this->user_model->reg_user($data);
+			$this->redis_model->set_user($userid);
+
+			// 积分日志
+			$data = array(
+				'userid' => $userid,
+				'action' => '注册领赞会员',
+				'point' => 500,
+				'addtime' => date('Y-m-d H:i:s')
+			);
+			$this->user_model->set_msg_log($data);
+
+			// 添加到项目成员表
+			$proid = $this->input->post('proid', true);
+			if($proid) {
+
+				$this->load->model('library_model');
+				$proid = $this->user_model->decode($proid);
+
+				$data = array('proid' => $proid, 'userid' => $userid, 'groupid' => 30, 'permissions' => '0,0,0,0,0', 'addtime' => date('Y-m-d H:i:s'));
+				$res = $this->library_model->add_project_member($data);
+
+			}
+
+			//redirect('/login');
+			// 自动登录
+			$user = $this->user_model->get_user(array('userid' => $userid));
+			if(!empty($user)) {
+
+				$this->auth->process_login($user);
+
+				if(!$user['tag1'] || !$user['tag2']) {
+
+					redirect('/member/settag1');
+
+				}
+
+				redirect('/home');
+
+			}
+
+		}
+
+		end:
+
+		$this->assign('proid', $proid);
+		$this->assign('rtype', $rtype);
+		$this->assign('ruid', $ruid);
+		$this->assign('rname', $rname);
+		$this->assign('rimg', $rimg);
+		$this->assign('error_msg', $error_msg);
+		$this->display('login/login.register.html');
+
+	}
+
+	/**
+	 * QQ登录
+	 */
+	public function login_qq() {
+
+		$this->load->config('login');
+		$config = $this->config->item('qq');
+
+		$app_id = $config['app_id'];
+		$app_secret = $config['app_secret'];
+		$redirect_uri = $this->config->item('base_url').'/login/login_qq';
+
+		//Step1：获取Authorization Code
+		$code = $this->input->post_get('code');
+		if(empty($code)) {
+
+			$_SESSION['state'] = md5(uniqid(rand(), TRUE));
+			$dialog_url = "https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=".$app_id."&redirect_uri=".urlencode($redirect_uri)."&state=123";
+			redirect($dialog_url);
+
+		}
+
+		//Step2：通过Authorization Code获取Access Token
+		$token_url = "https://graph.qq.com/oauth2.0/token?grant_type=authorization_code&". "client_id=".$app_id."&redirect_uri=".urlencode($redirect_uri)."&client_secret=".$app_secret."&code=".$code;
+		$response = file_get_contents($token_url);
+
+		//Step3：使用Access Token来获取用户的OpenID
+		$params = array();
+		parse_str($response, $params);
+		$graph_url = "https://graph.qq.com/oauth2.0/me?access_token=".$params['access_token'];
+		$str = file_get_contents($graph_url);
+		if (strpos($str, "callback") !== false) {
+			$lpos = strpos($str, "(");
+			$rpos = strrpos($str, ")");
+			$str = substr($str, $lpos + 1, $rpos - $lpos -1);
+		}
+		$ouser = json_decode($str);
+
+		//Step4：使用access_token来获取所接受的用户信息。
+		$user_data_url = "https://graph.qq.com/user/get_user_info?access_token={$params['access_token']}&oauth_consumer_key={$app_id}&openid={$ouser->openid}&format=json";
+		$user_data = file_get_contents($user_data_url);
+		$user_data = json_decode($user_data, 1);
+
+		// 判断用户是否存在
+		$user = $this->user_model->get_user(array('oauth_qq' => $ouser->openid));
+		if(!empty($user)) {
+
+			$this->auth->process_login($user);
+
+			if(!$user['tag1'] || !$user['tag2']) {
+
+				redirect('/member/settag1');
+
+			}
+
+			redirect('/home');
+
+		}
+
+		redirect("/login/register?rtype=qq&ruid={$ouser->openid}&rname={$user_data['nickname']}&rimg={$user_data['figureurl_qq_2']}");
+
+	}
+
+	/**
+	 * 微信登录
+	 */
+	public function login_wechat() {
+
+		$this->load->library('Wechat');
+		$this->wechat->redirect_to_login();
+
+	}
+
+	/**
+	 * 新浪登录
+	 */
+	public function login_sina() {
+
+		$redirect_uri = $this->config->item('base_url').'/login/login_sina';
+
+		$this->load->library('sina');
+		$sina = new Sina();
+
+		$code = $this->input->post_get('code');
+		if(empty($code)) {
+
+			$result = $sina->login_url($redirect_uri);
+			redirect($result);
+
+		}
+
+		$result = $sina->access_token($redirect_uri, $code);
+		$sina->access_token = $result['access_token'];
+
+		$sina_uid = $sina->get_uid();
+		$sina_user = $sina->show_user_by_id($sina_uid['uid']);
+
+		// 判断用户是否存在
+		$user = $this->user_model->get_user(array('oauth_sina' => $sina_user['id']));
+		if(!empty($user)) {
+
+			$this->auth->process_login($user);
+
+			if(!$user['tag1'] || !$user['tag2']) {
+
+				redirect('/member/settag1');
+
+			}
+
+			redirect('/home');
+
+		}
+
+		redirect("/login/register?rtype=sina&ruid={$sina_user['id']}&rname={$sina_user['screen_name']}&rimg={$sina_user['avatar_large']}");
+
+	}
+
+	/**
+	 * 忘记密码
+	 */
+	public function forget() {
+
+		$error_msg = "";
+
+		if($this->input->post('frames') == 'yes') {
+
+			$this->form_validation->set_rules('mobile', '验证码', 'trim|required');
+			$this->form_validation->set_rules('verifical', '密码', 'trim|required');
+			$this->form_validation->set_rules('password', '手机号', 'trim|required');
+
+			if ($this->form_validation->run() === false) {
+
+				$error_msg = validation_errors();
+				goto end;
+
+			}
+
+			$mobile = $this->input->post('mobile', true);
+			$verifical = $this->input->post('verifical', true);
+			$password = $this->input->post('password', true);
+
+			$redis_key = 'ver_'.$mobile;
+			$vercode = $this->ci_redis->getinstance(5)->get($redis_key);
+			if($verifical != $vercode) {
+
+				$error_msg = "验证码不正确.";
+				goto end;
+
+			}
+
+			$password = md5(md5($password.'lingzan2017'));
+
+			$res = $this->user_model->set_password($mobile, $password);
+
+			$user = $this->user_model->get_user(array('mobile' => $mobile));
+
+			$this->redis_model->set_user($user['userid']);
+			redirect('/login');
+
+		}
+
+		end:
+
+		$this->assign('error_msg', $error_msg);
+		$this->display('login/login.forget.html');
+
+	}
+
+	/**
+	 * 项目邀请页
+	 */
+	public function invite() {
+
+		$proid = $this->input->get('proid', true) ? $this->input->get('proid', true) : 0;  // 通过项目注册
+		//$proid = $this->user_model->decode($proid);
+
+		$this->assign('proid', $proid);
+		$this->display('login/login.invite.html');
+
+	}
+
+	/**
+	 * 登出页
+	 */
+	public function logout() {
+
+		$this->auth->process_logout();
+
+	}
+}
